@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8fafc;
+  padding: 20px;
+}
+h1 {
+  text-align: center;
+  color: #1f2937;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+th, td {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+}
+th {
+  background-color: #4ade80;
+  color: white;
+}
