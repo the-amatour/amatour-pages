@@ -1,36 +1,69 @@
+<!-- about.html -->
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <!-- Meta tags, Tailwind CDN, favicon here -->
-</head>
-<body class="font-sans bg-white text-gray-800">
-  <!-- Reusable nav code -->
-  
-  <div class="h-20"></div> <!-- Spacer -->
-  <main class="max-w-4xl mx-auto px-6 py-16">
-    <h1 class="text-4xl font-bold mb-6 text-center">About The Amatour</h1>
-    <p class="text-lg text-gray-600 mb-8">
-      The Amatour is a competitive and social golf league built for players of all skill levels...
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-      <div>
-        <h2 class="text-2xl font-semibold mb-2">Our Mission</h2>
-        <p class="text-gray-600">
-          Build camaraderie on the course—where every round is a chance to grow, compete, and connect.
-        </p>
+<html lang="en" class="bg-gray-50 text-gray-900">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | The Amatour</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+  <body class="font-sans leading-relaxed tracking-wide flex flex-col">
+    <!-- NAVIGATION -->
+    <!-- You can replace this whole header/footer with an include if templating -->
+    <header class="bg-white shadow-md">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-bold text-gray-900">The Amatour</a>
+        <nav class="space-x-4 text-sm">
+          <a href="about.html" class="text-indigo-600 font-semibold">About</a>
+          <a href="register.html" class="hover:text-indigo-600">Register</a>
+          <a href="schedule.html" class="hover:text-indigo-600">Schedule</a>
+          <a href="events.html" class="hover:text-indigo-600">Events</a>
+          <a href="leaderboard.html" class="hover:text-indigo-600">Leaderboard</a>
+        </nav>
       </div>
-      <div>
-        <h2 class="text-2xl font-semibold mb-2">Why Join?</h2>
-        <ul class="list-disc list-inside text-gray-600">
-          <li>A modern points system and fun finale</li>
-          <li>Chance to win raffles, prizes, and more</li>
-          <li>Easygoing vibe mixed with fair competition</li>
-        </ul>
-      </div>
-    </div>
-  </main>
-  <!-- Reusable footer code -->
+    </header>
 
-  <!-- Navigation toggle script if needed -->
-</body>
+    <!-- MAIN -->
+    <main class="container mx-auto px-6 py-16 max-w-5xl">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">What is The Amatour?</h1>
+      <p class="text-lg md:text-xl text-gray-700 mb-10 max-w-3xl">
+        The Amatour is a grassroots golf league built for everyday players who crave competition, camaraderie, and continuous improvement. Our league brings together casual players across the Pacific Northwest for structured play, performance-based rewards, and community-driven fun.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">🏆 Structured Competition</h3>
+          <p class="text-gray-600 text-sm">
+            8-season events, point-based standings, and a finale with real stakes. Players compete across gross and net categories with a playoff-style climax.
+          </p>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">🤝 Community First</h3>
+          <p class="text-gray-600 text-sm">
+            From scrambles to raffles and team-based games, we make golf social again. Every event is a chance to meet, reconnect, and celebrate progress.
+          </p>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold mb-2">📈 Rewards for Growth</h3>
+          <p class="text-gray-600 text-sm">
+            Earn Purchase Points, track your stats, win raffle prizes, and enjoy discounts for consistency and performance — every round matters.
+          </p>
+        </div>
+      </div>
+
+      <section class="bg-gray-100 rounded-xl p-10 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Built by golfers, for golfers.</h2>
+        <p class="text-gray-700 text-lg mb-6 max-w-2xl mx-auto">
+          Whether you're a dew-sweeper chasing your first birdie or a weekend warrior grinding for net scores, The Amatour gives you a reason to keep coming back. We’re not a tour for the pros — we’re a tour for the rest of us.
+        </p>
+        <a href="register.html" class="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 transition">
+          Learn More & Register
+        </a>
+      </section>
+    </main>
+
+    <footer class="bg-white text-center py-6 text-sm text-gray-500 border-t">
+      © 2025 The Amatour. All rights reserved.
+    </footer>
+  </body>
 </html>
