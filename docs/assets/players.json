@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Jordan H.",
+    "slug": "jordan-h",
+    "finale_points": 185,
+    "purchase_points": 42,
+    "events_played": 6,
+    "net_wins": 2,
+    "gross_wins": 1,
+    "raffle_count": 7
+  },
+  {
+    "name": "Avery M.",
+    "slug": "avery-m",
+    "finale_points": 122,
+    "purchase_points": 30,
+    "events_played": 5,
+    "net_wins": 1,
+    "gross_wins": 0,
+    "raffle_count": 4
+  }
+]
