@@ -42,7 +42,7 @@
       </thead>
       <tbody>
         <!-- Example Row -->
-        <tr onclick="window.location.href='/leaderboard/john-doe.html'" class="border-b hover:bg-indigo-50 cursor-pointer transition">
+        <!-- <tr onclick="window.location.href='/leaderboard/john-doe.html'" class="border-b hover:bg-indigo-50 cursor-pointer transition">
           <td class="px-6 py-4 font-medium text-indigo-600">John Doe</td>
           <td class="px-6 py-4">50</td>
           <td class="px-6 py-4">20</td>
@@ -50,7 +50,7 @@
           <td class="px-6 py-4">2</td>
           <td class="px-6 py-4">1</td>
           <td class="px-6 py-4">3</td>
-        </tr>
+        </tr> -->
         <!-- Add more rows here -->
       </tbody>
     </table>
@@ -63,7 +63,7 @@
   
     async function loadLeaderboardData() {
       try {
-        const response = await fetch('/statistics/overview.json');
+        const response = await fetch('./statistics/overview.json');
         playerData = await response.json();
         renderTable(playerData);
         sortLeaderboard(0); // default sort
@@ -80,7 +80,7 @@
         const row = document.createElement("tr");
         row.className = "border-b hover:bg-indigo-50 cursor-pointer transition";
         // row.onclick = () => window.location.href = `/leaderboard/${player.slug}/`;
-        row.onclick = () => window.location.href = `/amatour-pages/player-details.html?player=${player.slug}`;
+        row.onclick = () => window.location.href = `./player-details.html?player=${player.slug}`;
   
         row.innerHTML = `
           <td class="px-6 py-4 font-medium text-indigo-600">${player.name}</td>
