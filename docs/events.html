@@ -1,112 +1,114 @@
 ---
 layout: base
-title: Events
-permalink: /events/
+title: Leaderboard
 ---
 
-<h1 class="text-4xl font-bold mb-6">📋 Events Overview</h1>
+<h1 class="text-4xl font-bold mb-4">🏆 Season Leaderboard</h1>
 
 <p class="text-lg text-gray-700 mb-6">
-  Browse the full list of Amatour events below. You can sort by date or filter by event status.
+  View current rankings and participation across all 2025 Amatour events. Click any column header to sort or use the search box to filter players.
 </p>
 
-<!-- Filter + Sort Controls -->
-<div class="flex flex-wrap gap-4 mb-6">
-  <div class="space-x-2">
-    <span class="text-sm font-medium text-gray-600">Filter:</span>
-    <button onclick="filterStatus('All')" class="px-3 py-1 rounded text-sm bg-gray-100 hover:bg-gray-200">All</button>
-    <button onclick="filterStatus('Upcoming')" class="px-3 py-1 rounded text-sm bg-indigo-100 text-indigo-700 hover:bg-indigo-200">Upcoming</button>
-    <button onclick="filterStatus('Completed')" class="px-3 py-1 rounded text-sm bg-green-100 text-green-700 hover:bg-green-200">Completed</button>
-  </div>
-  <div>
-    <button onclick="sortTable(1)" class="px-3 py-1 rounded text-sm bg-white border hover:bg-gray-100">
-      Sort by Date ↑↓
-    </button>
-  </div>
+<!-- 🔍 Search -->
+<div class="mb-6">
+  <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search by Player Name:</label>
+  <input
+    type="text"
+    id="search"
+    oninput="filterTableBySearch()"
+    placeholder="Type a name..."
+    class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+  />
 </div>
 
-<!-- Events Table -->
+<!-- 🧾 Leaderboard Table -->
 <div class="overflow-x-auto rounded-lg shadow-sm bg-white">
-  <table class="min-w-full text-sm text-left text-gray-700">
+  <table id="leaderboard" class="min-w-full text-sm text-left text-gray-700">
     <thead class="bg-gray-100 text-xs uppercase tracking-wider text-gray-600">
       <tr>
-        <th class="px-6 py-4">Event</th>
-        <th class="px-6 py-4">Date</th>
-        <th class="px-6 py-4">Course</th>
-        <th class="px-6 py-4">Status</th>
-        <th class="px-6 py-4">Format</th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(0)">Player <span data-icon="0"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(1)">Finale Points <span data-icon="1"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(2)">Purchase Points <span data-icon="2"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(3)">Events Played <span data-icon="3"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(4)">Net Wins <span data-icon="4"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(5)">Gross Wins <span data-icon="5"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(6)">Raffle Count <span data-icon="6"></span></th>
       </tr>
     </thead>
     <tbody>
-      <tr class="border-b hover:bg-gray-50 transition">
-        <td class="px-6 py-4">Season Kickoff Scramble</td>
-        <td class="px-6 py-4">Apr 12, 2025</td>
-        <td class="px-6 py-4">Maplewood GC</td>
-        <td class="px-6 py-4 text-indigo-600 font-medium">Upcoming</td>
-        <td class="px-6 py-4">Team Scramble</td>
+      {% for player in site.data.players %}
+      <tr onclick="window.location.href='/leaderboard/{{ player.slug }}/'"
+          class="border-b hover:bg-indigo-50 cursor-pointer transition">
+        <td class="px-6 py-4 font-medium text-indigo-600">{{ player.name }}</td>
+        <td class="px-6 py-4">{{ player.finale_points }}</td>
+        <td class="px-6 py-4">{{ player.purchase_points }}</td>
+        <td class="px-6 py-4">{{ player.events_played }}</td>
+        <td class="px-6 py-4">{{ player.net_wins }}</td>
+        <td class="px-6 py-4">{{ player.gross_wins }}</td>
+        <td class="px-6 py-4">{{ player.raffle_count }}</td>
       </tr>
-      <tr class="border-b hover:bg-gray-50 transition">
-        <td class="px-6 py-4">Event 2</td>
-        <td class="px-6 py-4">Apr 28, 2025</td>
-        <td class="px-6 py-4">TBD</td>
-        <td class="px-6 py-4 text-indigo-600 font-medium">Upcoming</td>
-        <td class="px-6 py-4">Stroke Play</td>
-      </tr>
-      <tr class="border-b hover:bg-gray-50 transition">
-        <td class="px-6 py-4">Event 3</td>
-        <td class="px-6 py-4">May 10, 2025</td>
-        <td class="px-6 py-4">TBD</td>
-        <td class="px-6 py-4 text-indigo-600 font-medium">Upcoming</td>
-        <td class="px-6 py-4">Stroke Play</td>
-      </tr>
-      <tr class="border-b bg-gray-50 hover:bg-gray-100 transition">
-        <td class="px-6 py-4">Winter Warm-Up (Unofficial)</td>
-        <td class="px-6 py-4">Feb 24, 2025</td>
-        <td class="px-6 py-4">Jefferson Park</td>
-        <td class="px-6 py-4 text-green-600 font-medium">Completed</td>
-        <td class="px-6 py-4">Casual Round</td>
-      </tr>
-      <tr class="border-b hover:bg-gray-50 transition font-semibold text-indigo-700">
-        <td class="px-6 py-4">Season Finale</td>
-        <td class="px-6 py-4">Aug 2, 2025</td>
-        <td class="px-6 py-4">TBD</td>
-        <td class="px-6 py-4">Upcoming</td>
-        <td class="px-6 py-4">Championship Stroke Play</td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>
 
-<p class="text-sm text-gray-500 mt-4">
-  Course names and tee times will be confirmed prior to each event.
-</p>
-
-<!-- Sort + Filter Script -->
+<!-- 🔧 Sort & Search Script -->
 <script>
-  function sortTable(colIndex) {
-    const table = document.querySelector("table tbody");
+  let sortState = {
+    column: 0,
+    ascending: true
+  };
+
+  function sortLeaderboard(colIndex) {
+    const table = document.querySelector("#leaderboard tbody");
     const rows = Array.from(table.rows);
 
+    const isNumberColumn = !isNaN(rows[0].cells[colIndex].innerText.trim());
+
     const sorted = rows.sort((a, b) => {
-      const aText = a.cells[colIndex].innerText.trim();
-      const bText = b.cells[colIndex].innerText.trim();
+      const aVal = a.cells[colIndex].innerText.trim();
+      const bVal = b.cells[colIndex].innerText.trim();
 
-      // Try to parse as date
-      const aDate = new Date(aText);
-      const bDate = new Date(bText);
-
-      return aDate - bDate;
+      if (isNumberColumn) {
+        return sortState.ascending
+          ? parseFloat(aVal) - parseFloat(bVal)
+          : parseFloat(bVal) - parseFloat(aVal);
+      } else {
+        return sortState.ascending
+          ? aVal.localeCompare(bVal)
+          : bVal.localeCompare(aVal);
+      }
     });
 
     sorted.forEach(row => table.appendChild(row));
+
+    if (sortState.column === colIndex) {
+      sortState.ascending = !sortState.ascending;
+    } else {
+      sortState.column = colIndex;
+      sortState.ascending = true;
+    }
+
+    document.querySelectorAll("span[data-icon]").forEach(span => {
+      span.innerText = "";
+    });
+
+    const direction = sortState.ascending ? "▲" : "▼";
+    const iconTarget = document.querySelector(`span[data-icon="${colIndex}"]`);
+    if (iconTarget) iconTarget.innerText = direction;
   }
 
-  function filterStatus(status) {
-    const rows = document.querySelectorAll("table tbody tr");
+  function filterTableBySearch() {
+    const query = document.getElementById("search").value.toLowerCase();
+    const rows = document.querySelectorAll("#leaderboard tbody tr");
 
     rows.forEach(row => {
-      const statusText = row.cells[3].innerText.trim();
-      row.style.display = (status === "All" || statusText === status) ? "" : "none";
+      const playerName = row.cells[0].innerText.toLowerCase();
+      row.style.display = playerName.includes(query) ? "" : "none";
     });
   }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    sortLeaderboard(0); // Default sort by player name
+  });
 </script>
