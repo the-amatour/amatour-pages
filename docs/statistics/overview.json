@@ -1,0 +1,23 @@
+[
+    {
+      "name": "John Doe",
+      "slug": "john-doe",
+      "finale_points": 50,
+      "purchase_points": 20,
+      "events_played": 6,
+      "net_wins": 2,
+      "gross_wins": 1,
+      "raffle_count": 3
+    },
+    {
+      "name": "Jane Smith",
+      "slug": "jane-smith",
+      "finale_points": 60,
+      "purchase_points": 25,
+      "events_played": 7,
+      "net_wins": 3,
+      "gross_wins": 0,
+      "raffle_count": 2
+    }
+  ]
+  
