@@ -1,5 +1,8 @@
-# _config.yml
 title: The Amatour
 markdown: kramdown
 theme: null
 plugins: []
+
+# ✅ Required for GitHub Pages project site routing
+baseurl: "/amatour-pages"   # This must match the repo name
+url: "https://the-amatour.github.io"
