@@ -1,0 +1,5 @@
+# _config.yml
+title: The Amatour
+markdown: kramdown
+theme: null
+plugins: []

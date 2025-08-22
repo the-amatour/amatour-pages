@@ -1,0 +1,17 @@
+<!-- _layouts/base.html -->
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-50 text-gray-900">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }} | The Amatour</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="font-sans leading-relaxed tracking-wide flex flex-col">
+  {% include nav.html %}
+  <main class="container mx-auto px-6 py-16 max-w-5xl">
+    {{ content }}
+  </main>
+  {% include footer.html %}
+</body>
+</html>
