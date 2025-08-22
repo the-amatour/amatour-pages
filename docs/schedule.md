@@ -1,7 +1,6 @@
 ---
 layout: base
 title: Schedule
-permalink: /schedule/
 ---
 
 # 📅 2025 Event Schedule
