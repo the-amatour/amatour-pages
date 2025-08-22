@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Player Details | The Amatour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 p-6 md:p-12 font-sans">
+  <div id="content" class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold mb-4">Player Details</h1>
+    <div id="player-info" class="bg-white rounded-lg p-6 shadow-md"></div>
+  </div>
+
+  <script>
+    // 🔍 Parse query parameter
+    function getQueryParam(key) {
+      return new URLSearchParams(window.location.search).get(key);
+    }
+
+    // 🎯 Load player info
+    async function loadPlayerData() {
+      const slug = getQueryParam('player');
+      if (!slug) {
+        document.getElementById("player-info").innerHTML = "<p class='text-red-500'>Missing player slug.</p>";
+        return;
+      }
+
+      try {
+        const res = await fetch("statistics/overview.json");
+        const players = await res.json();
+        const player = players.find(p => p.slug === slug);
+
+        if (!player) {
+          document.getElementById("player-info").innerHTML = "<p class='text-red-500'>Player not found.</p>";
+          return;
+        }
+
+        // 🖼️ Render player details
+        document.getElementById("player-info").innerHTML = `
+          <h2 class="text-2xl font-semibold text-indigo-600 mb-2">${player.name}</h2>
+          <ul class="text-gray-700 space-y-2">
+            <li><strong>Finale Points:</strong> ${player.finale_points}</li>
+            <li><strong>Purchase Points:</strong> ${player.purchase_points}</li>
+            <li><strong>Events Played:</strong> ${player.events_played}</li>
+            <li><strong>Net Wins:</strong> ${player.net_wins}</li>
+            <li><strong>Gross Wins:</strong> ${player.gross_wins}</li>
+            <li><strong>Raffle Count:</strong> ${player.raffle_count}</li>
+          </ul>
+          <a href="/leaderboard.html" class="inline-block mt-6 text-sm text-indigo-600 hover:underline">← Back to leaderboard</a>
+        `;
+      } catch (err) {
+        document.getElementById("player-info").innerHTML = "<p class='text-red-500'>Error loading data.</p>";
+        console.error(err);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", loadPlayerData);
+  </script>
+</body>
+</html>
