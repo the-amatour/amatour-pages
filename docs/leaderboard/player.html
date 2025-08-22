@@ -1,0 +1,60 @@
+---
+layout: default
+title: Player Profile
+---
+
+<div class="max-w-2xl mx-auto px-4 py-12">
+  <a href="/leaderboard" class="text-sm text-blue-500 hover:underline">&larr; Back to leaderboard</a>
+
+  <div id="profile" class="mt-6">
+    <h1 class="text-3xl font-bold mb-4" id="player-name">Loading...</h1>
+    <div class="space-y-2 text-lg">
+      <p><strong>Finale Points:</strong> <span id="finale-points"></span></p>
+      <p><strong>Purchase Points:</strong> <span id="purchase-points"></span></p>
+      <p><strong>Events Played:</strong> <span id="events-played"></span></p>
+      <p><strong>Net Wins:</strong> <span id="net-wins"></span></p>
+      <p><strong>Gross Wins:</strong> <span id="gross-wins"></span></p>
+      <p><strong>Raffle Count:</strong> <span id="raffle-count"></span></p>
+    </div>
+  </div>
+
+  <div id="not-found" class="hidden text-center text-red-600 text-xl mt-12">
+    Player not found.
+  </div>
+</div>
+
+<script>
+  async function loadPlayer() {
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("name");
+
+    if (!slug) return showNotFound();
+
+    try {
+      const res = await fetch("/assets/players.json");
+      const players = await res.json();
+
+      const player = players.find(p => p.slug === slug);
+
+      if (!player) return showNotFound();
+
+      document.getElementById("player-name").textContent = player.name;
+      document.getElementById("finale-points").textContent = player.finale_points;
+      document.getElementById("purchase-points").textContent = player.purchase_points;
+      document.getElementById("events-played").textContent = player.events_played;
+      document.getElementById("net-wins").textContent = player.net_wins;
+      document.getElementById("gross-wins").textContent = player.gross_wins;
+      document.getElementById("raffle-count").textContent = player.raffle_count;
+    } catch (error) {
+      console.error("Failed to load players:", error);
+      showNotFound();
+    }
+  }
+
+  function showNotFound() {
+    document.getElementById("profile").classList.add("hidden");
+    document.getElementById("not-found").classList.remove("hidden");
+  }
+
+  document.addEventListener("DOMContentLoaded", loadPlayer);
+</script>

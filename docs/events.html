@@ -1,0 +1,114 @@
+---
+layout: base
+title: Leaderboard
+---
+
+<h1 class="text-4xl font-bold mb-4">🏆 Season Leaderboard</h1>
+
+<p class="text-lg text-gray-700 mb-6">
+  View current rankings and participation across all 2025 Amatour events. Click any column header to sort or use the search box to filter players.
+</p>
+
+<!-- 🔍 Search -->
+<div class="mb-6">
+  <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search by Player Name:</label>
+  <input
+    type="text"
+    id="search"
+    oninput="filterTableBySearch()"
+    placeholder="Type a name..."
+    class="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+  />
+</div>
+
+<!-- 🧾 Leaderboard Table -->
+<div class="overflow-x-auto rounded-lg shadow-sm bg-white">
+  <table id="leaderboard" class="min-w-full text-sm text-left text-gray-700">
+    <thead class="bg-gray-100 text-xs uppercase tracking-wider text-gray-600">
+      <tr>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(0)">Player <span data-icon="0"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(1)">Finale Points <span data-icon="1"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(2)">Purchase Points <span data-icon="2"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(3)">Events Played <span data-icon="3"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(4)">Net Wins <span data-icon="4"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(5)">Gross Wins <span data-icon="5"></span></th>
+        <th class="px-6 py-4 cursor-pointer" onclick="sortLeaderboard(6)">Raffle Count <span data-icon="6"></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for player in site.data.players %}
+      <tr onclick="window.location.href='/leaderboard/{{ player.slug }}/'"
+          class="border-b hover:bg-indigo-50 cursor-pointer transition">
+        <td class="px-6 py-4 font-medium text-indigo-600">{{ player.name }}</td>
+        <td class="px-6 py-4">{{ player.finale_points }}</td>
+        <td class="px-6 py-4">{{ player.purchase_points }}</td>
+        <td class="px-6 py-4">{{ player.events_played }}</td>
+        <td class="px-6 py-4">{{ player.net_wins }}</td>
+        <td class="px-6 py-4">{{ player.gross_wins }}</td>
+        <td class="px-6 py-4">{{ player.raffle_count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- 🔧 Sort & Search Script -->
+<script>
+  let sortState = {
+    column: 0,
+    ascending: true
+  };
+
+  function sortLeaderboard(colIndex) {
+    const table = document.querySelector("#leaderboard tbody");
+    const rows = Array.from(table.rows);
+
+    const isNumberColumn = !isNaN(rows[0].cells[colIndex].innerText.trim());
+
+    const sorted = rows.sort((a, b) => {
+      const aVal = a.cells[colIndex].innerText.trim();
+      const bVal = b.cells[colIndex].innerText.trim();
+
+      if (isNumberColumn) {
+        return sortState.ascending
+          ? parseFloat(aVal) - parseFloat(bVal)
+          : parseFloat(bVal) - parseFloat(aVal);
+      } else {
+        return sortState.ascending
+          ? aVal.localeCompare(bVal)
+          : bVal.localeCompare(aVal);
+      }
+    });
+
+    sorted.forEach(row => table.appendChild(row));
+
+    if (sortState.column === colIndex) {
+      sortState.ascending = !sortState.ascending;
+    } else {
+      sortState.column = colIndex;
+      sortState.ascending = true;
+    }
+
+    document.querySelectorAll("span[data-icon]").forEach(span => {
+      span.innerText = "";
+    });
+
+    const direction = sortState.ascending ? "▲" : "▼";
+    const iconTarget = document.querySelector(`span[data-icon="${colIndex}"]`);
+    if (iconTarget) iconTarget.innerText = direction;
+  }
+
+  function filterTableBySearch() {
+    const query = document.getElementById("search").value.toLowerCase();
+    const rows = document.querySelectorAll("#leaderboard tbody tr");
+
+    rows.forEach(row => {
+      const playerName = row.cells[0].innerText.toLowerCase();
+      row.style.display = playerName.includes(query) ? "" : "none";
+    });
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    sortLeaderboard(0); // Default sort by player name
+  });
+</script>
