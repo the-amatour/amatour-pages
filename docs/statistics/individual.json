@@ -1,0 +1,65 @@
+[
+    {
+      "slug": "john-doe",
+      "name": "John Doe",
+      "ghin": "123456",
+      "events": [
+        {
+          "event_name": "Spring Opener",
+          "date": "2025-03-10",
+          "course": "Chambers Bay",
+          "holes": [4, 5, 3, 4, 5, 4, 6, 3, 5, 4, 5, 4, 4, 4, 5, 4, 6, 3],
+          "gross": 84,
+          "net": 78
+        },
+        {
+          "event_name": "Summer Slam",
+          "date": "2025-06-12",
+          "course": "Gold Mountain",
+          "holes": [5, 4, 4, 4, 6, 3, 5, 4, 5, 3, 4, 5, 4, 4, 5, 5, 5, 4],
+          "gross": 88,
+          "net": 81
+        }
+      ],
+      "season_averages": {
+        "gross": 86,
+        "net": 79.5,
+        "putts_per_round": 32.5,
+        "fairways_hit_percent": 57,
+        "greens_in_regulation_percent": 44
+      },
+      "score_breakdown": {
+        "eagle": 1,
+        "birdie": 4,
+        "par": 20,
+        "bogey": 8,
+        "double_or_worse": 5
+      }
+    },
+    {
+      "slug": "jane-smith",
+      "name": "Jane Smith",
+      "ghin": "654321",
+      "events": [
+        {
+          "event_name": "Spring Opener",
+          "date": "2025-03-15",
+          "course": "Meadows",
+          "holes": [4, 5, 3, 4, 5, 4, 6, 3, 5, 4, 5, 4, 4, 4, 5, 4, 6, 3],
+          "gross": 84,
+          "net": 78
+        },
+        {
+          "event_name": "Summer Slam",
+          "date": "2025-06-12",
+          "course": "Gold Mountain",
+          "holes": [5, 4, 4, 4, 6, 3, 5, 4, 5, 3, 4, 5, 4, 4, 5, 5, 5, 4],
+          "gross": 88,
+          "net": 81
+        }
+      ],
+      "season_averages": {},
+      "score_breakdown": {}
+    }
+  ]
+  
