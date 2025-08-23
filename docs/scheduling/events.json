@@ -10,6 +10,10 @@
         "registration_status": "Closed",
         "description": "A classic Seattle municipal course with sweeping views of downtown.",
         "registered_players": ["Alex","Derek","Jimbo"],
+        "tee_times": [
+          "7:00 AM",
+          "7:15 AM"
+        ],
         "tee_groups": [
           ["Alex", "Derek"],
           ["Jimbo"]
@@ -41,6 +45,7 @@
         "registration_status": "Closed",
         "description": "A tree-lined course offering a fair but challenging test for all skill levels.",
         "registered_players": [],
+        "tee_times": [],
         "tee_groups": [],
         "tees": {
           "M": {
@@ -97,6 +102,7 @@
         "registration_status": "Closed",
         "description": "Scenic layout featuring an island green and wooded terrain.",
         "registered_players": [],
+        "tee_times": [],
         "tee_groups": [],
         "tees": {
           "M": {
@@ -125,6 +131,7 @@
         "registration_status": "Closed",
         "description": "Flat fairways and challenging bunkers with a mountain backdrop.",
         "registered_players": [],
+        "tee_times": [],
         "tee_groups": [],
         "tees": {
           "M": {
@@ -181,6 +188,7 @@
         "registration_status": "Closed",
         "description": "Championship-level course with wide fairways and true greens.",
         "registered_players": [],
+        "tee_times": [],
         "tee_groups": [],
         "tees": {
           "M": {
