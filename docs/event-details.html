@@ -68,17 +68,11 @@
                 <li><strong>Entry Fee:</strong> $${event.entry_fee}</li>
                 <li><strong>Total Par:</strong> ${event.par}</li>
                 <li><strong>Total Distance:</strong> ${event.total_distance}</li>
-                ${menTees ? `
-                  <li><strong>Tees (Men):</strong> ${menTees.tee_box}</li>
-                  <li><strong>Course Rating (M):</strong> ${menTees.course_rating}</li>
-                  <li><strong>Slope Rating (M):</strong> ${menTees.slope_rating}</li>
-                  <li><strong>Yardage (M):</strong> ${menTees.yardage} yds</li>` : ""
-                }
-                ${womenTees ? `
-                  <li><strong>Tees (Women):</strong> ${womenTees.tee_box}</li>
-                  <li><strong>Course Rating (W):</strong> ${womenTees.course_rating}</li>
-                  <li><strong>Slope Rating (W):</strong> ${womenTees.slope_rating}</li>
-                  <li><strong>Yardage (W):</strong> ${womenTees.yardage} yds</li>` : ""
+                ${menTees & womenTees ? `
+                  <li><strong>Tees:</strong> ${menTees.tee_box} (M)/${womenTees.tee_box} (W)</li>
+                  <li><strong>Course Rating:</strong> ${menTees.course_rating} (M)/${womenTees.course_rating} (W)</li>
+                  <li><strong>Slope Rating:</strong> ${menTees.slope_rating} (M)/${womenTees.slope_rating} (W)</li>
+                  <li><strong>Yardage:</strong> ${menTees.yardage} (M)/${womenTees.yardage} (W) yds</li>` : ""
                 }
                 <li><strong>Winnings:</strong> $${event.winnings}</li>
                 <li><a href="./rules-and-regulations" class="text-indigo-600 hover:underline">Rules and Regulations</a></li>

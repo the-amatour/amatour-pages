@@ -1,6 +1,7 @@
 {
     "events": [
       {
+        "name": "West Seattle",
         "event_name": "West Seattle",
         "slug": "06-29-2025-west-seattle",
         "date": "06-29-2025",
@@ -28,6 +29,7 @@
         "winnings": "$100"
       },
       {
+        "name": "Maplewood",
         "event_name": "Maplewood",
         "slug": "07-12-2025-maplewood",
         "date": "07-12-2025",
@@ -55,6 +57,7 @@
         "winnings": "$100"
       },
       {
+        "name": "Willows",
         "event_name": "Willows",
         "slug": "07-20-2025-willows",
         "date": "07-20-2025",
@@ -82,6 +85,7 @@
         "winnings": "$100"
       },
       {
+        "name": "Echo Falls",
         "event_name": "Echo Falls",
         "slug": "08-02-2025-echo-falls",
         "date": "08-02-2025",
@@ -109,6 +113,7 @@
         "winnings": "$100"
       },
       {
+        "name": "Mount Si",
         "event_name": "Mt Si",
         "slug": "08-16-2025-mt-si",
         "date": "08-16-2025",
@@ -136,6 +141,7 @@
         "winnings": "$100"
       },
       {
+        "name": "Jackson",
         "event_name": "Jackson",
         "slug": "09-06-2025-jackson",
         "date": "09-06-2025",
@@ -163,7 +169,8 @@
         "winnings": "$100"
       },
       {
-        "event_name": "Home Course (Finale)",
+        "name": "Home Course",
+        "event_name": "Home Course",
         "slug": "09-14-2025-home-course",
         "date": "09-14-2025",
         "course": "Home Course",
