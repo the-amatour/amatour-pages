@@ -7,7 +7,6 @@
         "date": "06-29-2025",
         "course": "West Seattle",
         "entry_fee": 25,
-        "registration_status": "Closed",
         "description": "A classic Seattle municipal course with sweeping views of downtown.",
         "registered_players": ["Alex","Derek","Jimbo"],
         "tee_times": [
@@ -42,7 +41,6 @@
         "date": "07-12-2025",
         "course": "Maplewood",
         "entry_fee": 25,
-        "registration_status": "Closed",
         "description": "A tree-lined course offering a fair but challenging test for all skill levels.",
         "registered_players": [],
         "tee_times": [],
@@ -71,7 +69,6 @@
         "date": "07-20-2025",
         "course": "Willows",
         "entry_fee": 25,
-        "registration_status": "Closed",
         "description": "Known for its fast greens and demanding approach shots.",
         "registered_players": [],
         "tee_groups": [],
@@ -99,7 +96,6 @@
         "date": "08-02-2025",
         "course": "Echo Falls",
         "entry_fee": 25,
-        "registration_status": "Closed",
         "description": "Scenic layout featuring an island green and wooded terrain.",
         "registered_players": [],
         "tee_times": [],
@@ -128,7 +124,6 @@
         "date": "08-16-2025",
         "course": "Mt Si",
         "entry_fee": 25,
-        "registration_status": "Closed",
         "description": "Flat fairways and challenging bunkers with a mountain backdrop.",
         "registered_players": [],
         "tee_times": [],
@@ -151,13 +146,66 @@
         "winnings": "$100"
       },
       {
+        "venue": "Auburn",
+        "event_name": "Auburn",
+        "slug": "08-31-2025-Auburn",
+        "date": "08-31-2025",
+        "course": "Auburn",
+        "entry_fee": 25,
+        "description": "Hilly terrain with demanding elevation changes and long par 4s.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 121,
+            "course_rating": 70.8,
+            "yardage": 6450
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 124,
+            "course_rating": 74.0,
+            "yardage": 5800
+          }
+        },
+        "par": 72,
+        "winnings": "$100"
+      },
+      {
+        "venue": "Riverbend",
+        "event_name": "Riverbend",
+        "slug": "08-24-2025-Riverbend",
+        "date": "08-24-2025",
+        "course": "Riverbend",
+        "entry_fee": 25,
+        "description": "Hilly terrain with demanding elevation changes and long par 4s.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 121,
+            "course_rating": 70.8,
+            "yardage": 6450
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 124,
+            "course_rating": 74.0,
+            "yardage": 5800
+          }
+        },
+        "par": 72,
+        "winnings": "$100"
+      },
+      {
         "venue": "Jackson",
         "event_name": "Jackson",
         "slug": "09-06-2025-jackson",
         "date": "09-06-2025",
         "course": "Jackson",
         "entry_fee": 25,
-        "registration_status": "Closed",
         "description": "Hilly terrain with demanding elevation changes and long par 4s.",
         "registered_players": [],
         "tee_groups": [],
@@ -185,7 +233,6 @@
         "date": "09-14-2025",
         "course": "Home Course",
         "entry_fee": 35,
-        "registration_status": "Closed",
         "description": "Championship-level course with wide fairways and true greens.",
         "registered_players": [],
         "tee_times": [],
