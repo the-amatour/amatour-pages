@@ -1,7 +1,7 @@
 {
     "events": [
       {
-        "name": "West Seattle",
+        "venue": "West Seattle",
         "event_name": "West Seattle",
         "slug": "06-29-2025-west-seattle",
         "date": "06-29-2025",
@@ -9,8 +9,11 @@
         "entry_fee": 25,
         "registration_status": "Closed",
         "description": "A classic Seattle municipal course with sweeping views of downtown.",
-        "registered_players": [],
-        "tee_groups": [],
+        "registered_players": ["Alex","Derek","Jimbo"],
+        "tee_groups": [
+          ["Alex", "Derek"],
+          ["Jimbo"]
+        ],
         "tees": {
           "M": {
             "tee_box": "Blue",
@@ -29,7 +32,7 @@
         "winnings": "$100"
       },
       {
-        "name": "Maplewood",
+        "venue": "Maplewood",
         "event_name": "Maplewood",
         "slug": "07-12-2025-maplewood",
         "date": "07-12-2025",
@@ -57,7 +60,7 @@
         "winnings": "$100"
       },
       {
-        "name": "Willows",
+        "venue": "Willows",
         "event_name": "Willows",
         "slug": "07-20-2025-willows",
         "date": "07-20-2025",
@@ -85,7 +88,7 @@
         "winnings": "$100"
       },
       {
-        "name": "Echo Falls",
+        "venue": "Echo Falls",
         "event_name": "Echo Falls",
         "slug": "08-02-2025-echo-falls",
         "date": "08-02-2025",
@@ -113,7 +116,7 @@
         "winnings": "$100"
       },
       {
-        "name": "Mount Si",
+        "venue": "Mount Si",
         "event_name": "Mt Si",
         "slug": "08-16-2025-mt-si",
         "date": "08-16-2025",
@@ -141,7 +144,7 @@
         "winnings": "$100"
       },
       {
-        "name": "Jackson",
+        "venue": "Jackson",
         "event_name": "Jackson",
         "slug": "09-06-2025-jackson",
         "date": "09-06-2025",
@@ -169,7 +172,7 @@
         "winnings": "$100"
       },
       {
-        "name": "Home Course",
+        "venue": "Home Course",
         "event_name": "Home Course",
         "slug": "09-14-2025-home-course",
         "date": "09-14-2025",
