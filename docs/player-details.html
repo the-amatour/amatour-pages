@@ -7,122 +7,104 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 p-6 md:p-12 font-sans">
-
-  <div id="player-content">
-    <h1 class="text-4xl font-bold mb-4" id="player-name">Loading...</h1>
-    <p class="mb-8 text-gray-600" id="ghin"></p>
-
-    <!-- Event Breakdown -->
-    <div class="mb-10">
-      <h2 class="text-2xl font-semibold mb-4">📅 Event Breakdown</h2>
-      <div id="event-breakdown"></div>
-    </div>
-
-    <!-- Season Averages -->
-    <div class="mb-10">
-      <h2 class="text-2xl font-semibold mb-4">📊 Season Averages</h2>
-      <table class="w-full text-left bg-white rounded shadow overflow-hidden">
-        <thead class="bg-indigo-100">
-          <tr>
-            <th class="px-4 py-2">Gross</th>
-            <th class="px-4 py-2">Net</th>
-            <th class="px-4 py-2">Putts/Round</th>
-            <th class="px-4 py-2">Fairways Hit (%)</th>
-            <th class="px-4 py-2">GIR (%)</th>
-          </tr>
-        </thead>
-        <tbody id="season-averages" class="text-gray-700"></tbody>
-      </table>
-    </div>
-
-    <!-- Score Breakdown -->
-    <div>
-      <h2 class="text-2xl font-semibold mb-4">⛳️ Scoring Breakdown</h2>
-      <table class="w-full text-left bg-white rounded shadow overflow-hidden">
-        <thead class="bg-indigo-100">
-          <tr>
-            <th class="px-4 py-2">Eagles</th>
-            <th class="px-4 py-2">Birdies</th>
-            <th class="px-4 py-2">Pars</th>
-            <th class="px-4 py-2">Bogeys</th>
-            <th class="px-4 py-2">Double+</th>
-          </tr>
-        </thead>
-        <tbody id="score-breakdown" class="text-gray-700"></tbody>
-      </table>
-    </div>
+  <div class="max-w-6xl mx-auto">
+    <div id="playerHeader" class="mb-10"></div>
+    <div id="eventStats" class="space-y-10"></div>
+    <div id="seasonStats" class="mt-16 space-y-10"></div>
   </div>
 
   <script>
-    async function loadPlayerData() {
-      const slug = new URLSearchParams(window.location.search).get("player");
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get("player");
 
-      try {
-        const response = await fetch("./statistics/individual.json");
-        const players = await response.json();
-        const player = players[slug];
+    fetch("./statistics/individual.json")
+      .then(res => res.json())
+      .then(data => {
+        const player = data.find(p => p.slug === slug);
+        if (!player) {
+          document.body.innerHTML = "<p class='text-red-500'>Player not found.</p>";
+          return;
+        }
 
-        if (!player) throw new Error("Player not found");
-
-        document.getElementById("player-name").textContent = player.name;
-        document.getElementById("ghin").textContent = `GHIN: ${player.ghin}`;
-
+        renderHeader(player);
         renderEvents(player.events);
-        renderAverages(player.season_averages);
-        renderBreakdown(player.score_breakdown);
-      } catch (err) {
-        document.getElementById("player-content").innerHTML = `<p class='text-red-600'>Failed to load player data.</p>`;
-      }
+        renderSeasonStats(player);
+      });
+
+    function renderHeader(player) {
+      document.getElementById("playerHeader").innerHTML = `
+        <h1 class="text-4xl font-bold mb-2 text-indigo-700">${player.name}</h1>
+        <p class="text-gray-600">GHIN: ${player.ghin || 'N/A'}</p>
+      `;
     }
 
     function renderEvents(events) {
-      const container = document.getElementById("event-breakdown");
-      container.innerHTML = events.map(event => `
-        <div class="mb-6">
-          <h3 class="text-lg font-bold text-indigo-600">${event.event_name} — <span class="text-sm font-normal text-gray-500">${event.date} | ${event.course}</span></h3>
-          <table class="w-full mt-2 mb-4 text-sm bg-white rounded shadow overflow-x-auto">
-            <thead class="bg-gray-100">
-              <tr>
-                ${event.holes.map((_, i) => `<th class="px-2 py-1">${i + 1}</th>`).join("")}
-                <th class="px-2 py-1 font-semibold">Gross</th>
-                <th class="px-2 py-1 font-semibold">Net</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                ${event.holes.map(score => `<td class="px-2 py-1 text-center">${score}</td>`).join("")}
-                <td class="px-2 py-1 font-semibold text-center">${event.gross}</td>
-                <td class="px-2 py-1 font-semibold text-center">${event.net}</td>
-              </tr>
-            </tbody>
-          </table>
+      const container = document.getElementById("eventStats");
+      if (!events || events.length === 0) {
+        container.innerHTML = "<p>No event data available.</p>";
+        return;
+      }
+
+      events.forEach(event => {
+        const holes = event.holes.map((score, i) => `<td class="px-2 py-1 text-center">${score}</td>`).join("");
+        const row = `
+          <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-2xl font-semibold text-indigo-600 mb-2">${event.event_name}</h2>
+            <p class="text-sm text-gray-500 mb-4">${event.date} at ${event.course}</p>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm text-left text-gray-700 border">
+                <thead class="bg-gray-100 text-xs uppercase tracking-wider text-gray-600">
+                  <tr>
+                    ${Array.from({length: 18}, (_, i) => `<th class="px-2 py-1 text-center">${i+1}</th>`).join("")}
+                    <th class="px-2 py-1 text-center">Gross</th>
+                    <th class="px-2 py-1 text-center">Net</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-t">
+                    ${holes}
+                    <td class="px-2 py-1 text-center font-semibold">${event.gross}</td>
+                    <td class="px-2 py-1 text-center font-semibold">${event.net}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+        container.innerHTML += row;
+      });
+    }
+
+    function renderSeasonStats(player) {
+      const stats = player.season_averages || {};
+      const breakdown = player.score_breakdown || {};
+
+      document.getElementById("seasonStats").innerHTML = `
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-xl font-bold mb-4 text-indigo-600">Season Averages</h3>
+            <ul class="text-gray-700 space-y-2">
+              <li>Gross Avg: <strong>${stats.gross ?? 'N/A'}</strong></li>
+              <li>Net Avg: <strong>${stats.net ?? 'N/A'}</strong></li>
+              <li>Putts per Round: <strong>${stats.putts_per_round ?? 'N/A'}</strong></li>
+              <li>Fairways Hit: <strong>${stats.fairways_hit_percent ?? 'N/A'}%</strong></li>
+              <li>GIR (Greens in Regulation): <strong>${stats.greens_in_regulation_percent ?? 'N/A'}%</strong></li>
+            </ul>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-xl font-bold mb-4 text-indigo-600">Score Breakdown</h3>
+            <ul class="text-gray-700 space-y-2">
+              <li>Eagles: <strong>${breakdown.eagle ?? 0}</strong></li>
+              <li>Birdies: <strong>${breakdown.birdie ?? 0}</strong></li>
+              <li>Pars: <strong>${breakdown.par ?? 0}</strong></li>
+              <li>Bogeys: <strong>${breakdown.bogey ?? 0}</strong></li>
+              <li>Double+ Bogey: <strong>${breakdown.double_or_worse ?? 0}</strong></li>
+            </ul>
+          </div>
         </div>
-      `).join("");
+      `;
     }
-
-    function renderAverages(avg) {
-      document.getElementById("season-averages").innerHTML = `
-        <tr>
-          <td class="px-4 py-2">${avg.gross}</td>
-          <td class="px-4 py-2">${avg.net}</td>
-          <td class="px-4 py-2">${avg.putts_per_round}</td>
-          <td class="px-4 py-2">${avg.fairways_hit_percent}%</td>
-          <td class="px-4 py-2">${avg.greens_in_regulation_percent}%</td>
-        </tr>`;
-    }
-
-    function renderBreakdown(scores) {
-      document.getElementById("score-breakdown").innerHTML = `
-        <tr>
-          <td class="px-4 py-2">${scores.eagle}</td>
-          <td class="px-4 py-2">${scores.birdie}</td>
-          <td class="px-4 py-2">${scores.par}</td>
-          <td class="px-4 py-2">${scores.bogey}</td>
-          <td class="px-4 py-2">${scores.double_or_worse}</td>
-        </tr>`;
-    }
-
-    window.addEventListener("DOMContentLoaded", loadPlayerData);
   </script>
 </body>
 </html>
