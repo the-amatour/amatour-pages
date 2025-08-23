@@ -7,19 +7,18 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <div id="header"></div>
-    <main class="max-w-5xl mx-auto px-6 py-10">
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10 max-w-5xl mx-auto" id="playerHeaderContainer">
-                <div id="playerHeader" class="mb-10"></div>
-                <a href="./leaderboard.html" class="mt-4 sm:mt-0 inline-block px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition whitespace-nowrap">
-                    ← Back to Leaderboard
-                </a>
-            </div>
-            <div id="eventStats" class="space-y-10"></div>
-            <div id="seasonStats" class="mt-16 space-y-10"></div>
-        </div>
-    </main>
-    <div id="footer"></div>
+  <div id="header"></div>
+  <main class="max-w-5xl mx-auto px-6 py-10">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10 max-w-5xl mx-auto" id="playerHeaderContainer">
+      <div id="playerHeader" class="mb-10"></div>
+      <a href="./leaderboard.html" class="mt-4 sm:mt-0 inline-block px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition whitespace-nowrap">
+        ← Back to Leaderboard
+      </a>
+    </div>
+    <div id="eventStats" class="space-y-10"></div>
+    <div id="seasonStats" class="mt-16 space-y-10"></div>
+  </main>
+  <div id="footer"></div>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -46,6 +45,15 @@
       `;
     }
 
+    function getScoreClass(score, par) {
+      const diff = score - par;
+      if (diff <= -2) return "eagle";
+      if (diff === -1) return "birdie";
+      if (diff === 1) return "bogey";
+      if (diff >= 2) return "double";
+      return "";
+    }
+
     function renderEvents(events) {
       const container = document.getElementById("eventStats");
       if (!events || events.length === 0) {
@@ -54,32 +62,53 @@
       }
 
       events.forEach(event => {
-        const holes = event.holes.map((score, i) => `<td class="px-2 py-1 text-center">${score}</td>`).join("");
-        const row = `
+        const scoreRow1 = [], scoreRow2 = [], holeRow1 = [], holeRow2 = [];
+
+        for (let i = 0; i < 9; i++) {
+          holeRow1.push(`<th class="px-2 py-1 border text-center text-xs">${i + 1}</th>`);
+          scoreRow1.push(`<td class="px-2 py-1 border text-center">
+            <span class="inline-block w-6 h-6 leading-6 text-sm ${getScoreClass(event.holes[i], event.par[i])}">${event.holes[i]}</span>
+          </td>`);
+        }
+
+        for (let i = 9; i < 18; i++) {
+          holeRow2.push(`<th class="px-2 py-1 border text-center text-xs">${i + 1}</th>`);
+          scoreRow2.push(`<td class="px-2 py-1 border text-center">
+            <span class="inline-block w-6 h-6 leading-6 text-sm ${getScoreClass(event.holes[i], event.par[i])}">${event.holes[i]}</span>
+          </td>`);
+        }
+
+        const toPar = event.holes.reduce((sum, score, i) => sum + (score - event.par[i]), 0);
+
+        const table = `
           <div class="bg-white rounded-lg shadow p-6">
             <h2 class="text-2xl font-semibold text-indigo-600 mb-2">${event.event_name}</h2>
             <p class="text-sm text-gray-500 mb-4">${event.date} at ${event.course}</p>
             <div class="overflow-x-auto">
-              <table class="min-w-full text-sm text-left text-gray-700 border">
+              <table class="min-w-full text-sm text-left text-gray-700 border border-gray-300">
                 <thead class="bg-gray-100 text-xs uppercase tracking-wider text-gray-600">
-                  <tr>
-                    ${Array.from({length: 18}, (_, i) => `<th class="px-2 py-1 text-center">${i+1}</th>`).join("")}
-                    <th class="px-2 py-1 text-center">Gross</th>
-                    <th class="px-2 py-1 text-center">Net</th>
-                  </tr>
+                  <tr>${holeRow1.join("")}</tr>
                 </thead>
                 <tbody>
-                  <tr class="border-t">
-                    ${holes}
-                    <td class="px-2 py-1 text-center font-semibold">${event.gross}</td>
-                    <td class="px-2 py-1 text-center font-semibold">${event.net}</td>
-                  </tr>
+                  <tr>${scoreRow1.join("")}</tr>
+                </tbody>
+                <thead class="bg-gray-100 text-xs uppercase tracking-wider text-gray-600">
+                  <tr>${holeRow2.join("")}</tr>
+                </thead>
+                <tbody>
+                  <tr>${scoreRow2.join("")}</tr>
                 </tbody>
               </table>
+              <div class="mt-4 flex flex-wrap gap-6 text-sm text-gray-700">
+                <div><strong>Gross:</strong> ${event.gross}</div>
+                <div><strong>Net:</strong> ${event.net}</div>
+                <div><strong>To Par:</strong> ${toPar >= 0 ? "+" + toPar : toPar}</div>
+              </div>
             </div>
           </div>
         `;
-        container.innerHTML += row;
+
+        container.innerHTML += table;
       });
     }
 
@@ -119,20 +148,54 @@
       const html = await res.text();
       document.getElementById(id).innerHTML = html;
 
-      // Attach menu toggle behavior *after* header is injected
       if (id === "header") {
-          const toggle = document.getElementById("menu-toggle");
-          const menu = document.getElementById("mobile-menu");
-          if (toggle && menu) {
-            toggle.addEventListener("click", () => {
-              menu.classList.toggle("hidden");
-            });
-          }
+        const toggle = document.getElementById("menu-toggle");
+        const menu = document.getElementById("mobile-menu");
+        if (toggle && menu) {
+          toggle.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+          });
         }
       }
+    }
 
-      loadPartial("header", "./shared/header.html");
-      loadPartial("footer", "./shared/footer.html");
+    loadPartial("header", "./shared/header.html");
+    loadPartial("footer", "./shared/footer.html");
   </script>
+
+  <style>
+    .eagle {
+      position: relative;
+    }
+    .eagle::before, .eagle::after {
+      content: "";
+      position: absolute;
+      border: 1px solid black;
+      border-radius: 9999px;
+      top: 0; left: 0; right: 0; bottom: 0;
+    }
+    .eagle::after {
+      top: 2px; left: 2px; right: 2px; bottom: 2px;
+    }
+    .birdie {
+      border: 1px solid black;
+      border-radius: 9999px;
+    }
+    .bogey {
+      border: 1px solid black;
+    }
+    .double {
+      position: relative;
+    }
+    .double::before, .double::after {
+      content: "";
+      position: absolute;
+      border: 1px solid black;
+      top: 0; left: 0; right: 0; bottom: 0;
+    }
+    .double::after {
+      top: 2px; left: 2px; right: 2px; bottom: 2px;
+    }
+  </style>
 </body>
 </html>
