@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register | The Amatour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <div id="header"></div>
+
+  <main class="max-w-2xl mx-auto px-4 py-10">
+    <h1 class="text-3xl font-bold text-indigo-700 mb-4">Join The Amatour</h1>
+    <p class="text-gray-700 mb-6">
+      The Amatour is a competitive and fun golf league that welcomes all skill levels. Whether you’re chasing birdies or just here for the vibes, you’ll find a community of golfers who are just like you. By joining, you’ll gain access to exclusive events, rankings, and prize winnings.
+    </p>
+
+    <form id="registerForm" class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" id="name" name="name" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+      </div>
+
+      <div>
+        <label for="handicap" class="block text-sm font-medium text-gray-700">Handicap</label>
+        <input type="number" id="handicap" name="handicap" min="0" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+      </div>
+
+      <div>
+        <label for="referral" class="block text-sm font-medium text-gray-700">Referral</label>
+        <input type="text" id="referral" name="referral" list="referralOptions" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+        <datalist id="referralOptions"></datalist>
+      </div>
+
+      <div class="flex items-start">
+        <input type="checkbox" id="agreeRules" required class="h-4 w-4 text-indigo-600 border-gray-300 rounded"/>
+        <label for="agreeRules" class="ml-2 text-sm text-gray-700">
+          I have read and agree to the <a href="./rules-and-regulations" class="text-indigo-600 hover:underline">Rules and Regulations</a>.
+        </label>
+      </div>
+
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
+        Register Now
+      </button>
+
+      <p id="thankYou" class="text-green-600 mt-4 hidden">Thanks for signing up! Your email draft is now open.</p>
+    </form>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+
+      if (id === "header") {
+        const toggle = document.getElementById("menu-toggle");
+        const menu = document.getElementById("mobile-menu");
+        if (toggle && menu) {
+          toggle.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+          });
+        }
+      }
+    }
+
+    loadPartial("header", "./shared/header.html");
+    loadPartial("footer", "./shared/footer.html");
+
+    // Load referral options from active-members.json
+    fetch("./active-members.json")
+        .then(res => res.json())
+        .then(data => {
+            const referralList = document.getElementById("referralOptions");
+            data.sort((a, b) => a.localeCompare(b)); // Alphabetical sort
+            data.forEach(name => {
+            const option = document.createElement("option");
+            option.value = name;
+            referralList.appendChild(option);
+            });
+        })
+        .catch(err => console.error("Error loading referral list:", err));
+
+
+    // Form submission behavior
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const handicap = document.getElementById("handicap").value.trim();
+      const referral = document.getElementById("referral").value.trim();
+
+      const body = `Hi,\n\nI'd like to register for The Amatour golf league.\n\nName: ${name}\nEmail: ${email}\nHandicap: ${handicap}\nReferral: ${referral || "N/A"}`;
+      const mailtoLink = `mailto:info.theamateurstour@gmail.com?subject=New Amatour Registration&body=${encodeURIComponent(body)}`;
+
+      window.location.href = mailtoLink;
+
+      document.getElementById("thankYou").classList.remove("hidden");
+    });
+  </script>
+</body>
+</html>
