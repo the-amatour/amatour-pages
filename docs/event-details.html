@@ -38,8 +38,12 @@
       const emailBody = `Hi, I'd like to register for the ${event.name} event on ${eventDate}. My name is ${playerName}.`;
       const mailtoLink = `mailto:info.theamateurstour@gmail.com?subject=Registration for ${event.name} ${event.date}&body=${encodeURIComponent(emailBody)}`;
 
-      const registeredPlayers = event.registered_players.map(name => `<li>${name}</li>`).join("");
-      const teeGroups = event.tee_groups.map((group, i) => `<p><strong>Group ${i + 1}:</strong> ${group.join(", ")}</p>`).join("");
+      const registeredPlayers = Array.isArray(event.registered_players) && event.registered_players.length > 0
+        ? event.registered_players.map(name => `<li>${name}</li>`).join("")
+        : "<li class='text-gray-500 italic'>No players have registered yet.</li>";
+      const teeGroups = Array.isArray(event.tee_groups) && event.tee_groups.length > 0
+        ? event.tee_groups.map((group, i) => `<p><strong>Group ${i + 1}:</strong> ${group.join(", ")}</p>`).join("")
+        : "<p class='text-gray-500 italic'>Tee groups have not been assigned yet.</p>";
 
       const detailsHTML = `
         <div class="bg-white shadow rounded-lg p-6">
