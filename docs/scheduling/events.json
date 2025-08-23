@@ -1,0 +1,66 @@
+[
+    {
+      "name": "West Seattle",
+      "date": "06-29-2025",
+      "venue": "West Seattle",
+      "type": "regular",
+      "entry_fee": 25,
+      "description": "Kickoff event of the season at the scenic West Seattle course.",
+      "slug": "2025-06-29-west-seattle"
+    },
+    {
+      "name": "Maplewood",
+      "date": "07-12-2025",
+      "venue": "Maplewood",
+      "type": "regular",
+      "entry_fee": 25,
+      "description": "A challenging track with tight fairways — a true test of accuracy.",
+      "slug": "2025-07-12-maplewood"
+    },
+    {
+      "name": "Willows",
+      "date": "07-20-2025",
+      "venue": "Willows",
+      "type": "regular",
+      "entry_fee": 25,
+      "description": "Rolling hills and a beautiful finish await at Willows.",
+      "slug": "2025-07-20-willows"
+    },
+    {
+      "name": "Echo Falls",
+      "date": "08-02-2025",
+      "venue": "Echo Falls",
+      "type": "regular",
+      "entry_fee": 25,
+      "description": "Scenic and serene — Echo Falls never disappoints.",
+      "slug": "2025-08-02-echo-falls"
+    },
+    {
+      "name": "Mt Si",
+      "date": "08-16-2025",
+      "venue": "Mt Si",
+      "type": "regular",
+      "entry_fee": 25,
+      "description": "Beneath the watchful gaze of Mt. Si, this course demands consistency.",
+      "slug": "2025-08-16-mt-si"
+    },
+    {
+      "name": "Jackson",
+      "date": "09-06-2025",
+      "venue": "Jackson",
+      "type": "regular",
+      "entry_fee": 25,
+      "description": "Jackson's tight layout keeps the pressure on from start to finish.",
+      "slug": "2025-09-06-jackson"
+    },
+    {
+      "name": "Home Course",
+      "date": "09-14-2025",
+      "venue": "Home Course",
+      "type": "finale",
+      "entry_fee": 35,
+      "description": "The season finale. A showdown to remember at The Home Course.",
+      "slug": "2025-09-14-home-course"
+    }
+  ]
+  
