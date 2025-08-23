@@ -19,7 +19,6 @@
     const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get("event");
 
-    // Placeholder for player name; replace with actual selection logic
     const playerName = localStorage.getItem("playerName") || "Your Name";
 
     Promise.all([
@@ -32,7 +31,9 @@
         return;
       }
 
-      const eventDate = new Date(event.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      const eventDate = new Date(event.date).toLocaleDateString(undefined, {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
 
       const isPastEvent = new Date(event.date) < new Date();
       const emailBody = `Hi, I'd like to register for the ${event.name} event on ${eventDate}. My name is ${playerName}.`;
@@ -41,9 +42,17 @@
       const registeredPlayers = Array.isArray(event.registered_players) && event.registered_players.length > 0
         ? event.registered_players.map(name => `<li>${name}</li>`).join("")
         : "<li class='text-gray-500 italic'>No players have registered yet.</li>";
+
       const teeGroups = Array.isArray(event.tee_groups) && event.tee_groups.length > 0
         ? event.tee_groups.map((group, i) => `<p><strong>Group ${i + 1}:</strong> ${group.join(", ")}</p>`).join("")
         : "<p class='text-gray-500 italic'>Tee groups have not been assigned yet.</p>";
+
+      const teeTimes = Array.isArray(event.tee_times) && event.tee_times.length > 0
+        ? event.tee_times.join(", ")
+        : "TBD";
+
+      const menTees = event.tees?.M;
+      const womenTees = event.tees?.W;
 
       const detailsHTML = `
         <div class="bg-white shadow rounded-lg p-6">
@@ -59,9 +68,18 @@
                 <li><strong>Entry Fee:</strong> $${event.entry_fee}</li>
                 <li><strong>Total Par:</strong> ${event.par}</li>
                 <li><strong>Total Distance:</strong> ${event.total_distance}</li>
-                <li><strong>Tees:</strong> ${event.tees.M.tee_box} (Men), ${event.tees.W.tee_box} (Women)</li>
-                <li><strong>Course Rating:</strong> ${event.tees.M.course_rating} (M), ${event.tees.W.course_rating} (W)</li>
-                <li><strong>Slope Rating:</strong> ${event.tees.M.slope_rating} (M), ${event.tees.W.slope_rating} (W)</li>
+                ${menTees ? `
+                  <li><strong>Tees (Men):</strong> ${menTees.tee_box}</li>
+                  <li><strong>Course Rating (M):</strong> ${menTees.course_rating}</li>
+                  <li><strong>Slope Rating (M):</strong> ${menTees.slope_rating}</li>
+                  <li><strong>Yardage (M):</strong> ${menTees.yardage} yds</li>` : ""
+                }
+                ${womenTees ? `
+                  <li><strong>Tees (Women):</strong> ${womenTees.tee_box}</li>
+                  <li><strong>Course Rating (W):</strong> ${womenTees.course_rating}</li>
+                  <li><strong>Slope Rating (W):</strong> ${womenTees.slope_rating}</li>
+                  <li><strong>Yardage (W):</strong> ${womenTees.yardage} yds</li>` : ""
+                }
                 <li><strong>Winnings:</strong> $${event.winnings}</li>
                 <li><a href="./rules-and-regulations" class="text-indigo-600 hover:underline">Rules and Regulations</a></li>
               </ul>
@@ -69,7 +87,7 @@
 
             <div>
               <h2 class="font-semibold text-lg mb-2">Tee Times & Groups</h2>
-              <p class="text-sm text-gray-700 mb-2"><strong>Tee Times:</strong> ${event.tee_times.length > 0 ? event.tee_times.join(", ") : "TBD"}</p>
+              <p class="text-sm text-gray-700 mb-2"><strong>Tee Times:</strong> ${teeTimes}</p>
               <div class="text-sm text-gray-700 space-y-1">${teeGroups}</div>
             </div>
           </div>
@@ -77,7 +95,7 @@
           <div class="mb-6">
             <h2 class="font-semibold text-lg mb-2">Registered Participants</h2>
             <ul class="text-sm text-gray-700 list-disc list-inside">
-              ${registeredPlayers || "<li>No one registered yet.</li>"}
+              ${registeredPlayers}
             </ul>
           </div>
 

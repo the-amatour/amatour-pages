@@ -1,167 +1,194 @@
-[
-    {
-      "slug": "06-29-2025-west-seattle",
-      "event_name": "West Seattle",
-      "date": "06-29-2025",
-      "venue": "West Seattle",
-      "type": "Regular Event",
-      "description": "Kick off the season at West Seattle Golf Course. A classic test with tree-lined fairways and challenging greens.",
-      "entry_fee": 25,
-      "participants": ["George Finney", "Alan Anderson", "Beau Johnson", "Rick Morty"],
-      "tee_times": ["11:00 AM", "11:07 AM"],
-      "tee_groups": [
-        ["George Finney", "Alan Anderson"],
-        ["Beau Johnson", "Rick Morty"]
-      ],
-      "registration_status": "Open",
-      "slope_rating_m": 120,
-      "course_rating_m": 70.8,
-      "total_yardage_m": 6400,
-      "tee_box_m": "Blue",
-      "slope_rating_w": 124,
-      "course_rating_w": 74.1,
-      "total_yardage_w": 5800,
-      "tee_box_w": "White",
-      "par": 72,
-      "winnings_total": 0
-    },
-    {
-      "slug": "07-12-2025-maplewood",
-      "event_name": "Maplewood",
-      "date": "07-12-2025",
-      "venue": "Maplewood",
-      "type": "Regular Event",
-      "description": "Maplewood brings tight landing areas and subtle elevation changes — accuracy will be key.",
-      "entry_fee": 25,
-      "participants": [],
-      "tee_times": [],
-      "tee_groups": [],
-      "registration_status": "Open",
-      "slope_rating_m": 118,
-      "course_rating_m": 69.7,
-      "total_yardage_m": 6300,
-      "tee_box_m": "Blue",
-      "slope_rating_w": 122,
-      "course_rating_w": 72.8,
-      "total_yardage_w": 5700,
-      "tee_box_w": "White",
-      "par": 72,
-      "winnings_total": 0
-    },
-    {
-      "slug": "07-20-2025-willows",
-      "event_name": "Willows",
-      "date": "07-20-2025",
-      "venue": "Willows",
-      "type": "Regular Event",
-      "description": "Rolling hills and water hazards at Willows make this a balanced and exciting test.",
-      "entry_fee": 25,
-      "participants": [],
-      "tee_times": [],
-      "tee_groups": [],
-      "registration_status": "Open",
-      "slope_rating_m": 121,
-      "course_rating_m": 71.2,
-      "total_yardage_m": 6450,
-      "tee_box_m": "Blue",
-      "slope_rating_w": 125,
-      "course_rating_w": 74.3,
-      "total_yardage_w": 5900,
-      "tee_box_w": "White",
-      "par": 72,
-      "winnings_total": 0
-    },
-    {
-      "slug": "08-02-2025-echo-falls",
-      "event_name": "Echo Falls",
-      "date": "08-02-2025",
-      "venue": "Echo Falls",
-      "type": "Regular Event",
-      "description": "Echo Falls demands shot shaping and confident putting — a hidden gem with water features.",
-      "entry_fee": 25,
-      "participants": [],
-      "tee_times": [],
-      "tee_groups": [],
-      "registration_status": "Open",
-      "slope_rating_m": 122,
-      "course_rating_m": 70.4,
-      "total_yardage_m": 6350,
-      "tee_box_m": "Blue",
-      "slope_rating_w": 126,
-      "course_rating_w": 73.9,
-      "total_yardage_w": 5850,
-      "tee_box_w": "White",
-      "par": 72,
-      "winnings_total": 0
-    },
-    {
-      "slug": "08-16-2025-mt-si",
-      "event_name": "Mt Si",
-      "date": "08-16-2025",
-      "venue": "Mt Si",
-      "type": "Regular Event",
-      "description": "Mt Si Golf Course offers wide fairways and scenic views, but don't let your guard down.",
-      "entry_fee": 25,
-      "participants": [],
-      "tee_times": [],
-      "tee_groups": [],
-      "registration_status": "Open",
-      "slope_rating_m": 117,
-      "course_rating_m": 69.9,
-      "total_yardage_m": 6200,
-      "tee_box_m": "Blue",
-      "slope_rating_w": 121,
-      "course_rating_w": 72.6,
-      "total_yardage_w": 5650,
-      "tee_box_w": "White",
-      "par": 72,
-      "winnings_total": 0
-    },
-    {
-      "slug": "09-06-2025-jackson",
-      "event_name": "Jackson",
-      "date": "09-06-2025",
-      "venue": "Jackson",
-      "type": "Regular Event",
-      "description": "Jackson Park brings a Pacific Northwest parkland feel — and one of the strongest closing holes.",
-      "entry_fee": 25,
-      "participants": [],
-      "tee_times": [],
-      "tee_groups": [],
-      "registration_status": "Open",
-      "slope_rating_m": 123,
-      "course_rating_m": 71.0,
-      "total_yardage_m": 6400,
-      "tee_box_m": "Blue",
-      "slope_rating_w": 127,
-      "course_rating_w": 74.5,
-      "total_yardage_w": 5900,
-      "tee_box_w": "White",
-      "par": 72,
-      "winnings_total": 0
-    },
-    {
-      "slug": "09-14-2025-home-course",
-      "event_name": "The Home Course (Finale)",
-      "date": "09-14-2025",
-      "venue": "Home Course",
-      "type": "Finale",
-      "description": "The season finale at The Home Course — wide landing zones and wind exposure will separate the contenders from the pretenders.",
-      "entry_fee": 35,
-      "participants": [],
-      "tee_times": [],
-      "tee_groups": [],
-      "registration_status": "Open",
-      "slope_rating_m": 124,
-      "course_rating_m": 72.2,
-      "total_yardage_m": 6700,
-      "tee_box_m": "Blue",
-      "slope_rating_w": 129,
-      "course_rating_w": 75.2,
-      "total_yardage_w": 6000,
-      "tee_box_w": "White",
-      "par": 72,
-      "winnings_total": 0
-    }
-  ]
+{
+    "events": [
+      {
+        "event_name": "West Seattle",
+        "slug": "06-29-2025-west-seattle",
+        "date": "06-29-2025",
+        "course": "West Seattle",
+        "entry_fee": 25,
+        "registration_status": "Closed",
+        "description": "A classic Seattle municipal course with sweeping views of downtown.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 120,
+            "course_rating": 70.2,
+            "yardage": 6400
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 122,
+            "course_rating": 74.2,
+            "yardage": 5800
+          }
+        },
+        "par": 72,
+        "winnings": "$100"
+      },
+      {
+        "event_name": "Maplewood",
+        "slug": "07-12-2025-maplewood",
+        "date": "07-12-2025",
+        "course": "Maplewood",
+        "entry_fee": 25,
+        "registration_status": "Closed",
+        "description": "A tree-lined course offering a fair but challenging test for all skill levels.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 118,
+            "course_rating": 69.5,
+            "yardage": 6300
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 120,
+            "course_rating": 73.0,
+            "yardage": 5700
+          }
+        },
+        "par": 72,
+        "winnings": "$100"
+      },
+      {
+        "event_name": "Willows",
+        "slug": "07-20-2025-willows",
+        "date": "07-20-2025",
+        "course": "Willows",
+        "entry_fee": 25,
+        "registration_status": "Closed",
+        "description": "Known for its fast greens and demanding approach shots.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 122,
+            "course_rating": 71.1,
+            "yardage": 6500
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 125,
+            "course_rating": 74.5,
+            "yardage": 5900
+          }
+        },
+        "par": 72,
+        "winnings": "$100"
+      },
+      {
+        "event_name": "Echo Falls",
+        "slug": "08-02-2025-echo-falls",
+        "date": "08-02-2025",
+        "course": "Echo Falls",
+        "entry_fee": 25,
+        "registration_status": "Closed",
+        "description": "Scenic layout featuring an island green and wooded terrain.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 119,
+            "course_rating": 70.0,
+            "yardage": 6400
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 122,
+            "course_rating": 73.8,
+            "yardage": 5750
+          }
+        },
+        "par": 72,
+        "winnings": "$100"
+      },
+      {
+        "event_name": "Mt Si",
+        "slug": "08-16-2025-mt-si",
+        "date": "08-16-2025",
+        "course": "Mt Si",
+        "entry_fee": 25,
+        "registration_status": "Closed",
+        "description": "Flat fairways and challenging bunkers with a mountain backdrop.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 117,
+            "course_rating": 69.9,
+            "yardage": 6250
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 120,
+            "course_rating": 73.1,
+            "yardage": 5600
+          }
+        },
+        "par": 72,
+        "winnings": "$100"
+      },
+      {
+        "event_name": "Jackson",
+        "slug": "09-06-2025-jackson",
+        "date": "09-06-2025",
+        "course": "Jackson",
+        "entry_fee": 25,
+        "registration_status": "Closed",
+        "description": "Hilly terrain with demanding elevation changes and long par 4s.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 121,
+            "course_rating": 70.8,
+            "yardage": 6450
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 124,
+            "course_rating": 74.0,
+            "yardage": 5800
+          }
+        },
+        "par": 72,
+        "winnings": "$100"
+      },
+      {
+        "event_name": "Home Course (Finale)",
+        "slug": "09-14-2025-home-course",
+        "date": "09-14-2025",
+        "course": "Home Course",
+        "entry_fee": 35,
+        "registration_status": "Closed",
+        "description": "Championship-level course with wide fairways and true greens.",
+        "registered_players": [],
+        "tee_groups": [],
+        "tees": {
+          "M": {
+            "tee_box": "Blue",
+            "slope_rating": 123,
+            "course_rating": 71.5,
+            "yardage": 6600
+          },
+          "W": {
+            "tee_box": "Red",
+            "slope_rating": 126,
+            "course_rating": 75.0,
+            "yardage": 6000
+          }
+        },
+        "par": 72,
+        "winnings": "$200"
+      }
+    ]
+  }
   
