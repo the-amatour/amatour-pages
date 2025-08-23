@@ -43,13 +43,24 @@
         ? event.registered_players.map(name => `<li>${name}</li>`).join("")
         : "<li class='text-gray-500 italic'>No players have registered yet.</li>";
 
-      const teeGroups = Array.isArray(event.tee_groups) && event.tee_groups.length > 0
-        ? event.tee_groups.map((group, i) => `<p><strong>Group ${i + 1}:</strong> ${group.join(", ")}</p>`).join("")
-        : "<p class='text-gray-500 italic'>Tee groups have not been assigned yet.</p>";
+        const teeGroups = (Array.isArray(event.tee_groups) && event.tee_groups.length > 0)
+          ? event.tee_groups.map((group, i) => {
+              const time = event.tee_times?.[i] || "TBD";
+              const players = group.map(name => `<li class="ml-4 text-gray-700">${name}</li>`).join("");
+              return `
+                <div class="mb-4">
+                  <div class="flex items-center space-x-2 mb-1">
+                    <span class="text-sm font-medium text-indigo-700">${time}</span>
+                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">Group ${i + 1}</span>
+                  </div>
+                  <ul class="list-disc pl-6 text-sm space-y-1">
+                    ${players}
+                  </ul>
+                </div>
+              `;
+            }).join("")
+          : "<p class='text-gray-500 italic'>Tee groups have not been assigned yet.</p>";
 
-      const teeTimes = Array.isArray(event.tee_times) && event.tee_times.length > 0
-        ? event.tee_times.join(", ")
-        : "TBD";
 
       const menTees = event.tees?.M;
       const womenTees = event.tees?.W;
@@ -81,7 +92,6 @@
 
             <div>
               <h2 class="font-semibold text-lg mb-2">Tee Times & Groups</h2>
-              <p class="text-sm text-gray-700 mb-2"><strong>Tee Times:</strong> ${teeTimes}</p>
               <div class="text-sm text-gray-700 space-y-1">${teeGroups}</div>
             </div>
           </div>
