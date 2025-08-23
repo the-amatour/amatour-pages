@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 p-6 md:p-12 font-sans">
-
+  <div id="header"></div>
   <h1 class="text-4xl font-bold mb-4">🏆 Season Leaderboard</h1>
 
   <p class="text-lg text-gray-700 mb-6">
@@ -55,6 +55,8 @@
       </tbody>
     </table>
   </div>
+
+  <div id="footer"></div>
 
   <!-- 🔧 Sort & Search Script -->
   <script>
@@ -139,6 +141,14 @@
       document.getElementById("search").addEventListener("input", filterTableBySearch);
       loadLeaderboardData();
     });
+
+    async function loadPartial(id, file) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
+      }
+      loadPartial("header", "/shared/header.html");
+      loadPartial("footer", "/shared/footer.html");
   </script>
   
 
