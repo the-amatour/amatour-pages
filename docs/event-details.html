@@ -24,8 +24,8 @@
     Promise.all([
       fetch("./scheduling/events.json").then(res => res.json()),
       fetch("./statistics/individual.json").then(res => res.json())
-    ]).then(([events, individuals]) => {
-      const event = events.find(e => e.slug === slug);
+    ]).then(([data, individuals]) => {
+      const event = data.events.find(e => e.slug === slug);
       if (!event) {
         document.getElementById("eventDetails").innerHTML = "<p class='text-red-500'>Event not found.</p>";
         return;
