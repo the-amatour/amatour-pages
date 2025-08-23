@@ -48,6 +48,7 @@
             placeholder="Start typing a name..." />
             <datalist id="referralOptions"></datalist>
         </div>
+        <p id="formError" class="text-red-600 text-sm mb-4 font-medium"></p>
   
 
       <div class="flex items-start mb-6">
@@ -108,35 +109,54 @@
     loadPartial("footer", "./shared/footer.html");
 
     // Load referral options from active-members.json
+    let validReferrals = [];
+
     fetch("./active-members.json")
         .then(res => res.json())
         .then(data => {
-            const referralList = document.getElementById("referralOptions");
-            data.sort((a, b) => a.localeCompare(b)); // Alphabetical sort
-            data.forEach(name => {
+        validReferrals = data.sort((a, b) => a.localeCompare(b));
+        const referralList = document.getElementById("referralOptions");
+        validReferrals.forEach(name => {
             const option = document.createElement("option");
             option.value = name;
             referralList.appendChild(option);
-            });
-        })
-        .catch(err => console.error("Error loading referral list:", err));
+        });
+        });
 
+    document.getElementById("registerButton").addEventListener("click", (e) => {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const handicap = document.getElementById("handicap").value.trim();
+        const referral = document.getElementById("referral").value.trim();
+        const agree = document.getElementById("agreeRules").checked;
+        const errorBox = document.getElementById("formError");
+        const successBox = document.getElementById("formSuccess");
 
-    // Form submission behavior
-    document.getElementById("registerForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+        errorBox.textContent = "";
+        successBox.textContent = "";
 
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const handicap = document.getElementById("handicap").value.trim();
-      const referral = document.getElementById("referral").value.trim();
+        if (!name || !email || !handicap || !referral || !agree) {
+        errorBox.textContent = "Please complete all fields and agree to the rules.";
+        return;
+        }
 
-      const body = `Hi,\n\nI'd like to register for The Amatour golf league.\n\nName: ${name}\nEmail: ${email}\nHandicap: ${handicap}\nReferral: ${referral || "N/A"}`;
-      const mailtoLink = `mailto:info.theamateurstour@gmail.com?subject=New Amatour Registration&body=${encodeURIComponent(body)}`;
+        if (!validReferrals.includes(referral)) {
+        errorBox.textContent = "Referral name must match a current member from the list.";
+        return;
+        }
 
-      window.location.href = mailtoLink;
+        const body = `Hi, I'd like to register for The Amatour. Here are my details:\n\nName: ${name}\nEmail: ${email}\nHandicap: ${handicap}\nReferred By: ${referral}`;
+        const mailto = `mailto:info.theamateurstour@gmail.com?subject=New Registration&body=${encodeURIComponent(body)}`;
 
-      document.getElementById("thankYou").classList.remove("hidden");
+        window.location.href = mailto;
+
+        successBox.textContent = "Thank you for registering! Please check your email to send the message.";
+        document.getElementById("registerForm").reset();
+        document.getElementById("registerButton").disabled = true;
+
+        setTimeout(() => {
+        document.getElementById("registerButton").disabled = false;
+        }, 3000);
     });
   </script>
 </body>
