@@ -16,10 +16,22 @@
 
     <script>
       async function loadPartial(id, file) {
-        const res = await fetch(file);
-        const html = await res.text();
-        document.getElementById(id).innerHTML = html;
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+
+      // Attach menu toggle behavior *after* header is injected
+      if (id === "header") {
+          const toggle = document.getElementById("menu-toggle");
+          const menu = document.getElementById("mobile-menu");
+          if (toggle && menu) {
+            toggle.addEventListener("click", () => {
+              menu.classList.toggle("hidden");
+            });
+          }
+        }
       }
+
       loadPartial("header", "./shared/header.html");
       loadPartial("footer", "./shared/footer.html");
     </script>
