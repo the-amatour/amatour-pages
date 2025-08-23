@@ -1,8 +1,6 @@
-{
-    "members": [
-        "Alex",
-        "Harry",
-        "Barry",
-        "Larry"
-    ]
-}
+[
+    "Alex",
+    "Harry",
+    "Barry",
+    "Larry"
+]
