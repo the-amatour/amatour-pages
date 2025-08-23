@@ -148,7 +148,13 @@
         const body = `Hi, I'd like to register for The Amatour. Here are my details:\n\nName: ${name}\nEmail: ${email}\nHandicap: ${handicap}\nReferred By: ${referral}`;
         const mailto = `mailto:info.theamateurstour@gmail.com?subject=New Registration&body=${encodeURIComponent(body)}`;
 
-        window.location.href = mailto;
+        // NEW (robust way to trigger email client)
+        const tempLink = document.createElement("a");
+        tempLink.href = mailto;
+        tempLink.style.display = "none";
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
 
         successBox.textContent = "Thank you for registering! Please check your email to send the message.";
         document.getElementById("registerForm").reset();
