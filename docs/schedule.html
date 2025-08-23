@@ -36,7 +36,7 @@
     loadPartial("footer", "./shared/footer.html");
 
     fetch("./scheduling/events.json")
-      .then(res => res.json())
+      .then(res => res.json().events)
       .then(events => {
         const container = document.getElementById("eventsList");
         const togglePast = document.getElementById("togglePast");
