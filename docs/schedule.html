@@ -65,7 +65,7 @@
               <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2">
                   <div>
-                    <h2 class="text-xl font-semibold text-indigo-700">${event.name}</h2>
+                    <h2 class="text-xl font-semibold text-indigo-700">${event.event_name}</h2>
                     <p class="text-sm text-gray-500">${event.venue} • ${date.toLocaleDateString()}</p>
                   </div>
                   <span class="mt-2 sm:mt-0 px-3 py-1 text-xs rounded-full font-medium ${status.color}">${status.label}</span>
@@ -73,7 +73,7 @@
                 <p class="text-gray-700 text-sm mb-3">${event.description}</p>
                 <div class="flex justify-between text-sm text-gray-600">
                   <span>Entry Fee: $${event.entry_fee}</span>
-                  <a href="/events?event=${event.slug}" class="text-indigo-600 hover:underline">View Event →</a>
+                  <a href="./event-details?event=${event.slug}" class="text-indigo-600 hover:underline">View Event →</a>
                 </div>
               </div>
             `;
