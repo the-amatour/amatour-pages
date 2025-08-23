@@ -16,33 +16,50 @@
     </p>
 
     <form id="registerForm" class="space-y-4">
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-        <input type="text" id="name" name="name" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
-      </div>
+      <!-- Name -->
+        <div class="mb-5">
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <input type="text" id="name" name="name"
+            class="w-full rounded-2xl border border-gray-300 px-4 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-2 focus:outline-none transition"
+            placeholder="Your full name" required>
+        </div>
+        
+        <!-- Email -->
+        <div class="mb-5">
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <input type="email" id="email" name="email"
+            class="w-full rounded-2xl border border-gray-300 px-4 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-2 focus:outline-none transition"
+            placeholder="you@example.com" required>
+        </div>
+        
+        <!-- Handicap -->
+        <div class="mb-5">
+            <label for="handicap" class="block text-sm font-medium text-gray-700 mb-1">Handicap</label>
+            <input type="text" id="handicap" name="handicap"
+            class="w-full rounded-2xl border border-gray-300 px-4 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-2 focus:outline-none transition"
+            placeholder="e.g. 12" required>
+        </div>
+        
+        <!-- Referral (with search) -->
+        <div class="mb-5">
+            <label for="referral" class="block text-sm font-medium text-gray-700 mb-1">Referred By</label>
+            <input list="referralOptions" id="referral" name="referral"
+            class="w-full rounded-2xl border border-gray-300 px-4 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:ring-2 focus:outline-none transition"
+            placeholder="Start typing a name..." />
+            <datalist id="referralOptions"></datalist>
+        </div>
+  
 
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" name="email" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
-      </div>
-
-      <div>
-        <label for="handicap" class="block text-sm font-medium text-gray-700">Handicap</label>
-        <input type="number" id="handicap" name="handicap" min="0" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
-      </div>
-
-      <div>
-        <label for="referral" class="block text-sm font-medium text-gray-700">Referral</label>
-        <input type="text" id="referral" name="referral" list="referralOptions" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
-        <datalist id="referralOptions"></datalist>
-      </div>
-
-      <div class="flex items-start">
-        <input type="checkbox" id="agreeRules" required class="h-4 w-4 text-indigo-600 border-gray-300 rounded"/>
+      <div class="flex items-start mb-6">
+        <div class="flex items-center h-5">
+          <input id="agreeRules" type="checkbox"
+            class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2">
+        </div>
         <label for="agreeRules" class="ml-2 text-sm text-gray-700">
-          I have read and agree to the <a href="./rules-and-regulations" class="text-indigo-600 hover:underline">Rules and Regulations</a>.
+          I have read and agree to the <a href="./rules-and-regulations" class="text-indigo-600 underline">rules and regulations</a>
         </label>
       </div>
+      
 
       <button id="registerButton" disabled class="mt-6 bg-indigo-400 text-white px-4 py-2 rounded opacity-50 cursor-not-allowed transition">
         Register Now
