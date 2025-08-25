@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rules & Regulations | The Amatour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <div id="header"></div>
+
+  <main class="max-w-3xl mx-auto px-6 py-10 space-y-8">
+    <h1 class="text-4xl font-bold text-indigo-700">Rules & Regulations</h1>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">1. Eligibility</h2>
+      <p>
+        All players must be at least 18 years of age and registered with <strong>The Amatour</strong>. 
+        A valid GHIN (Golf Handicap Index Number) is required to ensure fair net scoring across events.
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">2. Scoring Format</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>All events are individual stroke play unless otherwise noted.</li>
+        <li>Gross and Net scores are recorded for every round.</li>
+        <li>Net scores are calculated using course-adjusted handicaps.</li>
+        <li>Scorecards must be submitted immediately following your round to be counted.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">3. Points System</h2>
+      <p>
+        Points are awarded for participation and performance:
+      </p>
+      <ul class="list-disc pl-6 space-y-1">
+        <li><strong>Finale Points</strong> contribute to end-of-season standings and the Championship Invite.</li>
+        <li><strong>Purchase Points</strong> can be redeemed toward raffle entries or discounts on future events.</li>
+        <li>Winners (Net and Gross) earn additional points.</li>
+        <li>Early registration bonuses may apply.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">4. Tees and Course Ratings</h2>
+      <p>
+        Tees are assigned by gender unless otherwise communicated. Course and slope ratings, along with yardages, are used to fairly determine net scores across diverse playing fields.
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">5. Groupings & Tee Times</h2>
+      <p>
+        Tee groups are published prior to each event and are subject to change. Players are expected to arrive early and be on the tee box at least 10 minutes before their scheduled time.
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">6. Code of Conduct</h2>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>Respect your fellow players and the course at all times.</li>
+        <li>Abusive language, cheating, or unsportsmanlike conduct will result in disqualification.</li>
+        <li>Be pace-aware—keep up with the group ahead.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">7. Registration & Cancellations</h2>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>All participants must register prior to the registration deadline.</li>
+        <li>No-shows or cancellations within 48 hours of an event may forfeit entry fees or points.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">8. Ties</h2>
+      <p>
+        Ties for placement or points will be broken by scorecard playoff starting from the #1 handicap hole.
+      </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-gray-800">9. Rule Enforcement</h2>
+      <p>
+        The Amatour committee reserves the right to enforce rules, make rulings on disputes, and disqualify players as necessary. All decisions are final.
+      </p>
+    </section>
+
+    <section class="text-sm text-gray-500 italic">
+      Last updated: August 2025
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    async function loadPartial(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+
+      if (id === "header") {
+        const toggle = document.getElementById("menu-toggle");
+        const menu = document.getElementById("mobile-menu");
+        if (toggle && menu) {
+          toggle.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+          });
+        }
+      }
+    }
+
+    loadPartial("header", "./shared/header.html");
+    loadPartial("footer", "./shared/footer.html");
+  </script>
+</body>
+</html>

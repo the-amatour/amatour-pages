@@ -50,7 +50,7 @@
 
   <!-- 🔧 Sort & Search Script -->
   <script>
-    let sortState = { column: 0, ascending: true };
+    let sortState = { column: 1, ascending: true };
     let playerData = [];
   
     // 🗺️ Column index to data key
@@ -70,7 +70,7 @@
         const response = await fetch('./statistics/overview.json');
         playerData = await response.json();
         renderTable(playerData);
-        sortLeaderboard(0); // default sort by Player
+        sortLeaderboard(1); // default sort by Player
       } catch (error) {
         console.error('Error loading leaderboard data:', error);
       }
@@ -103,6 +103,11 @@
     function sortLeaderboard(colIndex) {
       const key = columnKeyMap[colIndex];
       if (!key) return;
+
+      // Anytime column index is changed we default to asc
+      if (sortState.column !== colIndex) {
+        sortState.ascending = true;
+      }
   
       const isNumber = typeof playerData[0][key] === "number";
   
