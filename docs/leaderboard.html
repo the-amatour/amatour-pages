@@ -70,7 +70,7 @@
         const response = await fetch('./statistics/overview.json');
         playerData = await response.json();
         renderTable(playerData);
-        sortLeaderboard(0); // default sort by Player
+        sortLeaderboard(1); // default sort by Player
       } catch (error) {
         console.error('Error loading leaderboard data:', error);
       }
@@ -101,41 +101,41 @@
   
     // 🔃 Sorting
     function sortLeaderboard(colIndex) {
-  const key = columnKeyMap[colIndex];
-  if (!key) return;
+    const key = columnKeyMap[colIndex];
+    if (!key) return;
 
-  const isNumber = typeof playerData[0][key] === "number";
+    const isNumber = typeof playerData[0][key] === "number";
 
-  // Set sort direction
-  if (sortState.column !== colIndex) {
-    // New column: use default direction
-    sortState.ascending = !isNumber; // ASC for strings, DESC for numbers
-    sortState.column = colIndex;
-  } else {
-    // Same column: toggle direction
-    sortState.ascending = !sortState.ascending;
-  }
-
-  const sortedData = [...playerData].sort((a, b) => {
-    const aVal = a[key];
-    const bVal = b[key];
-
-    if (isNumber) {
-      return sortState.ascending ? aVal - bVal : bVal - aVal;
+    // Set sort direction
+    if (sortState.column !== colIndex) {
+      // New column: use default direction
+      sortState.ascending = !isNumber; // ASC for strings, DESC for numbers
+      sortState.column = colIndex;
     } else {
-      return sortState.ascending
-        ? String(aVal).localeCompare(String(bVal))
-        : String(bVal).localeCompare(String(aVal));
+      // Same column: toggle direction
+      sortState.ascending = !sortState.ascending;
     }
-  });
 
-  renderTable(sortedData);
+    const sortedData = [...playerData].sort((a, b) => {
+      const aVal = a[key];
+      const bVal = b[key];
 
-  // Update sort icons
-  document.querySelectorAll("span[data-icon]").forEach(span => span.innerText = "");
-  const iconTarget = document.querySelector(`span[data-icon="${colIndex}"]`);
-  if (iconTarget) iconTarget.innerText = sortState.ascending ? "▲" : "▼";
-}
+      if (isNumber) {
+        return sortState.ascending ? aVal - bVal : bVal - aVal;
+      } else {
+        return sortState.ascending
+          ? String(aVal).localeCompare(String(bVal))
+          : String(bVal).localeCompare(String(aVal));
+      }
+    });
+
+    renderTable(sortedData);
+
+    // Update sort icons
+    document.querySelectorAll("span[data-icon]").forEach(span => span.innerText = "");
+    const iconTarget = document.querySelector(`span[data-icon="${colIndex}"]`);
+    if (iconTarget) iconTarget.innerText = sortState.ascending ? "▲" : "▼";
+  }
 
   
     // 🔍 Filtering
