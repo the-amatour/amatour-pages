@@ -82,7 +82,7 @@
               <h2 class="font-semibold text-lg mb-2">Event Info</h2>
               <ul class="text-gray-700 text-sm space-y-1">
                 <li><strong>Entry Fee:</strong> $${event.entry_fee}</li>
-                <li><strong>Total Par:</strong> ${event.par}</li>
+                <li><strong>Total Par:</strong> ${sumArray(event.par)}</li>
                 ${menTees && womenTees ? `
                   <li><span title="Total course yardage from the designated tees"><strong>Total Distance:</strong> ${menTees.yardage}(M) | ${womenTees.yardage}(W)</span></li>
                   <li><span title="The tee box players will be hitting from"><strong>Tees:</strong> ${menTees.tee_box}(M) | ${womenTees.tee_box}(W)</span></li>
@@ -117,6 +117,10 @@
 
       document.getElementById("eventDetails").innerHTML = detailsHTML;
     });
+
+    function sumArray(arr) {
+      return arr.reduce((sum, value) => sum + value, 0);
+    }
 
     async function loadPartial(id, file) {
       const res = await fetch(file);

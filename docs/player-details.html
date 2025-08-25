@@ -106,7 +106,7 @@
               </table>
               <div class="mt-4 flex flex-wrap gap-6 text-sm text-gray-700 border-t pt-4">
                 <div><strong>Gross:</strong> ${event.gross}</div>
-                <div><strong>Net:</strong> ${event.net}</div>
+                <div><strong>Net:</strong> ${roundToNearestTenth(event.net)}</div>
                 <div><strong>To Par:</strong> ${toPar >= 0 ? "+" + toPar : toPar}</div>
               </div>
             </div>
@@ -126,8 +126,8 @@
           <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
             <h3 class="text-xl font-semibold mb-4 text-indigo-700">Season Averages</h3>
             <ul class="text-gray-700 space-y-2">
-              <li>Gross Avg: <strong>${stats.gross ?? 'N/A'}</strong></li>
-              <li>Net Avg: <strong>${stats.net ?? 'N/A'}</strong></li>
+              <li>Gross Avg: <strong>${roundToNearestTenth(stats.gross) ?? 'N/A'}</strong></li>
+              <li>Net Avg: <strong>${roundToNearestTenth(stats.net) ?? 'N/A'}</strong></li>
               <li>Finale Points: <strong>${stats.finale_points ?? 'N/A'}</strong></li>
               <li>Purchase Points: <strong>${stats.purchase_points ?? 'N/A'}</strong></li>
               <li>Total Raffle: <strong>${stats.raffle_totals ?? 'N/A'}</strong></li>
@@ -146,6 +146,10 @@
           </div>
         </div>
       `;
+    }
+
+    function roundToNearestTenth(number) {
+      return Number((Math.round(Number(value) * 10) / 10).toFixed(1));
     }
 
     async function loadPartial(id, file) {
