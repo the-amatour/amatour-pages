@@ -4,7 +4,7 @@
       "name": "West Seattle",
       "event_name": "West Seattle",
       "slug": "west-seattle",
-      "date": "2025-06-29",
+      "date": "2025/06/29",
       "course": "West Seattle",
       "entry_fee": 25,
       "winnings": 233,
@@ -83,18 +83,19 @@
         4,
         4
       ],
+      "net_winner": "Philip",
       "tee_times": [
-        "1899-12-30T19:39:00.000Z",
-        "1899-12-30T19:48:00.000Z",
-        "1899-12-30T19:56:00.000Z",
-        "1899-12-30T08:05:00.000Z"
+        "11:39",
+        "11:48",
+        "11:56",
+        "00:05"
       ]
     },
     {
       "name": "Maplewood",
       "event_name": "Maplewood",
       "slug": "maplewood",
-      "date": "07-12-2025",
+      "date": "2025/07/12",
       "course": "Maplewood",
       "entry_fee": 25,
       "winnings": 233,
@@ -166,23 +167,42 @@
         4,
         4
       ],
+      "net_winner": "Michael",
       "tee_times": [
-        "1899-12-30T19:06:00.000Z",
-        "1899-12-30T19:15:00.000Z",
-        "1899-12-30T19:24:00.000Z"
+        "11:06",
+        "11:15",
+        "11:24"
       ]
     },
     {
       "name": "Willows",
       "event_name": "Willows",
       "slug": "willows",
-      "date": "07-20-2025",
+      "date": "2025/07/20",
       "course": "Willows - Eagle",
       "entry_fee": 25,
       "winnings": 233,
       "description": "Event held at Willows - Eagle.",
       "registered_players": [],
-      "tee_groups": [],
+      "tee_groups": [
+        [
+          "James K.",
+          "Philip K.",
+          "David H.",
+          "Brian C."
+        ],
+        [
+          "Andrew K.",
+          "Kyle B.",
+          "Richie O.",
+          "Eli M."
+        ],
+        [
+          "Alex H.",
+          "Johnny S.",
+          "Sejin H."
+        ]
+      ],
       "tees": {
         "M": {
           "tee_box": "Blue",
@@ -216,13 +236,19 @@
         4,
         3,
         5
+      ],
+      "net_winner": "Richie",
+      "tee_times": [
+        "07:33",
+        "07:42",
+        "07:51"
       ]
     },
     {
       "name": "Echo Falls",
       "event_name": "Echo Falls",
       "slug": "echo-falls",
-      "date": "08-02-2025",
+      "date": "2025/08/02",
       "course": "Echo Falls",
       "entry_fee": 25,
       "winnings": 233,
@@ -284,15 +310,16 @@
         4,
         3
       ],
+      "net_winner": "Andrew",
       "tee_times": [
-        "1899-12-30T19:50:00.000Z"
+        "11:50"
       ]
     },
     {
       "name": "Mt Si",
       "event_name": "Mt Si",
       "slug": "mt-si",
-      "date": "08-16-2025",
+      "date": "2025/08/16",
       "course": "Mt Si",
       "entry_fee": 25,
       "winnings": 233,
@@ -364,25 +391,12 @@
         3,
         4
       ],
+      "net_winner": "Kyle",
       "tee_times": [
-        "1899-12-30T17:00:00.000Z",
-        "1899-12-30T17:07:00.000Z",
-        "1899-12-30T17:15:00.000Z"
+        "09:00",
+        "09:07",
+        "09:15"
       ]
-    },
-    {
-      "name": "",
-      "event_name": "",
-      "slug": "",
-      "date": "",
-      "course": "",
-      "entry_fee": "",
-      "winnings": "",
-      "description": "",
-      "registered_players": [],
-      "tee_groups": [],
-      "tees": {},
-      "par": []
     }
   ]
 }
