@@ -397,6 +397,146 @@
         "09:07",
         "09:15"
       ]
+    },
+    {
+      "name": "Jackson",
+      "event_name": "Jackson",
+      "slug": "jackson",
+      "date": "2025/09/06",
+      "course": "Jackson",
+      "entry_fee": "",
+      "winnings": "",
+      "description": "Event held at Jackson.",
+      "registered_players": [
+        "Alex H.",
+        "Andrew K.",
+        "Brian C.",
+        "David H.",
+        "Dean L.",
+        "Eli M.",
+        "Isaac K.",
+        "James K.",
+        "Johnny S.",
+        "Michael H.",
+        "Philip K.",
+        "Richie O.",
+        "Kyle B."
+      ],
+      "tee_groups": [
+        [
+          "Alex H.",
+          "Brian C.",
+          "James K.",
+          "David H."
+        ],
+        [
+          "Eli M.",
+          "Johnny S.",
+          "Michael H.",
+          "Isaac K."
+        ],
+        [
+          "Dean L.",
+          "Andrew K.",
+          "Richie O."
+        ]
+      ],
+      "tees": {
+        "M": {
+          "tee_box": "Blue",
+          "slope_rating": 118,
+          "course_rating": 69.2,
+          "yardage": 6085
+        },
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
+      },
+      "par": [
+        5,
+        3,
+        4,
+        4,
+        5,
+        4,
+        3,
+        4,
+        4,
+        4,
+        3,
+        5,
+        3,
+        4,
+        4,
+        4,
+        3,
+        4
+      ],
+      "net_winner": "",
+      "tee_times": [
+        "13:00",
+        "13:07",
+        "13:14"
+      ]
+    },
+    {
+      "name": "Home Course",
+      "event_name": "Home Course",
+      "slug": "home-course",
+      "date": "2025/09/14",
+      "course": "Home Course",
+      "entry_fee": "",
+      "winnings": "",
+      "description": "Event held at Home Course.",
+      "registered_players": [],
+      "tee_groups": [
+        [],
+        [],
+        []
+      ],
+      "tees": {
+        "M": {
+          "tee_box": "Blue",
+          "slope_rating": 129,
+          "course_rating": 71,
+          "yardage": 6599
+        },
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
+      },
+      "par": [
+        4,
+        4,
+        4,
+        3,
+        5,
+        3,
+        4,
+        5,
+        4,
+        5,
+        4,
+        3,
+        4,
+        3,
+        4,
+        5,
+        4,
+        4
+      ],
+      "net_winner": "",
+      "tee_times": [
+        "10:09",
+        "10:18",
+        "10:27"
+      ]
     }
   ]
 }
