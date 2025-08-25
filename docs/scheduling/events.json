@@ -404,9 +404,9 @@
       "slug": "jackson",
       "date": "2025/09/06",
       "course": "Jackson",
-      "entry_fee": "",
+      "entry_fee": "25",
       "winnings": "",
-      "description": "Event held at Jackson.",
+      "description": "The last regular season event held at Jackson.",
       "registered_players": [
         "Alex H.",
         "Andrew K.",
@@ -488,9 +488,9 @@
       "slug": "home-course",
       "date": "2025/09/14",
       "course": "Home Course",
-      "entry_fee": "",
+      "entry_fee": "35",
       "winnings": "",
-      "description": "Event held at Home Course.",
+      "description": "The FINALE that will be held at Home Course, bring your A game and beat the odds!",
       "registered_players": [],
       "tee_groups": [
         [],

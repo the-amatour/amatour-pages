@@ -101,42 +101,42 @@
   
     // 🔃 Sorting
     function sortLeaderboard(colIndex) {
-      const key = columnKeyMap[colIndex];
-      if (!key) return;
+  const key = columnKeyMap[colIndex];
+  if (!key) return;
 
-      // Anytime column index is changed we default to asc
-      if (sortState.column !== colIndex) {
-        sortState.ascending = true;
-      }
-  
-      const isNumber = typeof playerData[0][key] === "number";
-  
-      const sortedData = [...playerData].sort((a, b) => {
-        const aVal = a[key];
-        const bVal = b[key];
-  
-        if (isNumber) {
-          return sortState.ascending ? aVal - bVal : bVal - aVal;
-        } else {
-          return sortState.ascending
-            ? String(aVal).localeCompare(String(bVal))
-            : String(bVal).localeCompare(String(aVal));
-        }
-      });
-  
-      renderTable(sortedData);
-  
-      if (sortState.column === colIndex) {
-        sortState.ascending = !sortState.ascending;
-      } else {
-        sortState.column = colIndex;
-        sortState.ascending = true;
-      }
-  
-      document.querySelectorAll("span[data-icon]").forEach(span => span.innerText = "");
-      const iconTarget = document.querySelector(`span[data-icon="${colIndex}"]`);
-      if (iconTarget) iconTarget.innerText = sortState.ascending ? "▲" : "▼";
+  const isNumber = typeof playerData[0][key] === "number";
+
+  // Set sort direction
+  if (sortState.column !== colIndex) {
+    // New column: use default direction
+    sortState.ascending = !isNumber; // ASC for strings, DESC for numbers
+    sortState.column = colIndex;
+  } else {
+    // Same column: toggle direction
+    sortState.ascending = !sortState.ascending;
+  }
+
+  const sortedData = [...playerData].sort((a, b) => {
+    const aVal = a[key];
+    const bVal = b[key];
+
+    if (isNumber) {
+      return sortState.ascending ? aVal - bVal : bVal - aVal;
+    } else {
+      return sortState.ascending
+        ? String(aVal).localeCompare(String(bVal))
+        : String(bVal).localeCompare(String(aVal));
     }
+  });
+
+  renderTable(sortedData);
+
+  // Update sort icons
+  document.querySelectorAll("span[data-icon]").forEach(span => span.innerText = "");
+  const iconTarget = document.querySelector(`span[data-icon="${colIndex}"]`);
+  if (iconTarget) iconTarget.innerText = sortState.ascending ? "▲" : "▼";
+}
+
   
     // 🔍 Filtering
     function filterTableBySearch() {
