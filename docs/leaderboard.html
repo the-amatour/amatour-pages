@@ -70,7 +70,7 @@
         const response = await fetch('./statistics/overview.json');
         playerData = await response.json();
         renderTable(playerData);
-        sortLeaderboard(1); // default sort by Player
+        sortLeaderboard(0); // default sort by Player
       } catch (error) {
         console.error('Error loading leaderboard data:', error);
       }
