@@ -1,259 +1,388 @@
 {
-    "events": [
-      {
-        "venue": "West Seattle",
-        "event_name": "West Seattle",
-        "slug": "2025-06-29-west-seattle",
-        "date": "2025-06-29",
-        "course": "West Seattle",
-        "entry_fee": 25,
-        "description": "A classic Seattle municipal course with sweeping views of downtown.",
-        "registered_players": ["Alex","Derek","Jimbo"],
-        "tee_times": [
-          "7:00 AM",
-          "7:15 AM"
+  "events": [
+    {
+      "name": "West Seattle",
+      "event_name": "West Seattle",
+      "slug": "west-seattle",
+      "date": "06-29-2025",
+      "course": "West Seattle",
+      "entry_fee": 25,
+      "winnings": 233,
+      "description": "Event held at West Seattle.",
+      "registered_players": [
+        "Alex H.",
+        "Andrew K.",
+        "Brian C.",
+        "David H.",
+        "Dean L.",
+        "Eli M.",
+        "Isaac K.",
+        "James K.",
+        "Johnny S.",
+        "Michael H.",
+        "Philip K.",
+        "Richie O.",
+        "Sejin H.",
+        "Kyle B."
+      ],
+      "tee_groups": [
+        [
+          "James K.",
+          "David H.",
+          "Andrew K.",
+          "Kyle B."
         ],
-        "tee_groups": [
-          ["Alex", "Derek"],
-          ["Jimbo"]
+        [
+          "Eli M.",
+          "Richie O.",
+          "Dean L."
         ],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 120,
-            "course_rating": 70.2,
-            "yardage": 6400
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 122,
-            "course_rating": 74.2,
-            "yardage": 5800
-          }
+        [
+          "Michael H.",
+          "Brian C.",
+          "Isaac K."
+        ],
+        [
+          "Alex H.",
+          "Johnny S.",
+          "Tommy (G)",
+          "Nathan (G)"
+        ]
+      ],
+      "tees": {
+        "M": {
+          "tee_box": "Blue",
+          "slope_rating": 123,
+          "course_rating": 69.4,
+          "yardage": 6402
         },
-        "par": 72,
-        "winnings": "$100"
+        "W": {
+          "tee_box": "White",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
       },
-      {
-        "venue": "Maplewood",
-        "event_name": "Maplewood",
-        "slug": "2025-07-12-maplewood",
-        "date": "2025-07-12",
-        "course": "Maplewood",
-        "entry_fee": 25,
-        "description": "A tree-lined course offering a fair but challenging test for all skill levels.",
-        "registered_players": [],
-        "tee_times": [],
-        "tee_groups": [],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 118,
-            "course_rating": 69.5,
-            "yardage": 6300
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 120,
-            "course_rating": 73.0,
-            "yardage": 5700
-          }
+      "par": [
+        5,
+        4,
+        3,
+        5,
+        4,
+        3,
+        4,
+        4,
+        5,
+        4,
+        3,
+        5,
+        3,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "tee_times": [
+        "1899-12-30T19:39:00.000Z",
+        "1899-12-30T19:48:00.000Z",
+        "1899-12-30T19:56:00.000Z",
+        "1899-12-30T08:05:00.000Z"
+      ]
+    },
+    {
+      "name": "Maplewood",
+      "event_name": "Maplewood",
+      "slug": "maplewood",
+      "date": "07-12-2025",
+      "course": "Maplewood",
+      "entry_fee": 25,
+      "winnings": 233,
+      "description": "Event held at Maplewood.",
+      "registered_players": [
+        "Alex H.",
+        "Andrew K.",
+        "Brian C.",
+        "David H.",
+        "Dean L.",
+        "Eli M.",
+        "Isaac K.",
+        "James K.",
+        "Johnny S.",
+        "Michael H.",
+        "Philip K.",
+        "Richie O.",
+        "Sejin H.",
+        "Kyle B."
+      ],
+      "tee_groups": [
+        [
+          "Alex H.",
+          "Johnny S.",
+          "Richie O."
+        ],
+        [
+          "James K.",
+          "Brian C.",
+          "David H."
+        ],
+        [
+          "Andrew K.",
+          "Kyle B.",
+          "Eli M."
+        ]
+      ],
+      "tees": {
+        "M": {
+          "tee_box": "Blue",
+          "slope_rating": 124,
+          "course_rating": 69.1,
+          "yardage": 6042
         },
-        "par": 72,
-        "winnings": "$100"
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
       },
-      {
-        "venue": "Willows",
-        "event_name": "Willows",
-        "slug": "2025-07-20-willows",
-        "date": "2025-07-20",
-        "course": "Willows",
-        "entry_fee": 25,
-        "description": "Known for its fast greens and demanding approach shots.",
-        "registered_players": [],
-        "tee_groups": [],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 122,
-            "course_rating": 71.1,
-            "yardage": 6500
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 125,
-            "course_rating": 74.5,
-            "yardage": 5900
-          }
+      "par": [
+        4,
+        3,
+        4,
+        4,
+        5,
+        3,
+        5,
+        4,
+        4,
+        5,
+        4,
+        3,
+        4,
+        3,
+        5,
+        4,
+        4,
+        4
+      ],
+      "tee_times": [
+        "1899-12-30T19:06:00.000Z",
+        "1899-12-30T19:15:00.000Z",
+        "1899-12-30T19:24:00.000Z"
+      ]
+    },
+    {
+      "name": "Willows",
+      "event_name": "Willows",
+      "slug": "willows",
+      "date": "07-20-2025",
+      "course": "Willows - Eagle",
+      "entry_fee": 25,
+      "winnings": 233,
+      "description": "Event held at Willows - Eagle.",
+      "registered_players": [],
+      "tee_groups": [],
+      "tees": {
+        "M": {
+          "tee_box": "Blue",
+          "slope_rating": 125,
+          "course_rating": 71.8,
+          "yardage": 6678
         },
-        "par": 72,
-        "winnings": "$100"
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
       },
-      {
-        "venue": "Echo Falls",
-        "event_name": "Echo Falls",
-        "slug": "2025-08-02-echo-falls",
-        "date": "2025-08-02",
-        "course": "Echo Falls",
-        "entry_fee": 25,
-        "description": "Scenic layout featuring an island green and wooded terrain.",
-        "registered_players": [],
-        "tee_times": [],
-        "tee_groups": [],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 119,
-            "course_rating": 70.0,
-            "yardage": 6400
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 122,
-            "course_rating": 73.8,
-            "yardage": 5750
-          }
+      "par": [
+        4,
+        5,
+        4,
+        4,
+        4,
+        4,
+        3,
+        4,
+        3,
+        5,
+        5,
+        4,
+        4,
+        3,
+        4,
+        4,
+        3,
+        5
+      ]
+    },
+    {
+      "name": "Echo Falls",
+      "event_name": "Echo Falls",
+      "slug": "echo-falls",
+      "date": "08-02-2025",
+      "course": "Echo Falls",
+      "entry_fee": 25,
+      "winnings": 233,
+      "description": "Event held at Echo Falls.",
+      "registered_players": [
+        "Alex H.",
+        "Andrew K.",
+        "Brian C.",
+        "David H.",
+        "Dean L.",
+        "Eli M.",
+        "Isaac K.",
+        "James K.",
+        "Johnny S.",
+        "Michael H.",
+        "Philip K.",
+        "Richie O.",
+        "Sejin H.",
+        "Kyle B."
+      ],
+      "tee_groups": [
+        [
+          "James K.",
+          "Dean L.",
+          "Kyle B."
+        ]
+      ],
+      "tees": {
+        "M": {
+          "tee_box": "Blue",
+          "slope_rating": 128,
+          "course_rating": 68.6,
+          "yardage": 5952
         },
-        "par": 72,
-        "winnings": "$100"
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
       },
-      {
-        "venue": "Mount Si",
-        "event_name": "Mt Si",
-        "slug": "2025-08-16-mt-si",
-        "date": "2025-08-16",
-        "course": "Mt Si",
-        "entry_fee": 25,
-        "description": "Flat fairways and challenging bunkers with a mountain backdrop.",
-        "registered_players": [],
-        "tee_times": [],
-        "tee_groups": [],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 117,
-            "course_rating": 69.9,
-            "yardage": 6250
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 120,
-            "course_rating": 73.1,
-            "yardage": 5600
-          }
+      "par": [
+        4,
+        4,
+        4,
+        5,
+        3,
+        5,
+        3,
+        4,
+        4,
+        3,
+        4,
+        5,
+        3,
+        3,
+        5,
+        4,
+        4,
+        3
+      ],
+      "tee_times": [
+        "1899-12-30T19:50:00.000Z"
+      ]
+    },
+    {
+      "name": "Mt Si",
+      "event_name": "Mt Si",
+      "slug": "mt-si",
+      "date": "08-16-2025",
+      "course": "Mt Si",
+      "entry_fee": 25,
+      "winnings": 233,
+      "description": "Event held at Mt Si.",
+      "registered_players": [
+        "Alex H.",
+        "Andrew K.",
+        "Brian C.",
+        "David H.",
+        "Dean L.",
+        "Eli M.",
+        "Isaac K.",
+        "James K.",
+        "Johnny S.",
+        "Michael H.",
+        "Philip K.",
+        "Richie O.",
+        "Sejin H.",
+        "Kyle B."
+      ],
+      "tee_groups": [
+        [
+          "Dean L.",
+          "Johnny S.",
+          "Kyle B."
+        ],
+        [
+          "Richie O.",
+          "David H.",
+          "Sejin H."
+        ],
+        [
+          "Isaac K.",
+          "Alex H.",
+          "Andrew K."
+        ]
+      ],
+      "tees": {
+        "M": {
+          "tee_box": "Blue",
+          "slope_rating": 120,
+          "course_rating": 69.3,
+          "yardage": 6419
         },
-        "par": 72,
-        "winnings": "$100"
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
       },
-      {
-        "venue": "Auburn",
-        "event_name": "Auburn",
-        "slug": "2025-08-31-Auburn",
-        "date": "2025-08-31",
-        "course": "Auburn",
-        "entry_fee": 25,
-        "description": "Hilly terrain with demanding elevation changes and long par 4s.",
-        "registered_players": [],
-        "tee_groups": [],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 121,
-            "course_rating": 70.8,
-            "yardage": 6450
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 124,
-            "course_rating": 74.0,
-            "yardage": 5800
-          }
-        },
-        "par": 72,
-        "winnings": "$100"
-      },
-      {
-        "venue": "Riverbend",
-        "event_name": "Riverbend",
-        "slug": "2025-08-24-Riverbend",
-        "date": "2025-08-24",
-        "course": "Riverbend",
-        "entry_fee": 25,
-        "description": "Hilly terrain with demanding elevation changes and long par 4s.",
-        "registered_players": [],
-        "tee_groups": [],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 121,
-            "course_rating": 70.8,
-            "yardage": 6450
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 124,
-            "course_rating": 74.0,
-            "yardage": 5800
-          }
-        },
-        "par": 72,
-        "winnings": "$100"
-      },
-      {
-        "venue": "Jackson",
-        "event_name": "Jackson",
-        "slug": "2025-09-06-jackson",
-        "date": "2025-09-06",
-        "course": "Jackson",
-        "entry_fee": 25,
-        "description": "Hilly terrain with demanding elevation changes and long par 4s.",
-        "registered_players": [],
-        "tee_groups": [],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 121,
-            "course_rating": 70.8,
-            "yardage": 6450
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 124,
-            "course_rating": 74.0,
-            "yardage": 5800
-          }
-        },
-        "par": 72,
-        "winnings": "$100"
-      },
-      {
-        "venue": "Home Course",
-        "event_name": "Home Course",
-        "slug": "2025-09-14-home-course",
-        "date": "2025-09-14",
-        "course": "Home Course",
-        "entry_fee": 35,
-        "description": "Championship-level course with wide fairways and true greens.",
-        "registered_players": [],
-        "tee_times": [],
-        "tee_groups": [],
-        "tees": {
-          "M": {
-            "tee_box": "Blue",
-            "slope_rating": 123,
-            "course_rating": 71.5,
-            "yardage": 6600
-          },
-          "W": {
-            "tee_box": "Red",
-            "slope_rating": 126,
-            "course_rating": 75.0,
-            "yardage": 6000
-          }
-        },
-        "par": 72,
-        "winnings": "$200"
-      }
-    ]
-  }
-  
+      "par": [
+        4,
+        5,
+        4,
+        3,
+        4,
+        4,
+        5,
+        3,
+        4,
+        4,
+        3,
+        5,
+        4,
+        4,
+        4,
+        5,
+        3,
+        4
+      ],
+      "tee_times": [
+        "1899-12-30T17:00:00.000Z",
+        "1899-12-30T17:07:00.000Z",
+        "1899-12-30T17:15:00.000Z"
+      ]
+    },
+    {
+      "name": "",
+      "event_name": "",
+      "slug": "",
+      "date": "",
+      "course": "",
+      "entry_fee": "",
+      "winnings": "",
+      "description": "",
+      "registered_players": [],
+      "tee_groups": [],
+      "tees": {},
+      "par": []
+    }
+  ]
+}
