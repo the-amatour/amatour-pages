@@ -4,7 +4,7 @@
     <a href="/about" class="text-2xl font-bold text-indigo-600">The Amatour</a>
 
     <!-- Menu Toggle (Always Visible) -->
-    <button id="menu-toggle" class="focus:outline-none">
+    <button id="menu-toggle" class="relative z-50 focus:outline-none">
       <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
         viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 6h16M4 12h16M4 18h16"></path>
@@ -12,9 +12,12 @@
     </button>
   </div>
 
-  <!-- Unified Dropdown Menu (visible on all screen sizes when toggled) -->
-  <div id="mobile-menu" class="hidden px-4 pb-4">
-    <nav class="flex flex-col space-y-2 text-sm font-medium text-gray-700">
+  <!-- Unified Dropdown Menu (Top-right Panel) -->
+  <div
+    id="mobile-menu"
+    class="hidden absolute right-4 top-16 w-60 bg-white border border-gray-200 rounded-lg shadow-lg px-4 py-4 space-y-2 text-sm font-medium text-gray-700 z-40"
+  >
+    <nav class="flex flex-col space-y-2">
       <a href="/amatour-pages/about.html" class="hover:text-indigo-600 transition">About</a>
       <a href="/amatour-pages/schedule.html" class="hover:text-indigo-600 transition">Schedule</a>
       <a href="/amatour-pages/leaderboard" class="hover:text-indigo-600 transition">Leaderboard</a>
@@ -25,8 +28,17 @@
 </header>
 
 <script>
-  document.getElementById("menu-toggle").addEventListener("click", () => {
-    const menu = document.getElementById("mobile-menu");
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  toggle.addEventListener("click", () => {
     menu.classList.toggle("hidden");
+  });
+
+  // Optional: Click outside to close
+  document.addEventListener("click", (e) => {
+    if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+      menu.classList.add("hidden");
+    }
   });
 </script>
