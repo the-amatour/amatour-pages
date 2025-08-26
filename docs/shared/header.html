@@ -28,17 +28,22 @@
 </header>
 
 <script>
-  const toggle = document.getElementById("menu-toggle");
+  const toggleButton = document.getElementById("menu-toggle");
   const menu = document.getElementById("mobile-menu");
 
-  toggle.addEventListener("click", () => {
+  toggleButton.addEventListener("click", (e) => {
+    e.stopPropagation(); // Prevent the click from bubbling up
     menu.classList.toggle("hidden");
   });
 
-  // Optional: Click outside to close
+  // Close menu if clicking outside of it
   document.addEventListener("click", (e) => {
-    if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+    const isClickInsideMenu = menu.contains(e.target);
+    const isClickOnButton = toggleButton.contains(e.target);
+
+    if (!isClickInsideMenu && !isClickOnButton) {
       menu.classList.add("hidden");
     }
   });
 </script>
+
