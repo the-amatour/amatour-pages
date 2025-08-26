@@ -1,40 +1,32 @@
 <!-- header.html -->
 <header class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/index.html" class="text-2xl font-bold text-indigo-600">The Amatour</a>
-  
-      <!-- Desktop Menu -->
-      <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-700">
-        <a href="/amatour-pages/about" class="hover:text-indigo-600 transition">About</a>
-        <a href="/amatour-pages/schedule" class="hover:text-indigo-600 transition">Schedule</a>
-        <a href="/amatour-pages/leaderboard" class="hover:text-indigo-600 transition">Leaderboard</a>
-        <a href="/amatour-pages/register" class="hover:text-indigo-600 transition">Register</a>
-      </nav>
-  
-      <!-- Mobile Menu Toggle -->
-      <button id="menu-toggle" class="md:hidden focus:outline-none">
-        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
-          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-    </div>
-  
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
-      <nav class="flex flex-col space-y-2 text-sm font-medium text-gray-700">
-        <a href="/amatour-pages/about.html" class="hover:text-indigo-600 transition">About</a>
-        <a href="/amatour-pages/schedule.html" class="hover:text-indigo-600 transition">Schedule</a>
-        <a href="/amatour-pages/leaderboard" class="hover:text-indigo-600 transition">Leaderboard</a>
-        <a href="/amatour-pages/register.html" class="hover:text-indigo-600 transition">Register</a>
-      </nav>
-    </div>
-  </header>
-  
-  <script>
-    document.getElementById("menu-toggle").addEventListener("click", () => {
-      const menu = document.getElementById("mobile-menu");
-      menu.classList.toggle("hidden");
-    });
-  </script>
-  
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="/about" class="text-2xl font-bold text-indigo-600">The Amatour</a>
+
+    <!-- Menu Toggle (Always Visible) -->
+    <button id="menu-toggle" class="focus:outline-none">
+      <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+        viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Unified Dropdown Menu (visible on all screen sizes when toggled) -->
+  <div id="mobile-menu" class="hidden px-4 pb-4">
+    <nav class="flex flex-col space-y-2 text-sm font-medium text-gray-700">
+      <a href="/amatour-pages/about.html" class="hover:text-indigo-600 transition">About</a>
+      <a href="/amatour-pages/schedule.html" class="hover:text-indigo-600 transition">Schedule</a>
+      <a href="/amatour-pages/leaderboard" class="hover:text-indigo-600 transition">Leaderboard</a>
+      <a href="/amatour-pages/rules-and-regulations" class="hover:text-indigo-600 transition">Rules and Regulations</a>
+      <a href="/amatour-pages/register.html" class="hover:text-indigo-600 transition">Register</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.getElementById("menu-toggle").addEventListener("click", () => {
+    const menu = document.getElementById("mobile-menu");
+    menu.classList.toggle("hidden");
+  });
+</script>
