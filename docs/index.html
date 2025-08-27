@@ -99,32 +99,60 @@
 
     <!-- Script for dropdown -->
     <script>
-      const slides = document.getElementById("carousel-slides");
-      const prev = document.getElementById("prev-slide");
-      const next = document.getElementById("next-slide");
-
+      const carousel = document.getElementById("carousel-slides");
+      const prevBtn = document.getElementById("prev-slide");
+      const nextBtn = document.getElementById("next-slide");
+      const totalSlides = carousel.children.length;
       let currentIndex = 0;
-      const totalSlides = slides.children.length;
+
+      let startX = 0;
+      let isSwiping = false;
 
       function updateCarousel() {
-        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
       }
 
-      next.addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateCarousel();
-      });
-
-      prev.addEventListener("click", () => {
+      function goToPrevSlide() {
         currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
         updateCarousel();
-      });
+      }
 
-      // Optional: Auto-slide every 8 seconds
-      setInterval(() => {
+      function goToNextSlide() {
         currentIndex = (currentIndex + 1) % totalSlides;
         updateCarousel();
-      }, 8000);
+      }
+
+      prevBtn.addEventListener("click", goToPrevSlide);
+      nextBtn.addEventListener("click", goToNextSlide);
+
+      // Swipe gesture handlers
+      carousel.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+      });
+
+      carousel.addEventListener("touchmove", (e) => {
+        if (!isSwiping) return;
+        const currentX = e.touches[0].clientX;
+        const diff = currentX - startX;
+
+        // Optional: if you want live dragging visual, you could apply transform here.
+      });
+
+      carousel.addEventListener("touchend", (e) => {
+        if (!isSwiping) return;
+        const endX = e.changedTouches[0].clientX;
+        const deltaX = endX - startX;
+        const swipeThreshold = 50; // minimum px swipe to trigger
+
+        if (deltaX > swipeThreshold) {
+          goToPrevSlide();
+        } else if (deltaX < -swipeThreshold) {
+          goToNextSlide();
+        }
+
+        isSwiping = false;
+      });
 
       async function loadPartial(id, file) {
         const res = await fetch(file);
