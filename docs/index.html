@@ -29,6 +29,36 @@
       </a>
     </section>
 
+    <div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg shadow-md">
+      <!-- Left navigation buttons -->
+      <button id="prev-slide" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-100">
+        ◀
+      </button>
+      <div id="carousel-slides" class="flex transition-transform duration-700 ease-in-out">
+        <!-- Slide 1 -->
+        <div class="min-w-full bg-white p-6">
+          <h2 class="text-xl font-semibold mb-2">🏆 Maplewood Results Posted</h2>
+          <p class="text-gray-700">Check the leaderboard to see how you stacked up at Maplewood!</p>
+        </div>
+        <!-- Slide 2 -->
+        <div class="min-w-full bg-white p-6">
+          <h2 class="text-xl font-semibold mb-2">📅 New Event Announced</h2>
+          <p class="text-gray-700">Registration is open for the next stop on The Amatour tour. Don’t miss it!</p>
+        </div>
+        <!-- Slide 3 -->
+        <div class="min-w-full bg-white p-6">
+          <h2 class="text-xl font-semibold mb-2">🎁 Purchase Points Updated</h2>
+          <p class="text-gray-700">Redeem your points or check your raffle entries now on the leaderboard page.</p>
+        </div>
+      </div>
+      <!-- Right navigation buttons -->
+      <button id="next-slide" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-100">
+        ▶
+      </button>
+    </div>
+    
+
+
     <!-- About Section -->
     <section id="about" class="py-20 px-6 bg-gray-50">
       <div class="max-w-4xl mx-auto text-center">
@@ -69,6 +99,33 @@
 
     <!-- Script for dropdown -->
     <script>
+      const slides = document.getElementById("carousel-slides");
+      const prev = document.getElementById("prev-slide");
+      const next = document.getElementById("next-slide");
+
+      let currentIndex = 0;
+      const totalSlides = slides.children.length;
+
+      function updateCarousel() {
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      next.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateCarousel();
+      });
+
+      prev.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+      });
+
+      // Optional: Auto-slide every 8 seconds
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateCarousel();
+      }, 8000);
+
       async function loadPartial(id, file) {
         const res = await fetch(file);
         const html = await res.text();
