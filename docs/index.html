@@ -13,47 +13,7 @@
 
   <body class="bg-white text-gray-800 font-sans antialiased">
     <!-- Navigation -->
-    <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center fixed w-full top-0 z-50">
-<!--       <a href="#" class="flex items-center space-x-2">
-        <img src="assets/images/amatour-logo.png" alt="The Amatour Logo" class="h-10 w-auto" />
-      </a> -->
-      <a href="#" class="text-xl font-bold text-gray-800">The Amatour</a>
-
-      
-      <div class="relative inline-block text-left">
-        <button
-          type="button"
-          class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
-          id="menu-button"
-          aria-expanded="true"
-          aria-haspopup="true"
-        >
-          Pages
-          <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-
-        <!-- Dropdown menu -->
-        <div
-          class="origin-top-right absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="menu-button"
-          tabindex="-1"
-          id="dropdown-menu"
-        >
-          <div class="py-1" role="none">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">Leaderboard</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">Events</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">Rules</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">Join</a>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <header id="header"></header>
 
     <!-- Spacer so content is not hidden by navbar -->
     <div class="h-20"></div>
@@ -108,24 +68,36 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-6 text-center text-sm text-gray-400">
-      2025 The Amatour. All rights reserved.
-    </footer>
+    <footer id="footer"></footer>
 
     <!-- Script for dropdown -->
     <script>
-      const button = document.getElementById('menu-button');
-      const menu = document.getElementById('dropdown-menu');
+      async function loadPartial(id, file) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
 
-      button.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-      });
+        // Attach menu toggle behavior *after* header is injected
+        // Re-run script after loading header
+        if (id === "header") {
+          const toggleButton = document.getElementById("menu-toggle");
+          const menu = document.getElementById("mobile-menu");
 
-      document.addEventListener('click', (event) => {
-        if (!button.contains(event.target) && !menu.contains(event.target)) {
-          menu.classList.add('hidden');
+          toggleButton?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            menu?.classList.toggle("hidden");
+          });
+
+          document.addEventListener("click", (e) => {
+            if (!menu?.contains(e.target) && !toggleButton?.contains(e.target)) {
+              menu?.classList.add("hidden");
+            }
+          });
         }
-      });
+      }
+
+      loadPartial("header", "./shared/header.html");
+      loadPartial("footer", "./shared/footer.html");
     </script>
   </body>
 </html>
