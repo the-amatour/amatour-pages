@@ -136,14 +136,14 @@
 
           for (let j = 0; j < holesPerGroup && (i + j) < totalHoles; j++) {
             const holeIndex = i + j;
-            holeGroup.push(`<th class="px-3 py-2 border text-center text-xs font-semibold bg-gray-50">${holeIndex + 1}</th>`);
-            scoreGroup.push(`<td class="px-3 py-2 border text-center">
-              <span class="inline-block w-7 h-7 leading-7 text-sm ${getScoreClass(event.holes[holeIndex], event.par[holeIndex])}">${event.holes[holeIndex]}</span>
+            holeGroup.push(`<th class="${isMobile ? 'px-1' : 'px-3'} py-2 border text-center text-xs font-semibold bg-gray-50">${holeIndex + 1}</th>`);
+            scoreGroup.push(`<td class="${isMobile ? 'px-1' : 'px-3'} py-2 border text-center">
+              <span class="${isMobile ? 'inline-block w-6 h-6 leading-6 text-xs' : 'inline-block w-7 h-7 leading-7 text-sm'} ${getScoreClass(event.holes[holeIndex], event.par[holeIndex])}">${event.holes[holeIndex]}</span>
             </td>`);
           }
 
           tablesHTML += `
-            <div class="overflow-x-auto mb-4">
+            <div class="${isMobile ? '' : 'overflow-x-auto'} mb-4">
               <table class="min-w-full text-sm text-left border-collapse">
                 <thead>
                   <tr>${holeGroup.join("")}</tr>
@@ -176,21 +176,34 @@
         container.innerHTML += eventHtml;
       });
     }
+    // We only need to re-render if the screen crosses the breakpoint
+    let currentBreakpoint = window.innerWidth >= 768 ? 'desktop' : 'mobile';
 
-    // You will also want to call renderEvents again on window resize
     window.addEventListener('resize', () => {
-        // Clear old events
-        document.getElementById("eventStats").innerHTML = ""; 
+        const newBreakpoint = window.innerWidth >= 768 ? 'desktop' : 'mobile';
         
-        // Re-render based on new window size
-        fetch("./statistics/individual.json")
-          .then(res => res.json())
-          .then(data => {
-            const player = data.find(p => p.slug === slug);
-            if (player) {
-              renderEvents(player.events);
+        // Check if the breakpoint has changed
+        if (newBreakpoint !== currentBreakpoint) {
+            currentBreakpoint = newBreakpoint;
+
+            // Clear old events
+            const eventStatsContainer = document.getElementById("eventStats");
+            if (eventStatsContainer) {
+              eventStatsContainer.innerHTML = "";
             }
-          });
+            
+            // Re-render based on new window size
+            fetch("./statistics/individual.json")
+              .then(res => res.json())
+              .then(data => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const slug = urlParams.get("player");
+                const player = data.find(p => p.slug === slug);
+                if (player) {
+                  renderEvents(player.events);
+                }
+              });
+        }
     });
 
     function renderSeasonStats(player) {
