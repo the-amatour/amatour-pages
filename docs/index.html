@@ -103,6 +103,9 @@
       const totalSlides = slides.length;
       let currentIndex = 0;
 
+      let startX = 0;
+      let isSwiping = false;
+
       // This function moves the carousel to the correct slide
       function updateCarousel() {
         carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
