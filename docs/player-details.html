@@ -57,6 +57,65 @@
       return "";
     }
 
+    // function renderEvents(events) {
+    //   const container = document.getElementById("eventStats");
+    //   if (!events || events.length === 0) {
+    //     container.innerHTML = "<p>No event data available.</p>";
+    //     return;
+    //   }
+
+    //   events.forEach(event => {
+    //     const scoreRow1 = [], scoreRow2 = [], holeRow1 = [], holeRow2 = [];
+
+    //     for (let i = 0; i < 9; i++) {
+    //       holeRow1.push(`<th class="px-3 py-2 border text-center text-xs font-semibold bg-gray-50">${i + 1}</th>`);
+    //       scoreRow1.push(`<td class="px-3 py-2 border text-center">
+    //         <span class="inline-block w-7 h-7 leading-7 text-sm ${getScoreClass(event.holes[i], event.par[i])}">${event.holes[i]}</span>
+    //       </td>`);
+    //     }
+
+    //     for (let i = 9; i < 18; i++) {
+    //       holeRow2.push(`<th class="px-3 py-2 border text-center text-xs font-semibold bg-gray-50">${i + 1}</th>`);
+    //       scoreRow2.push(`<td class="px-3 py-2 border text-center">
+    //         <span class="inline-block w-7 h-7 leading-7 text-sm ${getScoreClass(event.holes[i], event.par[i])}">${event.holes[i]}</span>
+    //       </td>`);
+    //     }
+
+    //     const toPar = event.holes.reduce((sum, score, i) => sum + (score - event.par[i]), 0);
+
+    //     const table = `
+    //       <section class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+    //         <header class="mb-4">
+    //           <h2 class="text-2xl font-semibold text-indigo-700">${event.event_name}</h2>
+    //           <p class="text-sm text-gray-500">${event.date} at ${event.course}</p>
+    //         </header>
+    //         <div class="overflow-x-auto">
+    //           <table class="min-w-full text-sm text-left border-collapse">
+    //             <thead>
+    //               <tr>${holeRow1.join("")}</tr>
+    //             </thead>
+    //             <tbody>
+    //               <tr>${scoreRow1.join("")}</tr>
+    //             </tbody>
+    //             <thead>
+    //               <tr>${holeRow2.join("")}</tr>
+    //             </thead>
+    //             <tbody>
+    //               <tr>${scoreRow2.join("")}</tr>
+    //             </tbody>
+    //           </table>
+    //           <div class="mt-4 flex flex-wrap gap-6 text-sm text-gray-700 border-t pt-4">
+    //             <div><strong>Gross:</strong> ${event.gross}</div>
+    //             <div><strong>Net:</strong> ${roundToNearestTenth(event.net)}</div>
+    //             <div><strong>To Par:</strong> ${toPar >= 0 ? "+" + toPar : toPar}</div>
+    //           </div>
+    //         </div>
+    //       </section>
+    //     `;
+
+    //     container.innerHTML += table;
+    //   });
+    // }
     function renderEvents(events) {
       const container = document.getElementById("eventStats");
       if (!events || events.length === 0) {
@@ -64,58 +123,75 @@
         return;
       }
 
+      const isMobile = window.innerWidth < 768;
+      const holesPerGroup = isMobile ? 6 : 9;
+
       events.forEach(event => {
-        const scoreRow1 = [], scoreRow2 = [], holeRow1 = [], holeRow2 = [];
+        let tablesHTML = '';
+        const totalHoles = event.holes.length;
 
-        for (let i = 0; i < 9; i++) {
-          holeRow1.push(`<th class="px-3 py-2 border text-center text-xs font-semibold bg-gray-50">${i + 1}</th>`);
-          scoreRow1.push(`<td class="px-3 py-2 border text-center">
-            <span class="inline-block w-7 h-7 leading-7 text-sm ${getScoreClass(event.holes[i], event.par[i])}">${event.holes[i]}</span>
-          </td>`);
-        }
+        for (let i = 0; i < totalHoles; i += holesPerGroup) {
+          const holeGroup = [];
+          const scoreGroup = [];
 
-        for (let i = 9; i < 18; i++) {
-          holeRow2.push(`<th class="px-3 py-2 border text-center text-xs font-semibold bg-gray-50">${i + 1}</th>`);
-          scoreRow2.push(`<td class="px-3 py-2 border text-center">
-            <span class="inline-block w-7 h-7 leading-7 text-sm ${getScoreClass(event.holes[i], event.par[i])}">${event.holes[i]}</span>
-          </td>`);
+          for (let j = 0; j < holesPerGroup && (i + j) < totalHoles; j++) {
+            const holeIndex = i + j;
+            holeGroup.push(`<th class="px-3 py-2 border text-center text-xs font-semibold bg-gray-50">${holeIndex + 1}</th>`);
+            scoreGroup.push(`<td class="px-3 py-2 border text-center">
+              <span class="inline-block w-7 h-7 leading-7 text-sm ${getScoreClass(event.holes[holeIndex], event.par[holeIndex])}">${event.holes[holeIndex]}</span>
+            </td>`);
+          }
+
+          tablesHTML += `
+            <div class="overflow-x-auto mb-4">
+              <table class="min-w-full text-sm text-left border-collapse">
+                <thead>
+                  <tr>${holeGroup.join("")}</tr>
+                </thead>
+                <tbody>
+                  <tr>${scoreGroup.join("")}</tr>
+                </tbody>
+              </table>
+            </div>
+          `;
         }
 
         const toPar = event.holes.reduce((sum, score, i) => sum + (score - event.par[i]), 0);
 
-        const table = `
+        const eventHtml = `
           <section class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
             <header class="mb-4">
               <h2 class="text-2xl font-semibold text-indigo-700">${event.event_name}</h2>
               <p class="text-sm text-gray-500">${event.date} at ${event.course}</p>
             </header>
-            <div class="overflow-x-auto">
-              <table class="min-w-full text-sm text-left border-collapse">
-                <thead>
-                  <tr>${holeRow1.join("")}</tr>
-                </thead>
-                <tbody>
-                  <tr>${scoreRow1.join("")}</tr>
-                </tbody>
-                <thead>
-                  <tr>${holeRow2.join("")}</tr>
-                </thead>
-                <tbody>
-                  <tr>${scoreRow2.join("")}</tr>
-                </tbody>
-              </table>
-              <div class="mt-4 flex flex-wrap gap-6 text-sm text-gray-700 border-t pt-4">
-                <div><strong>Gross:</strong> ${event.gross}</div>
-                <div><strong>Net:</strong> ${roundToNearestTenth(event.net)}</div>
-                <div><strong>To Par:</strong> ${toPar >= 0 ? "+" + toPar : toPar}</div>
-              </div>
+            ${tablesHTML}
+            <div class="mt-4 flex flex-wrap gap-6 text-sm text-gray-700 border-t pt-4">
+              <div><strong>Gross:</strong> ${event.gross}</div>
+              <div><strong>Net:</strong> ${roundToNearestTenth(event.net)}</div>
+              <div><strong>To Par:</strong> ${toPar >= 0 ? "+" + toPar : toPar}</div>
             </div>
           </section>
         `;
 
-        container.innerHTML += table;
+        container.innerHTML += eventHtml;
       });
     }
+
+    // You will also want to call renderEvents again on window resize
+    window.addEventListener('resize', () => {
+        // Clear old events
+        document.getElementById("eventStats").innerHTML = ""; 
+        
+        // Re-render based on new window size
+        fetch("./statistics/individual.json")
+          .then(res => res.json())
+          .then(data => {
+            const player = data.find(p => p.slug === slug);
+            if (player) {
+              renderEvents(player.events);
+            }
+          });
+    });
 
     function renderSeasonStats(player) {
       const stats = player.season_averages || {};
