@@ -30,33 +30,30 @@
     </section>
 
     <div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg shadow-md">
-      <!-- Left navigation buttons -->
-      <button id="prev-slide" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-100">
-        ◀
+      <button id="prev-slide" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-100 z-10">
+          ◀
       </button>
-      <div id="carousel-slides" class="flex transition-transform duration-700 ease-in-out">
-        <!-- Slide 1 -->
-        <div class="min-w-full bg-white p-6">
-          <h2 class="text-xl font-semibold mb-2">🏆 Maplewood Results Posted</h2>
+
+      <div id="carousel-slides" class="flex transition-transform duration-700 ease-in-out px-8">
+          <div class="min-w-full bg-white p-6">
+            <h2 class="text-xl font-semibold mb-2">🏆 Maplewood Results Posted</h2>
           <p class="text-gray-700">Check the leaderboard to see how you stacked up at Maplewood!</p>
-        </div>
-        <!-- Slide 2 -->
-        <div class="min-w-full bg-white p-6">
-          <h2 class="text-xl font-semibold mb-2">📅 New Event Announced</h2>
+          </div>
+          <div class="min-w-full bg-white p-6">
+            <h2 class="text-xl font-semibold mb-2">📅 New Event Announced</h2>
           <p class="text-gray-700">Registration is open for the next stop on The Amatour tour. Don’t miss it!</p>
-        </div>
-        <!-- Slide 3 -->
-        <div class="min-w-full bg-white p-6">
-          <h2 class="text-xl font-semibold mb-2">🎁 Purchase Points Updated</h2>
+          </div>
+          <div class="min-w-full bg-white p-6">
+            <h2 class="text-xl font-semibold mb-2">🎁 Purchase Points Updated</h2>
           <p class="text-gray-700">Redeem your points or check your raffle entries now on the leaderboard page.</p>
-        </div>
+          </div>
       </div>
-      <!-- Right navigation buttons -->
-      <button id="next-slide" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-100">
-        ▶
+
+      <button id="next-slide" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:bg-gray-100 z-10">
+          ▶
       </button>
     </div>
-    
+
 
 
     <!-- About Section -->
@@ -102,12 +99,11 @@
       const carousel = document.getElementById("carousel-slides");
       const prevBtn = document.getElementById("prev-slide");
       const nextBtn = document.getElementById("next-slide");
-      const totalSlides = carousel.children.length;
+      const slides = carousel.children;
+      const totalSlides = slides.length;
       let currentIndex = 0;
 
-      let startX = 0;
-      let isSwiping = false;
-
+      // This function moves the carousel to the correct slide
       function updateCarousel() {
         carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
       }
