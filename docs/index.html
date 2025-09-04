@@ -7,70 +7,116 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#005f60',
+                        'secondary': '#ece4d6',
+                        'accent': '#f2725e',
+                        'text-color': '#4a4a4a',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Lato', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
 </head>
-<body class="font-body bg-[#ece4d6] text-[#4a4a4a]">
+
+<body class="font-body bg-gray-50 text-gray-800">
 
     <div id="header"></div>
 
-    <section class="bg-[#005f60] text-white py-20 px-6 sm:px-10 md:px-20">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-heading font-extrabold mb-4 leading-tight">
-          Welcome to The Amatour
+    <section class="relative min-h-[60vh] flex items-center justify-center p-6 bg-cover bg-center" style="background-image: url('https://amatour.golf/assets/hero.jpg');">
+      <div class="absolute inset-0 bg-black opacity-30"></div>
+      <div class="z-10 text-center">
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-heading font-bold text-white mb-4">
+          The Amatour
         </h1>
-        <p class="text-lg sm:text-xl md:text-2xl max-w-2xl mx-auto opacity-90">
-          A golf league for everyday legends. Play hard. Compete fair. Win raffles. Earn your spot.
+        <p class="text-lg sm:text-xl md:text-2xl text-white max-w-2xl mx-auto font-light">
+          A golf league for everyday legends.
         </p>
       </div>
     </section>
 
-    <section class="py-16 px-6 sm:px-10 md:px-20 bg-white rounded-xl shadow-lg relative max-w-5xl mx-auto z-10 -mt-16">
-      <h2 class="text-3xl sm:text-4xl font-heading font-bold text-center mb-10 text-[#005f60]">
-          Announcements
-      </h2>
-      <div id="announcement-board" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    <section class="py-16 px-6 sm:px-10 md:px-20">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-heading font-bold text-center mb-12 text-gray-800">
+          Explore The Amatour
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <a href="/leaderboard.html" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <div class="p-6">
+              <span class="text-4xl mb-4 block">🏆</span>
+              <h3 class="text-xl font-semibold mb-1">Leaderboard</h3>
+              <p class="text-gray-500 text-sm">See who's at the top.</p>
+            </div>
+          </a>
+          <a href="/schedule.html" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <div class="p-6">
+              <span class="text-4xl mb-4 block">📅</span>
+              <h3 class="text-xl font-semibold mb-1">Schedule</h3>
+              <p class="text-gray-500 text-sm">View upcoming events.</p>
+            </div>
+          </a>
+          <a href="/register.html" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <div class="p-6">
+              <span class="text-4xl mb-4 block">✍️</span>
+              <h3 class="text-xl font-semibold mb-1">Sign Up</h3>
+              <p class="text-gray-500 text-sm">Become a member.</p>
+            </div>
+          </a>
+          <a href="/about.html" class="block bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <div class="p-6">
+              <span class="text-4xl mb-4 block">ℹ️</span>
+              <h3 class="text-xl font-semibold mb-1">About Us</h3>
+              <p class="text-gray-500 text-sm">Our story and mission.</p>
+            </div>
+          </a>
+        </div>
+      </div>
     </section>
 
-    <section class="py-20 px-6 sm:px-10 md:px-20">
-      <div class="max-w-5xl mx-auto">
-        <h2 class="text-3xl sm:text-4xl font-heading font-bold text-center mb-12 text-[#005f60]">
-          What is The Amatour?
+    <section class="py-20 px-6 sm:px-10 md:px-20 bg-gray-800 text-white text-center">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl sm:text-3xl font-heading font-bold mb-4">
+          Ready to Earn Your Spot?
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="bg-white rounded-xl shadow-lg p-8 text-center">
-            <h3 class="text-xl font-semibold mb-2 text-[#005f60]">
-              ⛳ Mixer Scramble
-            </h3>
-            <p class="text-gray-600">
-              Team play with bonus entry perks—designed as a meet & greet.
-            </p>
-          </div>
-          <div class="bg-white rounded-xl shadow-lg p-8 text-center">
-            <h3 class="text-xl font-semibold mb-2 text-[#005f60]">
-              🏆 Points System
-            </h3>
-            <p class="text-gray-600">
-              Earn points for placements, streaks, and more—a FedEx Cup adaptation.
-            </p>
-          </div>
-          <div class="bg-white rounded-xl shadow-lg p-8 text-center">
-            <h3 class="text-xl font-semibold mb-2 text-[#005f60]">
-              🎟️ Raffle Rewards
-            </h3>
-            <p class="text-gray-600">
-              Participate and win big with raffle entries tied to your engagement.
-            </p>
-          </div>
-        </div>
+        <p class="text-gray-400 mb-8 max-w-2xl mx-auto">
+          Join the league and compete for prizes, points, and glory.
+        </p>
+        <a href="/register.html" class="bg-gray-50 text-gray-800 font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-gray-200 transition">
+          Join Now
+        </a>
       </div>
     </section>
 
     <div id="footer"></div>
 
-    <script src="./functional/header-footer-misc-load.js"></script>
-    <script src="./styles/color-scheme.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Function to load reusable HTML partials (header/footer)
+        async function loadPartial(id, file) {
+          try {
+            const res = await fetch(file);
+            if (!res.ok) throw new Error(`Could not load ${file}: ${res.status}`);
+            const html = await res.text();
+            document.getElementById(id).innerHTML = html;
+          } catch (error) {
+            console.error("Error loading partial:", error);
+          }
+        }
+
+        // Load header and footer when the page loads
+        loadPartial("header", "./shared/header.html");
+        loadPartial("footer", "./shared/footer.html");
+      });
+    </script>
 </body>
 </html>
