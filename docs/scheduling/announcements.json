@@ -1,0 +1,17 @@
+[
+    {
+      "type": "results",
+      "title": "Maplewood Results Posted",
+      "description": "Check the leaderboard to see how you stacked up at Maplewood!"
+    },
+    {
+      "type": "event",
+      "title": "New Event Announced",
+      "description": "Registration is open for the next stop on The Amatour tour. Don’t miss it!"
+    },
+    {
+      "type": "points",
+      "title": "Purchase Points Updated",
+      "description": "Redeem your points or check your raffle entries on the leaderboard page."
+    }
+]

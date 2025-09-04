@@ -84,4 +84,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
     isSwiping = false;
   });
+
+  async function renderAnnouncements() {
+    const announcementsContainer = document.getElementById("announcement-board");
+    if (!announcementsContainer) return;
+
+    try {
+      // Create a placeholder JSON file at ./data/announcements.json
+      const response = await fetch("./data/announcements.json");
+      const announcements = await response.json();
+
+      announcements.forEach(announcement => {
+        const announcementCard = document.createElement("div");
+        announcementCard.className = "bg-[#ece4d6] rounded-xl p-6 transition-all duration-300 transform hover:scale-105";
+
+        const iconMap = {
+          "results": "🏆",
+          "event": "📅",
+          "points": "🎁"
+        };
+        const icon = iconMap[announcement.type] || "📌"; // Default icon
+
+        announcementCard.innerHTML = `
+          <div class="flex items-center space-x-4 mb-4">
+            <span class="text-3xl">${icon}</span>
+            <h3 class="text-lg font-semibold text-[#005f60] font-heading">${announcement.title}</h3>
+          </div>
+          <p class="text-sm">${announcement.description}</p>
+        `;
+        announcementsContainer.appendChild(announcementCard);
+      });
+
+    } catch (error) {
+      console.error("Error fetching or rendering announcements:", error);
+      announcementsContainer.innerHTML = "<p class='text-center text-gray-500'>Announcements coming soon.</p>";
+    }
+  }
+
+  // 🚀 Call the function to render announcements when the page loads
+  renderAnnouncements();
 });
