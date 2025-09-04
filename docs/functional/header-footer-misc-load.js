@@ -28,62 +28,62 @@ document.addEventListener("DOMContentLoaded", () => {
     loadPartial("footer", "./shared/footer.html");
 
     // Carousel
-    const carousel = document.getElementById("carousel-slides");
-  const prevBtn = document.getElementById("prev-slide");
-  const nextBtn = document.getElementById("next-slide");
-  const slides = carousel.children;
-  const totalSlides = slides.length;
-  let currentIndex = 0;
+  //   const carousel = document.getElementById("carousel-slides");
+  // const prevBtn = document.getElementById("prev-slide");
+  // const nextBtn = document.getElementById("next-slide");
+  // const slides = carousel.children;
+  // const totalSlides = slides.length;
+  // let currentIndex = 0;
 
-  let startX = 0;
-  let isSwiping = false;
+  // let startX = 0;
+  // let isSwiping = false;
 
-  // This function moves the carousel to the correct slide
-  function updateCarousel() {
-    carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-  }
+  // // This function moves the carousel to the correct slide
+  // function updateCarousel() {
+  //   carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+  // }
 
-  function goToPrevSlide() {
-    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-    updateCarousel();
-  }
+  // function goToPrevSlide() {
+  //   currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+  //   updateCarousel();
+  // }
 
-  function goToNextSlide() {
-    currentIndex = (currentIndex + 1) % totalSlides;
-    updateCarousel();
-  }
+  // function goToNextSlide() {
+  //   currentIndex = (currentIndex + 1) % totalSlides;
+  //   updateCarousel();
+  // }
 
-  prevBtn.addEventListener("click", goToPrevSlide);
-  nextBtn.addEventListener("click", goToNextSlide);
+  // prevBtn.addEventListener("click", goToPrevSlide);
+  // nextBtn.addEventListener("click", goToNextSlide);
 
-  // Swipe gesture handlers
-  carousel.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    isSwiping = true;
-  });
+  // // Swipe gesture handlers
+  // carousel.addEventListener("touchstart", (e) => {
+  //   startX = e.touches[0].clientX;
+  //   isSwiping = true;
+  // });
 
-  carousel.addEventListener("touchmove", (e) => {
-    if (!isSwiping) return;
-    const currentX = e.touches[0].clientX;
-    const diff = currentX - startX;
+  // carousel.addEventListener("touchmove", (e) => {
+  //   if (!isSwiping) return;
+  //   const currentX = e.touches[0].clientX;
+  //   const diff = currentX - startX;
 
-    // Optional: if you want live dragging visual, you could apply transform here.
-  });
+  //   // Optional: if you want live dragging visual, you could apply transform here.
+  // });
 
-  carousel.addEventListener("touchend", (e) => {
-    if (!isSwiping) return;
-    const endX = e.changedTouches[0].clientX;
-    const deltaX = endX - startX;
-    const swipeThreshold = 50; // minimum px swipe to trigger
+  // carousel.addEventListener("touchend", (e) => {
+  //   if (!isSwiping) return;
+  //   const endX = e.changedTouches[0].clientX;
+  //   const deltaX = endX - startX;
+  //   const swipeThreshold = 50; // minimum px swipe to trigger
 
-    if (deltaX > swipeThreshold) {
-      goToPrevSlide();
-    } else if (deltaX < -swipeThreshold) {
-      goToNextSlide();
-    }
+  //   if (deltaX > swipeThreshold) {
+  //     goToPrevSlide();
+  //   } else if (deltaX < -swipeThreshold) {
+  //     goToNextSlide();
+  //   }
 
-    isSwiping = false;
-  });
+  //   isSwiping = false;
+  // });
 
   async function renderAnnouncements() {
     const announcementsContainer = document.getElementById("announcement-board");
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // Create a placeholder JSON file at ./data/announcements.json
-      const response = await fetch("./data/announcements.json");
+      const response = await fetch("./scheduling/announcements.json");
       const announcements = await response.json();
 
       announcements.forEach(announcement => {
