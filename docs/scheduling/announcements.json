@@ -2,16 +2,19 @@
     {
       "type": "results",
       "title": "Maplewood Results Posted",
-      "description": "Check the leaderboard to see how you stacked up at Maplewood!"
+      "description": "Check the leaderboard to see how you stacked up at Maplewood!",
+      "link" : ""
     },
     {
       "type": "event",
       "title": "New Event Announced",
-      "description": "Registration is open for the next stop on The Amatour tour. Don’t miss it!"
+      "description": "Registration is open for the next stop on The Amatour tour. Don’t miss it!",
+      "link" : ""
     },
     {
       "type": "points",
       "title": "Purchase Points Updated",
-      "description": "Redeem your points or check your raffle entries on the leaderboard page."
+      "description": "Redeem your points or check your raffle entries on the leaderboard page.",
+      "link" : ""
     }
 ]
