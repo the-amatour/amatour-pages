@@ -238,21 +238,68 @@
         ],
         "gross": 84,
         "net": 74.76982300884956
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          7,
+          4,
+          5,
+          4,
+          7,
+          5,
+          4,
+          6,
+          6,
+          5,
+          4,
+          8,
+          5,
+          6,
+          4,
+          4,
+          4,
+          7
+        ],
+        "gross": 95,
+        "net": 85.38194690265486
       }
     ],
     "season_averages": {
-      "gross": 86.8,
-      "net": 76.1,
-      "finale_points": 545,
+      "gross": 88.17,
+      "net": 77.7,
+      "finale_points": 625,
       "purchase_points": 6.5,
       "raffle_totals": 5
     },
     "score_breakdown": {
       "eagle": 0,
       "birdie": 3,
-      "par": 37,
-      "bogey": 31,
-      "double_or_worse": 19
+      "par": 40,
+      "bogey": 38,
+      "double_or_worse": 27
     }
   },
   {
@@ -494,21 +541,68 @@
         ],
         "gross": 84,
         "net": 71.32911504424779
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          6,
+          6,
+          4,
+          5,
+          4,
+          6,
+          4,
+          6,
+          5,
+          4,
+          3,
+          7,
+          4,
+          6,
+          5,
+          6,
+          5,
+          4
+        ],
+        "gross": 90,
+        "net": 76.99858407079645
       }
     ],
     "season_averages": {
-      "gross": 89.6,
-      "net": 75.7,
-      "finale_points": 545,
-      "purchase_points": 25,
+      "gross": 89.67,
+      "net": 75.9,
+      "finale_points": 705,
+      "purchase_points": 48,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
-      "birdie": 4,
-      "par": 26,
-      "bogey": 33,
-      "double_or_worse": 27
+      "birdie": 5,
+      "par": 30,
+      "bogey": 39,
+      "double_or_worse": 34
     }
   },
   {
@@ -750,12 +844,59 @@
         ],
         "gross": 104.7,
         "net": 86.67690265486726
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          8,
+          4,
+          6,
+          7,
+          7,
+          7,
+          4,
+          6,
+          6,
+          5,
+          5,
+          7,
+          6,
+          6,
+          5,
+          5,
+          4,
+          6
+        ],
+        "gross": 104,
+        "net": 84.04389380530972
       }
     ],
     "season_averages": {
-      "gross": 107.75,
-      "net": 87.7,
-      "finale_points": 180,
+      "gross": 107,
+      "net": 87,
+      "finale_points": 270,
       "purchase_points": null,
       "raffle_totals": 3
     },
@@ -763,8 +904,8 @@
       "eagle": 0,
       "birdie": 0,
       "par": 3,
-      "bogey": 27,
-      "double_or_worse": 59
+      "bogey": 33,
+      "double_or_worse": 71
     }
   },
   {
@@ -1006,21 +1147,68 @@
         ],
         "gross": 93,
         "net": 76.50610619469026
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          6,
+          5,
+          4,
+          5,
+          7,
+          6,
+          5,
+          5,
+          6,
+          6,
+          4,
+          6,
+          5,
+          7,
+          5,
+          6,
+          3,
+          6
+        ],
+        "gross": 97,
+        "net": 78.64159292035397
       }
     ],
     "season_averages": {
-      "gross": 97.2,
-      "net": 80.2,
-      "finale_points": 455,
+      "gross": 97.17,
+      "net": 80,
+      "finale_points": 575,
       "purchase_points": 2.5,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
       "birdie": 5,
-      "par": 13,
-      "bogey": 33,
-      "double_or_worse": 39
+      "par": 15,
+      "bogey": 39,
+      "double_or_worse": 49
     }
   },
   {
@@ -1262,21 +1450,68 @@
         ],
         "gross": 81,
         "net": 70.52734513274336
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          7,
+          5,
+          5,
+          8,
+          9,
+          8,
+          4,
+          4,
+          5,
+          5,
+          4,
+          8,
+          5,
+          4,
+          5,
+          8,
+          3,
+          8
+        ],
+        "gross": 105,
+        "net": 93.97221238938053
       }
     ],
     "season_averages": {
-      "gross": 87,
-      "net": 74.7,
-      "finale_points": 620,
+      "gross": 90,
+      "net": 77.9,
+      "finale_points": 660,
       "purchase_points": 50,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
       "birdie": 3,
-      "par": 32,
-      "bogey": 36,
-      "double_or_worse": 19
+      "par": 35,
+      "bogey": 42,
+      "double_or_worse": 28
     }
   },
   {
@@ -1518,21 +1753,68 @@
         ],
         "gross": 83,
         "net": 76.73265486725664
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          6,
+          2,
+          8,
+          5,
+          6,
+          6,
+          3,
+          4,
+          5,
+          4,
+          3,
+          6,
+          4,
+          5,
+          5,
+          3,
+          4,
+          6
+        ],
+        "gross": 85,
+        "net": 77.16761061946903
       }
     ],
     "season_averages": {
-      "gross": 83.4,
-      "net": 75.2,
-      "finale_points": 565,
-      "purchase_points": 43,
+      "gross": 83.67,
+      "net": 75.5,
+      "finale_points": 705,
+      "purchase_points": 66,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
-      "birdie": 5,
-      "par": 40,
-      "bogey": 31,
-      "double_or_worse": 14
+      "birdie": 7,
+      "par": 44,
+      "bogey": 40,
+      "double_or_worse": 17
     }
   },
   {
@@ -1774,21 +2056,68 @@
         ],
         "gross": 101,
         "net": 85.65300884955752
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          10,
+          4,
+          5,
+          4,
+          4,
+          6,
+          4,
+          6,
+          7,
+          4,
+          4,
+          8,
+          6,
+          5,
+          7,
+          5,
+          4,
+          6
+        ],
+        "gross": 99,
+        "net": 82.05132743362832
       }
     ],
     "season_averages": {
-      "gross": 99.6,
+      "gross": 99.5,
       "net": 81.9,
-      "finale_points": 345,
+      "finale_points": 450,
       "purchase_points": null,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
-      "birdie": 2,
-      "par": 15,
-      "bogey": 30,
-      "double_or_worse": 43
+      "birdie": 3,
+      "par": 17,
+      "bogey": 37,
+      "double_or_worse": 51
     }
   },
   {
@@ -2286,21 +2615,68 @@
         ],
         "gross": 99,
         "net": 84.89548672566372
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          7,
+          5,
+          6,
+          6,
+          8,
+          7,
+          4,
+          5,
+          6,
+          8,
+          3,
+          6,
+          5,
+          7,
+          7,
+          8,
+          6,
+          5
+        ],
+        "gross": 109,
+        "net": 92.80318584070795
       }
     ],
     "season_averages": {
-      "gross": 107.25,
-      "net": 92.4,
-      "finale_points": 160,
+      "gross": 107.6,
+      "net": 92.5,
+      "finale_points": 210,
       "purchase_points": null,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
       "birdie": 0,
-      "par": 5,
-      "bogey": 29,
-      "double_or_worse": 55
+      "par": 6,
+      "bogey": 33,
+      "double_or_worse": 68
     }
   },
   {
@@ -2542,21 +2918,68 @@
         ],
         "gross": 103.9,
         "net": 86.7370796460177
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          9,
+          3,
+          4,
+          7,
+          6,
+          5,
+          4,
+          6,
+          5,
+          5,
+          4,
+          7,
+          4,
+          6,
+          5,
+          5,
+          5,
+          5
+        ],
+        "gross": 95,
+        "net": 77.58141592920353
       }
     ],
     "season_averages": {
-      "gross": 96.25,
+      "gross": 96,
       "net": 77.5,
-      "finale_points": 450,
-      "purchase_points": 15,
+      "finale_points": 580,
+      "purchase_points": 20,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
       "birdie": 1,
-      "par": 16,
-      "bogey": 28,
-      "double_or_worse": 44
+      "par": 18,
+      "bogey": 38,
+      "double_or_worse": 50
     }
   },
   {
@@ -3054,21 +3477,68 @@
         ],
         "gross": 89,
         "net": 80.63
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          6,
+          3,
+          4,
+          6,
+          6,
+          5,
+          3,
+          5,
+          8,
+          6,
+          3,
+          6,
+          5,
+          6,
+          4,
+          8,
+          3,
+          5
+        ],
+        "gross": 92,
+        "net": 82.1
       }
     ],
     "season_averages": {
-      "gross": 86.6,
-      "net": 76.8,
-      "finale_points": 495,
-      "purchase_points": 26.5,
+      "gross": 87.5,
+      "net": 77.7,
+      "finale_points": 600,
+      "purchase_points": 31.5,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
       "birdie": 7,
-      "par": 31,
-      "bogey": 35,
-      "double_or_worse": 17
+      "par": 37,
+      "bogey": 41,
+      "double_or_worse": 23
     }
   },
   {
@@ -3310,21 +3780,68 @@
         ],
         "gross": 90,
         "net": 83.54150442477876
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          7,
+          3,
+          5,
+          5,
+          5,
+          6,
+          6,
+          5,
+          4,
+          8,
+          4,
+          5,
+          3,
+          7,
+          6,
+          6,
+          6,
+          5
+        ],
+        "gross": 96,
+        "net": 87.97964601769911
       }
     ],
     "season_averages": {
-      "gross": 88.6,
-      "net": 81.4,
-      "finale_points": 365,
+      "gross": 89.83,
+      "net": 82.5,
+      "finale_points": 435,
       "purchase_points": 20,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 0,
       "birdie": 6,
-      "par": 26,
-      "bogey": 37,
-      "double_or_worse": 21
+      "par": 31,
+      "bogey": 42,
+      "double_or_worse": 29
     }
   },
   {
@@ -3566,21 +4083,130 @@
         ],
         "gross": 79,
         "net": 69.96097345132743
+      },
+      {
+        "event_name": "Jackson",
+        "date": "2025/09/06",
+        "course": "Jackson",
+        "par": [
+          5,
+          3,
+          4,
+          4,
+          5,
+          4,
+          3,
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          4,
+          4,
+          3,
+          4
+        ],
+        "holes": [
+          9,
+          4,
+          5,
+          5,
+          8,
+          6,
+          4,
+          5,
+          5,
+          6,
+          3,
+          7,
+          6,
+          4,
+          7,
+          4,
+          6,
+          6
+        ],
+        "gross": 100,
+        "net": 89.81805309734513
       }
     ],
     "season_averages": {
-      "gross": 89.4,
-      "net": 79.2,
-      "finale_points": 420,
+      "gross": 91.17,
+      "net": 80.9,
+      "finale_points": 480,
       "purchase_points": 30,
       "raffle_totals": 3
     },
     "score_breakdown": {
       "eagle": 1,
       "birdie": 1,
-      "par": 28,
-      "bogey": 38,
-      "double_or_worse": 22
+      "par": 31,
+      "bogey": 44,
+      "double_or_worse": 31
+    }
+  },
+  {
+    "name": "",
+    "slug": "",
+    "ghin": "",
+    "events": [
+      {
+        "event_name": "Home Course",
+        "date": "2025/09/14",
+        "course": "Home Course",
+        "par": [
+          4,
+          4,
+          4,
+          3,
+          5,
+          3,
+          4,
+          5,
+          4,
+          5,
+          4,
+          3,
+          4,
+          3,
+          4,
+          5,
+          4,
+          4
+        ],
+        "holes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "gross": "",
+        "net": ""
+      }
+    ],
+    "season_averages": {},
+    "score_breakdown": {
+      "eagle": 18,
+      "birdie": 0,
+      "par": 0,
+      "bogey": 0,
+      "double_or_worse": 0
     }
   }
 ]
