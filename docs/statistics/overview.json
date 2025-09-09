@@ -2,9 +2,9 @@
   {
     "name": "Alex",
     "slug": "alex",
-    "finale_points": 545,
+    "finale_points": 625,
     "purchase_points": 6.5,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 5
@@ -12,19 +12,19 @@
   {
     "name": "Andrew",
     "slug": "andrew",
-    "finale_points": 545,
-    "purchase_points": 25,
-    "events_played": 5,
-    "net_wins": 1,
+    "finale_points": 705,
+    "purchase_points": 48,
+    "events_played": 6,
+    "net_wins": 2,
     "gross_wins": 0,
     "raffle_count": 3
   },
   {
     "name": "Brian",
     "slug": "brian",
-    "finale_points": 180,
+    "finale_points": 270,
     "purchase_points": 0,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -32,9 +32,9 @@
   {
     "name": "David",
     "slug": "david",
-    "finale_points": 455,
+    "finale_points": 575,
     "purchase_points": 2.5,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -42,9 +42,9 @@
   {
     "name": "Dean",
     "slug": "dean",
-    "finale_points": 620,
+    "finale_points": 660,
     "purchase_points": 50,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -52,19 +52,19 @@
   {
     "name": "Eli",
     "slug": "eli",
-    "finale_points": 565,
-    "purchase_points": 43,
-    "events_played": 5,
+    "finale_points": 705,
+    "purchase_points": 66,
+    "events_played": 6,
     "net_wins": 0,
-    "gross_wins": 2,
+    "gross_wins": 3,
     "raffle_count": 3
   },
   {
     "name": "Isaac",
     "slug": "isaac",
-    "finale_points": 345,
+    "finale_points": 450,
     "purchase_points": 0,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -82,9 +82,9 @@
   {
     "name": "Johnny",
     "slug": "johnny",
-    "finale_points": 160,
+    "finale_points": 210,
     "purchase_points": 0,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -92,9 +92,9 @@
   {
     "name": "Michael",
     "slug": "michael",
-    "finale_points": 450,
-    "purchase_points": 15,
-    "events_played": 5,
+    "finale_points": 580,
+    "purchase_points": 20,
+    "events_played": 6,
     "net_wins": 1,
     "gross_wins": 0,
     "raffle_count": 3
@@ -112,9 +112,9 @@
   {
     "name": "Richie",
     "slug": "richie",
-    "finale_points": 495,
-    "purchase_points": 26.5,
-    "events_played": 5,
+    "finale_points": 600,
+    "purchase_points": 31.5,
+    "events_played": 6,
     "net_wins": 1,
     "gross_wins": 1,
     "raffle_count": 3
@@ -122,9 +122,9 @@
   {
     "name": "Sejin",
     "slug": "sejin",
-    "finale_points": 365,
+    "finale_points": 435,
     "purchase_points": 20,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 0,
     "gross_wins": 1,
     "raffle_count": 3
@@ -132,9 +132,9 @@
   {
     "name": "Kyle",
     "slug": "kyle",
-    "finale_points": 420,
+    "finale_points": 480,
     "purchase_points": 30,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 1,
     "gross_wins": 1,
     "raffle_count": 3
