@@ -404,9 +404,9 @@
       "slug": "jackson",
       "date": "2025/09/06",
       "course": "Jackson",
-      "entry_fee": "25",
-      "winnings": "",
-      "description": "The last regular season event held at Jackson.",
+      "entry_fee": 25,
+      "winnings": 200,
+      "description": "Event held at Jackson.",
       "registered_players": [
         "Alex H.",
         "Andrew K.",
@@ -415,30 +415,29 @@
         "Dean L.",
         "Eli M.",
         "Isaac K.",
-        "James K.",
         "Johnny S.",
         "Michael H.",
-        "Philip K.",
         "Richie O.",
+        "Sejin H.",
         "Kyle B."
       ],
       "tee_groups": [
         [
-          "Alex H.",
           "Brian C.",
-          "James K.",
-          "David H."
+          "Andrew K.",
+          "Richie O."
         ],
         [
           "Eli M.",
           "Johnny S.",
-          "Michael H.",
-          "Isaac K."
+          "Isaac K.",
+          "Michael H."
         ],
         [
-          "Dean L.",
-          "Andrew K.",
-          "Richie O."
+          "Alex H.",
+          "Christian (G)",
+          "David H.",
+          "Sejin H."
         ]
       ],
       "tees": {
@@ -475,7 +474,7 @@
         3,
         4
       ],
-      "net_winner": "",
+      "net_winner": "Andrew",
       "tee_times": [
         "13:00",
         "13:07",
@@ -488,9 +487,9 @@
       "slug": "home-course",
       "date": "2025/09/14",
       "course": "Home Course",
-      "entry_fee": "35",
+      "entry_fee": "",
       "winnings": "",
-      "description": "The FINALE that will be held at Home Course, bring your A game and beat the odds!",
+      "description": "Event held at Home Course.",
       "registered_players": [],
       "tee_groups": [
         [],
