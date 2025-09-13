@@ -131,6 +131,9 @@
         loadPartial("header", "./shared/header.html");
         loadPartial("footer", "./shared/footer.html");
       });
+    fetch('./styles/fonts.html')
+        .then(res => res.text())
+        .then(html => document.head.insertAdjacentHTML('beforeend', html));
     </script>
 </body>
 </html>
