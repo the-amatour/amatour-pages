@@ -3,8 +3,7 @@
   <div class="relative max-w-7x1 mx-auto px-4 py-4 flex items-center justify-between h-full">
 
     <!-- Left Icon / Menu -->
-<!--     <div class="flex items-center space-x-4"> -->
-    <button id="left-icon-toggle" class="focus:outline-none z-50">
+    <button id="menu-toggle" class="focus:outline-none z-50">
       <img src="./resources/nav-expand.svg" alt="Menu" class="w-6 h-6 md:w-8 md:h-8">
     </button>
 
@@ -36,7 +35,7 @@
 </header>
 
 <script>
-  const toggleButton = document.getElementById("left-icon-toggle");
+  const toggleButton = document.getElementById("menu-toggle");
   const menu = document.getElementById("mobile-menu");
 
   toggleButton.addEventListener("click", (e) => {
