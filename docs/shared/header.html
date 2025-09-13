@@ -22,7 +22,7 @@
 
   <!-- Unified Dropdown Menu (Top-right Panel) -->
   <div
-    id="menu-dropdown"
+    id="mobile-menu"
     class="absolute top-full left-0 w-full md:w-64 bg-white shadow-md hidden px-4 py-4 z-40"
   >
     <nav class="flex flex-col space-y-2 text-sm font-medium text-gray-700">
@@ -37,7 +37,7 @@
 
 <script>
   const toggleButton = document.getElementById("left-icon-toggle");
-  const menu = document.getElementById("menu-dropdown");
+  const menu = document.getElementById("mobile-menu");
 
   toggleButton.addEventListener("click", (e) => {
     e.stopPropagation(); // Prevent the click from bubbling up
