@@ -4,7 +4,7 @@
     "slug": "alex",
     "finale_points": 625,
     "purchase_points": 6.5,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 5
@@ -14,9 +14,9 @@
     "slug": "andrew",
     "finale_points": 705,
     "purchase_points": 48,
-    "events_played": 6,
-    "net_wins": 2,
-    "gross_wins": 0,
+    "events_played": 7,
+    "net_wins": 3,
+    "gross_wins": 1,
     "raffle_count": 3
   },
   {
@@ -24,7 +24,7 @@
     "slug": "brian",
     "finale_points": 270,
     "purchase_points": 0,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -34,7 +34,7 @@
     "slug": "david",
     "finale_points": 575,
     "purchase_points": 2.5,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -44,7 +44,7 @@
     "slug": "dean",
     "finale_points": 660,
     "purchase_points": 50,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -54,7 +54,7 @@
     "slug": "eli",
     "finale_points": 705,
     "purchase_points": 66,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 0,
     "gross_wins": 3,
     "raffle_count": 3
@@ -64,7 +64,7 @@
     "slug": "isaac",
     "finale_points": 450,
     "purchase_points": 0,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -84,7 +84,7 @@
     "slug": "johnny",
     "finale_points": 210,
     "purchase_points": 0,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 0,
     "gross_wins": 0,
     "raffle_count": 3
@@ -94,7 +94,7 @@
     "slug": "michael",
     "finale_points": 580,
     "purchase_points": 20,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 1,
     "gross_wins": 0,
     "raffle_count": 3
@@ -104,7 +104,7 @@
     "slug": "philip",
     "finale_points": 595,
     "purchase_points": 41.5,
-    "events_played": 5,
+    "events_played": 6,
     "net_wins": 1,
     "gross_wins": 1,
     "raffle_count": 3
@@ -114,9 +114,9 @@
     "slug": "richie",
     "finale_points": 600,
     "purchase_points": 31.5,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 1,
-    "gross_wins": 1,
+    "gross_wins": 2,
     "raffle_count": 3
   },
   {
@@ -124,7 +124,7 @@
     "slug": "sejin",
     "finale_points": 435,
     "purchase_points": 20,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 0,
     "gross_wins": 1,
     "raffle_count": 3
@@ -134,7 +134,7 @@
     "slug": "kyle",
     "finale_points": 480,
     "purchase_points": 30,
-    "events_played": 6,
+    "events_played": 7,
     "net_wins": 1,
     "gross_wins": 1,
     "raffle_count": 3

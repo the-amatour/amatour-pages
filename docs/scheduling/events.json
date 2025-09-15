@@ -487,8 +487,8 @@
       "slug": "home-course",
       "date": "2025/09/14",
       "course": "Home Course",
-      "entry_fee": "",
-      "winnings": "",
+      "entry_fee": 35,
+      "winnings": 309,
       "description": "Event held at Home Course.",
       "registered_players": [],
       "tee_groups": [
@@ -530,7 +530,7 @@
         4,
         4
       ],
-      "net_winner": "",
+      "net_winner": "Andrew",
       "tee_times": [
         "10:09",
         "10:18",
