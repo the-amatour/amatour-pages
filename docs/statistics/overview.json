@@ -2,141 +2,141 @@
   {
     "name": "Alex",
     "slug": "alex",
-    "finale_points": 625,
-    "purchase_points": 6.5,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 0,
-    "gross_wins": 0,
-    "raffle_count": 5
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Andrew",
     "slug": "andrew",
-    "finale_points": 705,
-    "purchase_points": 48,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 2,
-    "gross_wins": 0,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Brian",
     "slug": "brian",
-    "finale_points": 270,
-    "purchase_points": 0,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 0,
-    "gross_wins": 0,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "David",
     "slug": "david",
-    "finale_points": 575,
-    "purchase_points": 2.5,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 0,
-    "gross_wins": 0,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Dean",
     "slug": "dean",
-    "finale_points": 660,
-    "purchase_points": 50,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 0,
-    "gross_wins": 0,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Eli",
     "slug": "eli",
-    "finale_points": 705,
-    "purchase_points": 66,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 0,
-    "gross_wins": 3,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Isaac",
     "slug": "isaac",
-    "finale_points": 450,
-    "purchase_points": 0,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 0,
-    "gross_wins": 0,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "James",
     "slug": "james",
-    "finale_points": 260,
-    "purchase_points": 0,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 5,
-    "net_wins": 0,
-    "gross_wins": 0,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Johnny",
     "slug": "johnny",
-    "finale_points": 210,
-    "purchase_points": 0,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 0,
-    "gross_wins": 0,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Michael",
     "slug": "michael",
-    "finale_points": 580,
-    "purchase_points": 20,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 1,
-    "gross_wins": 0,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Philip",
     "slug": "philip",
-    "finale_points": 595,
-    "purchase_points": 41.5,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 5,
-    "net_wins": 1,
-    "gross_wins": 1,
-    "raffle_count": 3
+    "net_wins": 5,
+    "gross_wins": 5,
+    "raffle_count": 0
   },
   {
     "name": "Richie",
     "slug": "richie",
-    "finale_points": 600,
-    "purchase_points": 31.5,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 1,
-    "gross_wins": 1,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Sejin",
     "slug": "sejin",
-    "finale_points": 435,
-    "purchase_points": 20,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 0,
-    "gross_wins": 1,
-    "raffle_count": 3
+    "net_wins": 4,
+    "gross_wins": 4,
+    "raffle_count": 0
   },
   {
     "name": "Kyle",
     "slug": "kyle",
-    "finale_points": 480,
-    "purchase_points": 30,
+    "finale_points": "",
+    "purchase_points": "",
     "events_played": 6,
-    "net_wins": 1,
-    "gross_wins": 1,
-    "raffle_count": 3
+    "net_wins": 5,
+    "gross_wins": 5,
+    "raffle_count": 0
   }
 ]
