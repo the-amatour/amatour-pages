@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Top 5 & Next Event | The Amatour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <div id="header"></div>
+
+  <main class="max-w-4xl mx-auto px-6 py-10">
+    <!-- Next event card -->
+    <div class="mx-auto bg-white shadow-md p-3 overflow-hidden w-[440px] h-[88px] sm:w-[520px] sm:h-[96px] md:w-full md:max-w-md md:h-[120px] lg:max-w-2xl lg:h-[140px]">
+        <h3 class="text-lg font-semibold mb-2">Most recent event — Top 3 finishes</h3>
+        <ol id="recent-top3" class="list-decimal pl-5 text-gray-700 overflow-auto max-h-full">
+            <li>Loading...</li>
+        </ol>
+    </div>
+
+    <h1 class="text-3xl font-heading font-bold mb-6">Welcome to the Amatour.</h1>
+    <p class="text-gray-700 mb-8">The golf league for everyday legends.</p>
+
+    <!-- Top 5 leaderboard card -->
+    <section class="mb-10">
+      <h2 class="text-lg font-semibold mb-3">Top 5 leaderboard</h2>
+
+      <div class="bg-white rounded-lg shadow-md border-2 border-blue-300 overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50 text-gray-600 text-left">
+            <tr>
+              <th class="px-6 py-3">Rank</th>
+              <th class="px-6 py-3">Player</th>
+              <th class="px-6 py-3">Finale points</th>
+            </tr>
+          </thead>
+          <tbody id="top5-body" class="bg-white">
+            <!-- rows injected by JS -->
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                <div class="p-4 bg-indigo-900 text-center">
+                  <a href="/leaderboard.html" class="text-white font-semibold inline-block px-6 py-2 rounded">Full leaderboard</a>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- Next event card -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 class="text-lg font-semibold mb-3">Next event</h2>
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div id="event-image" class="h-36 bg-cover bg-center"></div>
+        <div class="p-4">
+          <div id="registration-badge" class="inline-block px-3 py-1 bg-green-500 text-white rounded-full text-sm mb-2 hidden">Registration: Open</div>
+          <h3 id="event-name" class="text-xl font-semibold mb-2">Next Event</h3>
+          <p class="text-gray-700"><strong>Name:</strong> <span id="event-course">—</span></p>
+          <p class="text-gray-700"><strong>Date:</strong> <span id="event-date">—</span></p>
+          <p class="text-gray-700"><strong>Entry fee:</strong> <span id="event-fee">—</span></p>
+        </div>
+        <div class="p-4 bg-indigo-900 text-center">
+          <a href="/schedule.html" class="text-white font-semibold inline-block px-6 py-2 rounded">View full schedule</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    // Utility: format date in human friendly form
+    function formatDate(iso) {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      } catch (e) { return iso; }
+    }
+
+    // Load Top 5 from statistics/overview.json
+    async function loadTop5() {
+      try {
+        const res = await fetch('./statistics/overview.json');
+        const data = await res.json();
+
+        // Sort by finale_points descending
+        const sorted = data.slice().sort((a,b) => (b.finale_points || 0) - (a.finale_points || 0));
+        const top5 = sorted.slice(0,5);
+
+        const tbody = document.getElementById('top5-body');
+        tbody.innerHTML = '';
+        top5.forEach((p, idx) => {
+          const tr = document.createElement('tr');
+          tr.className = 'border-t';
+          tr.innerHTML = `
+            <td class="px-6 py-3 font-semibold">${idx+1}</td>
+            <td class="px-6 py-3 font-medium text-gray-800">${p.name}</td>
+            <td class="px-6 py-3 font-semibold text-right">${p.finale_points ?? 0}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error('Error loading top5', err);
+        document.getElementById('top5-body').innerHTML = '<tr><td colspan="3" class="px-6 py-4">Unable to load leaderboard.</td></tr>';
+      }
+    }
+
+    // Load next event and recent top 3 finishes
+    async function loadNextEventAndResults() {
+      try {
+        const res = await fetch('./scheduling/events.json');
+        const events = await res.json();
+
+        const now = new Date();
+
+        // Parse dates and find next upcoming event (date > today)
+        const withDate = events.map(ev => ({...ev, _date: new Date(ev.date)})).filter(ev => !isNaN(ev._date));
+        let next = withDate.find(ev => ev._date >= now);
+        if (!next) {
+          // fallback to nearest future or last event
+          next = withDate.sort((a,b) => a._date - b._date)[0] || withDate[withDate.length-1];
+        }
+
+        if (next) {
+          document.getElementById('event-image').style.backgroundImage = `url('${next.image || 'https://amatour.golf/assets/course-placeholder.jpg'}')`;
+          document.getElementById('event-name').innerText = next.title || next.course || 'Upcoming Event';
+          document.getElementById('event-course').innerText = next.course || next.title || '—';
+          document.getElementById('event-date').innerText = formatDate(next.date || next.start_date || 'TBD');
+          document.getElementById('event-fee').innerText = next.entry_fee ? ('$' + next.entry_fee) : (next.fee || '—');
+
+          if (next.registration && (next.registration.toLowerCase?.() === 'open' || next.registration === true)) {
+            document.getElementById('registration-badge').classList.remove('hidden');
+          }
+
+          // Attempt to show recent top 3 finishes. We assume event.results is an array of finishers or event.top3
+          const recentEl = document.getElementById('recent-top3');
+          recentEl.innerHTML = '';
+
+          const results = next.results || next.top3 || next.finishers;
+          if (Array.isArray(results) && results.length > 0) {
+            // If results are objects with name property or simple strings
+            const top3 = results.slice(0,3);
+            top3.forEach(r => {
+              const name = (typeof r === 'string') ? r : (r.name || r.player || r.player_name || r.display_name || 'Unknown');
+              const li = document.createElement('li');
+              li.className = 'mb-2';
+              li.innerText = name;
+              recentEl.appendChild(li);
+            });
+          } else {
+            recentEl.innerHTML = '<li>No recent results available.</li>';
+          }
+        } else {
+          // no events
+          document.getElementById('event-name').innerText = 'No upcoming events';
+          document.getElementById('event-course').innerText = '—';
+          document.getElementById('event-date').innerText = '—';
+          document.getElementById('event-fee').innerText = '—';
+          document.getElementById('recent-top3').innerHTML = '<li>No recent results available.</li>';
+        }
+      } catch (err) {
+        console.error('Error loading events', err);
+        document.getElementById('event-name').innerText = 'Unable to load event data.';
+        document.getElementById('recent-top3').innerHTML = '<li>Error loading results.</li>';
+      }
+    }
+
+    async function loadPartials() {
+      // load header/footer partials (same approach other docs use)
+      async function loadPartial(id, file) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
+
+        if (id === 'header') {
+          const toggleButton = document.getElementById('menu-toggle');
+          const menu = document.getElementById('mobile-menu');
+          toggleButton?.addEventListener('click', (e) => { e.stopPropagation(); menu?.classList.toggle('hidden'); });
+          document.addEventListener('click', (e) => { if (!menu?.contains(e.target) && !toggleButton?.contains(e.target)) menu?.classList.add('hidden'); });
+        }
+      }
+
+      await loadPartial('header', './shared/header.html');
+      await loadPartial('footer', './shared/footer.html');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPartials();
+      loadTop5();
+      loadNextEventAndResults();
+    });
+  </script>
+</body>
+</html>
