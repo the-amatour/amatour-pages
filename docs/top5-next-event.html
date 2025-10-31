@@ -165,7 +165,15 @@
       
       if(nextUpcoming) {
         const eventTitle = nextUpcoming.course == nextUpcoming.event_name ? nextUpcoming.event_name : `${nextUpcoming.event_name} - ${nextUpcoming.course}`;
-        document.getElementById('event-image').href = './resources/default-course.png';
+        
+        const imgEl = document.getElementById('event-image');
+        if (imgEl) {
+          const cloudinaryFallback = 'https://res.cloudinary.com/dzjhrzxu5/image/upload/v1761953122/default-course_l4hwjc.png';
+          imgEl.src = (nextUpcoming && nextUpcoming.image) || cloudinaryFallback;
+          imgEl.alt = nextUpcoming?.course || nextUpcoming?.event_name || 'Golf course';
+          imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = './resources/images/default-course.png'; };
+        }
+        
         document.getElementById('upcoming-event-name').innerText = nextUpcoming.event_name;
         document.getElementById('upcoming-event-course').innerText = nextUpcoming.course || '—';
         document.getElementById('upcoming-event-date').innerText = formatDate(nextUpcoming.date) || '—';
