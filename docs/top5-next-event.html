@@ -9,7 +9,7 @@
 <body class="bg-gray-50 text-gray-900">
   <div>
     <div id="header"></div>
-    <div class="mx-auto bg-white shadow-md p-3 overflow-hidden w-[440px] h-[88px] sm:w-[520px] sm:h-[96px] md:w-full md:max-w-md md:h-[120px] lg:max-w-2xl lg:h-[140px]">
+    <div class="py-2 px-2">
       <h3 class="text-lg font-semibold mb-2">EVENT NAME - VENUE</h3>
       <ol id="recent-top3" class="list-decimal list-inside text-gray-700 grid grid-cols-3 lg:grid-cols-5 gap-4 max-h-full overflow-auto">
         <li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden">
@@ -182,7 +182,7 @@
               recentEl.appendChild(li);
             });
           } else {
-            recentEl.innerHTML = '<li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">Richie</div><div class="flex-none text-sm text-right text-gray-500">+9</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">Eli</div><div class="flex-none text-sm text-right text-gray-500">+11</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">1234567890123456</div><div class="flex-none text-sm text-right text-gray-500">+14</div></li>';
+            recentEl.innerHTML = '<li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">TEST</div><div class="flex-none text-sm text-right text-gray-500">+9</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">Eli</div><div class="flex-none text-sm text-right text-gray-500">+11</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">1234567890123456</div><div class="flex-none text-sm text-right text-gray-500">+14</div></li>';
           }
         } else {
           // no events
@@ -195,7 +195,7 @@
       } catch (err) {
         console.error('Error loading events', err);
         document.getElementById('event-name').innerText = 'Unable to load event data.';
-        document.getElementById('recent-top3').innerHTML = '<li>Error loading results.</li>';
+        document.getElementById('recent-top3').innerHTML = '<li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">TEST</div><div class="flex-none text-sm text-right text-gray-500">+9</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">Eli</div><div class="flex-none text-sm text-right text-gray-500">+11</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">1234567890123456</div><div class="flex-none text-sm text-right text-gray-500">+14</div></li>';
       }
     }
 
