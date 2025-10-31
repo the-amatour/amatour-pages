@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Golf League Calendar</title>
+<style>
+:root{
+--bg:#0b0f14; --card:#121821; --muted:#8ea0b6; --acc:#2fd16c;
+--event:#4ea8ff; --teetime:#f9c74f; --danger:#ff6b6b; --text:#e9eef6;
+--grid:#1b2430; --today:#253246;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--grid);position:sticky;top:0;background:var(--bg);z-index:5}
+.title{font-weight:600;letter-spacing:.2px}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+button,select{background:var(--card);color:var(--text);border:1px solid var(--grid);border-radius:10px;padding:10px 12px;font-size:14px;cursor:pointer}
+button:hover{border-color:#334155}
+.pill{padding:8px 10px;border-radius:999px}
+.accent{background:var(--acc);color:#072412;border:none}
+.segmented{display:flex;background:var(--card);border:1px solid var(--grid);border-radius:12px;overflow:hidden}
+.segmented button{border:0;border-right:1px solid var(--grid);padding:10px 14px;background:transparent}
+.segmented button.active{background:var(--acc);color:#062b15}
+main{padding:16px}
+.legend{display:flex;gap:14px;align-items:center;margin:0 0 12px 4px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--grid);border:1px solid var(--grid);border-radius:12px;overflow:hidden}
+.cell{background:var(--card);min-height:120px;padding:8px;display:flex;flex-direction:column;gap:6px}
+.dow{display:grid;grid-template-columns:repeat(7,1fr);margin:0 0 4px 0;color:var(--muted);font-size:12px;padding:0 6px}
+.dow div{padding:6px 10px}
+.daynum{font-size:12px;color:var(--muted)}
+.today .daynum{color:#b4d2ff}
+.chip{display:flex;align-items:center;gap:8px;border-radius:10px;padding:6px 8px;font-size:12px;line-height:1;border:1px solid var(--grid);cursor:pointer}
+.chip.event{background:rgba(78,168,255,.1);border-color:rgba(78,168,255,.3)}
+.chip.teetime{background:rgba(249,199,79,.08);border-color:rgba(249,199,79,.3)}
+.more{color:var(--muted);font-size:12px;cursor:pointer}
+.calendar-head{display:flex;align-items:center;justify-content:space-between;margin:10px 4px 8px}
+.calendar-head h2{margin:0;font-size:18px;font-weight:600}
+.week{display:grid;grid-template-columns:120px repeat(7,1fr);border:1px solid var(--grid);border-radius:12px;overflow:hidden}
+.timecol{background:var(--card);border-right:1px solid var(--grid)}
+.time{height:56px;border-top:1px dashed #223047;color:var(--muted);font-size:11px;padding:6px}
+.slotgrid{display:grid;grid-template-columns:repeat(7,1fr)}
+.slotcol{border-left:1px solid var(--grid);position:relative}
+.slot{position:absolute;left:6px;right:6px;border-radius:10px;padding:6px 8px;font-size:12px;border:1px solid var(--grid);cursor:pointer}
+.slot.event{background:rgba(78,168,255,.12)}
+.slot.teetime{background:rgba(249,199,79,.12)}
+.nowline{position:absolute;height:2px;background:#ef476f;left:0;right:0}
+dialog{border:none;border-radius:16px;padding:0;max-width:560px;width:92%;background:var(--card);color:var(--text)}
+.modal-header{padding:16px 18px;border-bottom:1px solid var(--grid);display:flex;justify-content:space-between;align-items:center}
+.modal-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:12px;flex-wrap:wrap;color:#cbd5e1;font-size:14px}
+.row strong{color:#e2e8f0}
+.cap{display:inline-flex;gap:8px;align-items:center}
+.capsule{background:#0f1722;border:1px solid var(--grid);border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:10px;justify-content:flex-end;padding:16px 18px;border-top:1px solid var(--grid)}
+.danger{background:var(--danger);color:white;border:none}
+.ghost{background:transparent}
+.empty{color:var(--muted);padding:20px}
+@media (max-width:900px){ .dow{display:none} .cell{min-height:90px}}
+</style>
+</head>
+<body>
+<header>
+<div class="title">🏌️‍♂️ League Calendar</div>
+<div class="controls">
+<div class="segmented">
+<button id="prevBtn" aria-label="Previous">◀</button>
+<button id="todayBtn">Today</button>
+<button id="nextBtn" aria-label="Next">▶</button>
+</div>
+<div class="segmented" role="tablist" aria-label="View switch">
+<button id="monthViewBtn" class="active" role="tab" aria-selected="true">Month</button>
+<button id="weekViewBtn" role="tab" aria-selected="false">Week</button>
+</div>
+<select id="courseFilter">
+<option value="all">All Courses</option>
+</select>
+<div class="segmented">
+<button id="showEvents" class="active">Events</button>
+<button id="showTeeTimes" class="active">Tee Times</button>
+</div>
+<button id="exportBtn" class="pill">Export .ics</button>
+</div>
+</header>
+
+<main>
+<div class="legend">
+<span><span class="dot" style="background:var(--event)"></span> Events</span>
+<span><span class="dot" style="background:var(--teetime)"></span> Open Tee Times</span>
+</div>
+<div class="calendar-head">
+<h2 id="rangeLabel"></h2>
+<div></div>
+</div>
+<div id="month" class="view"></div>
+<div id="week" class="view" style="display:none"></div>
+</main>
+
+<dialog id="detailModal">
+<div class="modal-header">
+<div style="font-weight:600" id="modalTitle">Detail</div>
+<button class="ghost" onclick="document.getElementById('detailModal').close()">✕</button>
+</div>
+<div class="modal-body" id="modalBody"></div>
+<div class="actions" id="modalActions"></div>
+</dialog>
+
+<script>
+/* =========================
+DATA (edit me)
+========================= */
+const TZ = "America/Los_Angeles"; // league timezone
+
+const COURSES = [
+{ id: "oak", name: "Oak Ridge GC" },
+{ id: "pine", name: "Pine Valley Muni" },
+{ id: "lake", name: "Lakeview Links" },
+];
+
+// league events (shotgun starts, match nights, etc.)
+const EVENTS = [
+{
+id:"evt1", type:"event", courseId:"oak",
+title:"League Night #1 – Stroke Play",
+start:"2025-10-28T17:00:00", end:"2025-10-28T20:30:00",
+notes:"Check-in opens 4:30 pm. Front nine.",
+},
+{
+id:"evt2", type:"event", courseId:"pine",
+title:"Fall Classic – 2-Man Scramble",
+start:"2025-11-02T08:00:00", end:"2025-11-02T13:30:00",
+notes:"Gross & Net flights. Optional skins.",
+},
+];
+
+// open tee time slots (players can register into capacity)
+const TEETIMES = [
+// Oct weekday block
+...["2025-10-27","2025-10-29","2025-10-31"].flatMap(d => ([
+{ id:`tt-${d}-800`, type:"teetime", courseId:"oak", title:"Open Tee Time", start:`${d}T08:00:00`, end:`${d}T08:10:00`, capacity:4, booked:["Ava"], waitlist:[] },
+{ id:`tt-${d}-810`, type:"teetime", courseId:"oak", title:"Open Tee Time", start:`${d}T08:10:00`, end:`${d}T08:20:00`, capacity:4, booked:["Ben","Cara"], waitlist:[] },
+{ id:`tt-${d}-820`, type:"teetime", courseId:"oak", title:"Open Tee Time", start:`${d}T08:20:00`, end:`${d}T08:30:00`, capacity:4, booked:[], waitlist:[] },
+])),
+// Nov sample
+{ id:"tt-2025-11-02-710", type:"teetime", courseId:"pine", title:"Open Tee Time", start:"2025-11-02T07:10:00", end:"2025-11-02T07:20:00", capacity:4, booked:["Derek","Ivy","Mina","Zed"], waitlist:["Sam"] },
+];
+
+const STATE = {
+view:"month", // "month" | "week"
+refDate:new Date(), // anchor date
+course:"all",
+showEvents:true, showTeeTimes:true,
+me:"You", // pretend current user
+};
+
+/* =========================
+Utilities
+========================= */
+const fmtDate = (d, opts) => new Intl.DateTimeFormat("en-US",{timeZone:TZ,...opts}).format(d);
+const toDate = iso => new Date(iso + (iso.endsWith("Z") ? "" : TZOffsetSuffix()));
+function TZOffsetSuffix(){
+// Force local parse as TZ by appending offset (for consistent rendering)
+const now = new Date();
+const tz = Intl.DateTimeFormat('en-US',{timeZone:TZ,timeZoneName:'shortOffset'}).formatToParts(now)
+.find(p => p.type==='timeZoneName')?.value || "GMT-07";
+// Convert like "GMT-07" or "UTC-8" to "+/-HH:MM"
+const m = tz.match(/([+-])(\d{1,2})/);
+const sign = m ? m[1] : "-"; const hh = m ? m[2].padStart(2,"0") : "07";
+return `${sign}${hh}:00`;
+}
+function sameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
+function byFilter(item){
+if(STATE.course!=="all" && item.courseId!==STATE.course) return false;
+if(item.type==="event" && !STATE.showEvents) return false;
+if(item.type==="teetime" && !STATE.showTeeTimes) return false;
+return true;
+}
+function rangeDays(start,end){
+const out=[]; const d=new Date(start);
+while(d<=end){ out.push(new Date(d)); d.setDate(d.getDate()+1); }
+return out;
+}
+function inRange(item,start,end){
+const s=toDate(item.start), e=toDate(item.end);
+return (s<=end && e>=start);
+}
+function coursesMap(){ return Object.fromEntries(COURSES.map(c=>[c.id,c.name])); }
+function collectItems(){ return [...EVENTS,...TEETIMES]; }
+
+/* =========================
+Rendering – Month
+========================= */
+function renderMonth(){
+const mount = document.getElementById("month");
+mount.innerHTML = "";
+
+const year = STATE.refDate.getFullYear();
+const month = STATE.refDate.getMonth();
+const first = new Date(year, month, 1);
+const start = new Date(first); start.setDate(first.getDate() - ((first.getDay()+6)%7)); // Monday grid
+const last = new Date(year, month+1, 0);
+const end = new Date(last); end.setDate(last.getDate() + (6 - ((last.getDay()+6)%7)));
+
+document.getElementById("rangeLabel").textContent =
+`${fmtDate(first,{month:"long"})} ${year}`;
+
+const dow = document.createElement("div");
+dow.className="dow";
+["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(d=>{
+const el=document.createElement("div"); el.textContent=d; dow.appendChild(el);
+});
+mount.appendChild(dow);
+
+const grid = document.createElement("div");
+grid.className="grid";
+mount.appendChild(grid);
+
+const items = collectItems().filter(i=>byFilter(i)&&inRange(i,start,end));
+const itemsByDay = {};
+items.forEach(it=>{
+const d = new Date(toDate(it.start));
+const key = d.toISOString().slice(0,10);
+(itemsByDay[key] ||= []).push(it);
+});
+
+rangeDays(start,end).forEach(day=>{
+const cell = document.createElement("div");
+cell.className="cell";
+if(sameDay(day,new Date())) cell.classList.add("today");
+if(day.getMonth()!==month) cell.style.opacity=.5;
+
+const dn=document.createElement("div");
+dn.className="daynum";
+dn.textContent = String(day.getDate());
+cell.appendChild(dn);
+
+const key = day.toISOString().slice(0,10);
+const todays = (itemsByDay[key]||[]).slice(0,3);
+todays.forEach(it=> cell.appendChild(renderChip(it)));
+
+const moreCount = (itemsByDay[key]?.length||0) - todays.length;
+if(moreCount>0){
+const m=document.createElement("div");
+m.className="more"; m.textContent = `+${moreCount} more`;
+m.onclick=()=>openDayModal(day, itemsByDay[key]);
+cell.appendChild(m);
+} else if((itemsByDay[key]?.length||0)===0){
+const m=document.createElement("div");
+m.className="empty"; m.textContent="—";
+m.style.padding="0"; m.style.marginTop="4px"; m.style.fontSize="12px";
+cell.appendChild(m);
+}
+
+grid.appendChild(cell);
+});
+}
+
+/* =========================
+Rendering – Week (8am–6pm)
+========================= */
+function renderWeek(){
+const mount = document.getElementById("week");
+mount.innerHTML = "";
+
+const ref = new Date(STATE.refDate);
+const dayOffset = (ref.getDay()+6)%7; // Monday start
+const monday = new Date(ref); monday.setDate(ref.getDate()-dayOffset);
+const sunday = new Date(monday); sunday.setDate(monday.getDate()+6);
+
+document.getElementById("rangeLabel").textContent =
+`${fmtDate(monday,{month:"short",day:"numeric"})} – ${fmtDate(sunday,{month:"short",day:"numeric",year:"numeric"})}`;
+
+const wrap = document.createElement("div"); wrap.className="week";
+const timecol = document.createElement("div"); timecol.className="timecol";
+const hours = Array.from({length:10},(_,i)=>8+i); // 8 to 17
+hours.forEach(h=>{
+const t=document.createElement("div"); t.className="time"; t.textContent=`${String(h).padStart(2,"0")}:00`;
+timecol.appendChild(t);
+});
+wrap.appendChild(timecol);
+
+const colsWrap = document.createElement("div"); colsWrap.className="slotgrid";
+const days = rangeDays(monday,sunday);
+days.forEach((d,idx)=>{
+const col=document.createElement("div"); col.className="slotcol";
+if(sameDay(d,new Date())){ const bg=document.createElement("div"); bg.style.position="absolute"; bg.style.inset="0"; bg.style.background="rgba(37,50,70,.25)"; col.appendChild(bg); }
+colsWrap.appendChild(col);
+});
+wrap.appendChild(colsWrap);
+mount.appendChild(wrap);
+
+// place items
+const items = collectItems().filter(i=>byFilter(i)&&inRange(i,monday,sunday));
+items.forEach(it=>{
+const s = toDate(it.start), e = toDate(it.end);
+const dayIdx = (s.getDay()+6)%7;
+const col = colsWrap.children[dayIdx];
+const startMin = (s.getHours()-8)*60 + s.getMinutes();
+const endMin = (e.getHours()-8)*60 + e.getMinutes();
+const totalHeight = hours.length*56;
+const top = clamp((startMin/(10*60))*totalHeight,0,totalHeight-24);
+const height = Math.max(28, ((endMin-startMin)/(10*60))*totalHeight );
+const slot=document.createElement("div");
+slot.className=`slot ${it.type}`;
+slot.style.top = `${top}px`;
+slot.style.height = `${height}px`;
+slot.innerHTML = `<div style="font-weight:600">${it.title}</div>
+<div style="font-size:11px;color:#cbd5e1">${fmtDate(s,{hour:"numeric",minute:"2-digit"})} • ${COURSES.find(c=>c.id===it.courseId)?.name||""}</div>`;
+slot.onclick=()=>openItemModal(it);
+col.appendChild(slot);
+});
+}
+
+/* =========================
+UI Pieces
+========================= */
+function renderChip(it){
+const chip=document.createElement("div");
+chip.className=`chip ${it.type}`;
+const s = toDate(it.start);
+const time = fmtDate(s,{hour:"numeric",minute:"2-digit"});
+chip.innerHTML = `
+<span class="dot" style="background:${it.type==='event'?'var(--event)':'var(--teetime)'}"></span>
+<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+<strong>${it.title}</strong> <span style="color:var(--muted)">• ${time}</span>
+</div>`;
+chip.onclick=()=>openItemModal(it);
+return chip;
+}
+
+function openDayModal(day, list){
+const m=document.getElementById("detailModal");
+document.getElementById("modalTitle").textContent = fmtDate(day,{weekday:"long",month:"long",day:"numeric"});
+const body=document.getElementById("modalBody");
+body.innerHTML="";
+(list||[]).forEach(it=>{
+const row=document.createElement("div"); row.className="row";
+const s=toDate(it.start), e=toDate(it.end);
+row.innerHTML = `
+<div><strong>${fmtDate(s,{hour:"numeric",minute:"2-digit"})}</strong>–${fmtDate(e,{hour:"numeric",minute:"2-digit"})}</div>
+<div>${it.title}</div>
+<div class="capsule">${COURSES.find(c=>c.id===it.courseId)?.name||""}</div>
+<div class="capsule">${it.type==='event'?'Event':'Tee Time'}</div>`;
+row.style.cursor="pointer";
+row.onclick=()=>openItemModal(it);
+body.appendChild(row);
+});
+document.getElementById("modalActions").innerHTML = `<button class="pill ghost" onclick="document.getElementById('detailModal').close()">Close</button>`;
+m.showModal();
+}
+
+function openItemModal(it){
+const m=document.getElementById("detailModal");
+document.getElementById("modalTitle").textContent = it.title;
+const body=document.getElementById("modalBody");
+const s=toDate(it.start), e=toDate(it.end);
+const courseName = COURSES.find(c=>c.id===it.courseId)?.name||"";
+let html = `
+<div class="row"><strong>Date:</strong> ${fmtDate(s,{weekday:"short",month:"long",day:"numeric"})}</div>
+<div class="row"><strong>Time:</strong> ${fmtDate(s,{hour:"numeric",minute:"2-digit"})} – ${fmtDate(e,{hour:"numeric",minute:"2-digit"})} (${TZ})</div>
+<div class="row"><strong>Course:</strong> ${courseName}</div>
+`;
+if(it.type==="event" && it.notes){
+html += `<div class="row"><strong>Notes:</strong> ${it.notes}</div>`;
+}
+if(it.type==="teetime"){
+const left = Math.max(0, (it.capacity||4) - (it.booked?.length||0));
+html += `
+<div class="row"><strong>Capacity:</strong> <span class="cap">
+<span class="capsule">Max ${it.capacity||4}</span>
+<span class="capsule">${left>0? left+" open" : "Full"}</span>
+</span></div>
+<div class="row"><strong>Players:</strong> ${(it.booked&&it.booked.length)? it.booked.join(", ") : "—"}</div>
+${it.waitlist?.length? `<div class="row"><strong>Waitlist:</strong> ${it.waitlist.join(", ")}</div>` : "" }
+`;
+}
+body.innerHTML = html;
+
+const acts=document.getElementById("modalActions");
+acts.innerHTML="";
+if(it.type==="teetime"){
+const amIn = (it.booked||[]).includes(STATE.me);
+const cap = it.capacity||4;
+const open = cap - (it.booked?.length||0);
+if(amIn){
+const b=document.createElement("button"); b.className="pill danger"; b.textContent="Cancel spot";
+b.onclick=()=>handleCancel(it);
+acts.appendChild(b);
+}else if(open>0){
+const b=document.createElement("button"); b.className="pill accent"; b.textContent="Register";
+b.onclick=()=>handleRegister(it);
+acts.appendChild(b);
+}else{
+const b=document.createElement("button"); b.className="pill"; b.textContent="Join waitlist";
+b.onclick=()=>handleWaitlist(it);
+acts.appendChild(b);
+}
+}
+const close=document.createElement("button"); close.className="pill ghost"; close.textContent="Close";
+close.onclick=()=>m.close();
+acts.appendChild(close);
+m.showModal();
+}
+
+/* =========================
+Actions (wire these to backend)
+========================= */
+function handleRegister(it){
+(it.booked ||= []);
+if(!it.booked.includes(STATE.me)){
+const cap = it.capacity||4;
+if(it.booked.length<cap){ it.booked.push(STATE.me); } else { (it.waitlist ||= []).push(STATE.me); }
+}
+refresh();
+openItemModal(it);
+onRegister(it); // hook to backend
+}
+function handleCancel(it){
+it.booked = (it.booked||[]).filter(n=>n!==STATE.me);
+// Promote from waitlist
+if((it.waitlist||[]).length>0){
+it.booked.push(it.waitlist.shift());
+}
+refresh();
+openItemModal(it);
+onCancel(it); // hook to backend
+}
+function handleWaitlist(it){
+(it.waitlist ||= []);
+if(!it.waitlist.includes(STATE.me)) it.waitlist.push(STATE.me);
+refresh(); openItemModal(it);
+}
+
+function onRegister(it){ /* TODO: send to backend */ }
+function onCancel(it){ /* TODO: send to backend */ }
+
+/* =========================
+Export .ics
+========================= */
+function exportICS(){
+const items = collectItems().filter(byFilter);
+const lines = [
+"BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//League//Calendar//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"
+];
+items.forEach(it=>{
+const uid = it.id+"@league";
+const dtStart = toDate(it.start).toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
+const dtEnd = toDate(it.end).toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
+const course = COURSES.find(c=>c.id===it.courseId)?.name||"Course";
+lines.push(
+"BEGIN:VEVENT",
+`UID:${uid}`,
+`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,"").split(".")[0]}Z`,
+`DTSTART:${dtStart}`,
+`DTEND:${dtEnd}`,
+`SUMMARY:${(it.type==="teetime"?"Tee Time: ":"")}${it.title}`,
+`LOCATION:${course}`,
+`DESCRIPTION:${it.type==="event"?(it.notes||""):`Capacity ${it.capacity||4}`}`,
+"END:VEVENT"
+);
+});
+lines.push("END:VCALENDAR");
+const blob = new Blob([lines.join("\r\n")],{type:"text/calendar"});
+const url = URL.createObjectURL(blob);
+const a=document.createElement("a");
+a.href=url; a.download="league-calendar.ics"; a.click();
+URL.revokeObjectURL(url);
+}
+
+/* =========================
+Wiring & Refresh
+========================= */
+function refresh(){
+document.getElementById("month").style.display = STATE.view==="month"?"block":"none";
+document.getElementById("week").style.display = STATE.view==="week" ?"block":"none";
+if(STATE.view==="month") renderMonth(); else renderWeek();
+// header label updated in render functions
+}
+
+function init(){
+// course filter
+const sel=document.getElementById("courseFilter");
+COURSES.forEach(c=>{
+const opt=document.createElement("option"); opt.value=c.id; opt.textContent=c.name; sel.appendChild(opt);
+});
+sel.onchange=e=>{ STATE.course=e.target.value; refresh(); };
+
+// toggles
+const ebtn=document.getElementById("showEvents");
+const tbtn=document.getElementById("showTeeTimes");
+ebtn.onclick=()=>{ STATE.showEvents=!STATE.showEvents; ebtn.classList.toggle("active",STATE.showEvents); refresh(); };
+tbtn.onclick=()=>{ STATE.showTeeTimes=!STATE.showTeeTimes; tbtn.classList.toggle("active",STATE.showTeeTimes); refresh(); };
+
+// nav
+const prev=document.getElementById("prevBtn");
+const next=document.getElementById("nextBtn");
+const today=document.getElementById("todayBtn");
+prev.onclick=()=>{ if(STATE.view==="month"){ STATE.refDate.setMonth(STATE.refDate.getMonth()-1); } else { STATE.refDate.setDate(STATE.refDate.getDate()-7); } refresh(); };
+next.onclick=()=>{ if(STATE.view==="month"){ STATE.refDate.setMonth(STATE.refDate.getMonth()+1); } else { STATE.refDate.setDate(STATE.refDate.getDate()+7); } refresh(); };
+today.onclick=()=>{ STATE.refDate=new Date(); refresh(); };
+
+// view switch
+const mv=document.getElementById("monthViewBtn");
+const wv=document.getElementById("weekViewBtn");
+mv.onclick=()=>{ STATE.view="month"; mv.classList.add("active"); wv.classList.remove("active"); refresh(); };
+wv.onclick=()=>{ STATE.view="week"; wv.classList.add("active"); mv.classList.remove("active"); refresh(); };
+
+// export
+document.getElementById("exportBtn").onclick=exportICS;
+
+refresh();
+}
+init();
+</script>
+</body>
+</html>
