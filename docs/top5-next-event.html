@@ -9,7 +9,7 @@
 <body class="bg-gray-50 text-gray-900">
   <div>
     <div id="header"></div>
-    <div class="py-2 px-2">
+    <div class="py-2 px-6 h-[88px]">
       <h3 class="text-lg font-semibold mb-2">EVENT NAME - VENUE</h3>
       <ol id="recent-top3" class="list-decimal list-inside text-gray-700 grid grid-cols-3 lg:grid-cols-5 gap-4 max-h-full overflow-auto">
         <li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden">
@@ -137,7 +137,7 @@
       throw new Error('Failed to fetch events');
     }
 
-    const events = await res.json();
+    const events = await res.json().events;
     console.log('Fetched events:', events); // Debugging
 
     if (!Array.isArray(events)) {
