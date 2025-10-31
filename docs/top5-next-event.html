@@ -7,17 +7,36 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
-  <div id="header"></div>
-
-  <main class="max-w-4xl mx-auto px-6 py-10">
-    <!-- Next event card -->
+  <div id="header">
     <div class="mx-auto bg-white shadow-md p-3 overflow-hidden w-[440px] h-[88px] sm:w-[520px] sm:h-[96px] md:w-full md:max-w-md md:h-[120px] lg:max-w-2xl lg:h-[140px]">
         <h3 class="text-lg font-semibold mb-2">Most recent event — Top 3 finishes</h3>
-        <ol id="recent-top3" class="list-decimal pl-5 text-gray-700 overflow-auto max-h-full">
-            <li>Loading...</li>
+        <ol id="recent-top3" class="list-decimal list-inside text-gray-700 grid grid-cols-3 lg:grid-cols-5 gap-4 max-h-full overflow-auto">
+          <li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden">
+            Loading...
+          </li>
         </ol>
     </div>
+  </div>
 
+<!-- <ol id="recent-top3" class="list-decimal list-inside text-gray-700 grid grid-cols-3 lg:grid-cols-5 gap-4 max-h-full overflow-auto">
+  <li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden">
+    <div class="flex-1 min-w-0 truncate">Richie</div>
+    <div class="flex-none text-sm text-right text-gray-500">+9</div>
+  </li>
+
+  <li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden">
+    <div class="flex-1 min-w-0 truncate">Eli</div>
+    <div class="flex-none text-sm text-right text-gray-500">+11</div>
+  </li>
+
+  <li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden">
+    <div class="flex-1 min-w-0 truncate">1234567890123456</div>
+    <div class="flex-none text-sm text-right text-gray-500">+14</div>
+  </li> -->
+  <!-- ... -->
+<!-- </ol> -->
+  
+  <main class="max-w-4xl mx-auto px-6 py-10">
     <h1 class="text-3xl font-heading font-bold mb-6">Welcome to the Amatour.</h1>
     <p class="text-gray-700 mb-8">The golf league for everyday legends.</p>
 
@@ -126,7 +145,7 @@
         }
 
         if (next) {
-          document.getElementById('event-image').style.backgroundImage = `url('${next.image || 'https://amatour.golf/assets/course-placeholder.jpg'}')`;
+          document.getElementById('event-image').style.backgroundImage = `url('${next.image || 'https://www.theamatour.com/assets/course-placeholder.jpg'}')`;
           document.getElementById('event-name').innerText = next.title || next.course || 'Upcoming Event';
           document.getElementById('event-course').innerText = next.course || next.title || '—';
           document.getElementById('event-date').innerText = formatDate(next.date || next.start_date || 'TBD');
@@ -146,13 +165,23 @@
             const top3 = results.slice(0,3);
             top3.forEach(r => {
               const name = (typeof r === 'string') ? r : (r.name || r.player || r.player_name || r.display_name || 'Unknown');
+              const score = r.netScore || r.score || r.grossScore || 'N/A';
+              const playerDiv = document.createElement('div');
+              playerDiv.className = 'flex-1 min-w-0 truncate';
+              playerDiv.textContent = name;
+
+              const scoreDiv = document.createElement('div');
+              scoreDiv.className = 'flex-none text-sm text-right text-gray-500';
+              scoreDiv.textContent = score;
+    
               const li = document.createElement('li');
-              li.className = 'mb-2';
-              li.innerText = name;
+              li.className = 'border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden';
+              li.appendChild(playerDiv);
+              li.appendChild(scoreDiv);
               recentEl.appendChild(li);
             });
           } else {
-            recentEl.innerHTML = '<li>No recent results available.</li>';
+            recentEl.innerHTML = '<li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">Richie</div><div class="flex-none text-sm text-right text-gray-500">+9</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">Eli</div><div class="flex-none text-sm text-right text-gray-500">+11</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">1234567890123456</div><div class="flex-none text-sm text-right text-gray-500">+14</div></li>';
           }
         } else {
           // no events
