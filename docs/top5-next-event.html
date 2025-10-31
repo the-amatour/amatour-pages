@@ -131,73 +131,60 @@
 
     // Load next event and recent top 3 finishes
     async function loadNextEventAndResults() {
-      try {
-        const res = await fetch('./scheduling/events.json');
-        const events = await res.json();
+  try {
+    const res = await fetch('./scheduling/events.json');
+    if (!res.ok) {
+      throw new Error('Failed to fetch events');
+    }
 
-        const now = new Date();
+    const events = await res.json();
+    console.log('Fetched events:', events); // Debugging
 
-        // Parse dates and find next upcoming event (date > today)
-        const withDate = events.map(ev => ({...ev, _date: new Date(ev.date)})).filter(ev => !isNaN(ev._date));
-        let next = withDate.find(ev => ev._date >= now);
-        if (!next) {
-          // fallback to nearest future or last event
-          next = withDate.sort((a,b) => a._date - b._date)[0] || withDate[withDate.length-1];
-        }
+    if (!Array.isArray(events)) {
+      throw new Error('Invalid data format: events is not an array');
+    }
 
-        if (next) {
-          document.getElementById('event-image').style.backgroundImage = `url('${next.image || 'https://www.theamatour.com/assets/course-placeholder.jpg'}')`;
-          document.getElementById('event-name').innerText = next.title || next.course || 'Upcoming Event';
-          document.getElementById('event-course').innerText = next.course || next.title || '—';
-          document.getElementById('event-date').innerText = formatDate(next.date || next.start_date || 'TBD');
-          document.getElementById('event-fee').innerText = next.entry_fee ? ('$' + next.entry_fee) : (next.fee || '—');
+    const now = new Date();
 
-          if (next.registration && (next.registration.toLowerCase?.() === 'open' || next.registration === true)) {
-            document.getElementById('registration-badge').classList.remove('hidden');
-          }
+    // Parse dates and find next upcoming event (date > today)
+    const withDate = events
+      .filter(ev => ev && typeof ev === 'object') // Ensure valid objects
+      .map(ev => ({ ...ev, _date: new Date(ev.date) }))
+      .filter(ev => !isNaN(ev._date)); // Ensure valid dates
 
-          // Attempt to show recent top 3 finishes. We assume event.results is an array of finishers or event.top3
-          const recentEl = document.getElementById('recent-top3');
-          recentEl.innerHTML = '';
+    console.log('Events with valid dates:', withDate); // Debugging
 
-          const results = next.results || next.top3 || next.finishers;
-          if (Array.isArray(results) && results.length > 0) {
-            // If results are objects with name property or simple strings
-            const top3 = results.slice(0,3);
-            top3.forEach(r => {
-              const name = (typeof r === 'string') ? r : (r.name || r.player || r.player_name || r.display_name || 'Unknown');
-              const score = r.netScore || r.score || r.grossScore || 'N/A';
-              const playerDiv = document.createElement('div');
-              playerDiv.className = 'flex-1 min-w-0 truncate';
-              playerDiv.textContent = name;
+    let next = withDate.find(ev => ev._date >= now);
+    if (!next) {
+      // Fallback to nearest future or last event
+      next = withDate.sort((a, b) => a._date - b._date)[0] || withDate[withDate.length - 1];
+    }
 
-              const scoreDiv = document.createElement('div');
-              scoreDiv.className = 'flex-none text-sm text-right text-gray-500';
-              scoreDiv.textContent = score;
-    
-              const li = document.createElement('li');
-              li.className = 'border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden';
-              li.appendChild(playerDiv);
-              li.appendChild(scoreDiv);
-              recentEl.appendChild(li);
-            });
-          } else {
-            recentEl.innerHTML = '<li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">TEST</div><div class="flex-none text-sm text-right text-gray-500">+9</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">Eli</div><div class="flex-none text-sm text-right text-gray-500">+11</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">1234567890123456</div><div class="flex-none text-sm text-right text-gray-500">+14</div></li>';
-          }
-        } else {
-          // no events
-          document.getElementById('event-name').innerText = 'No upcoming events';
-          document.getElementById('event-course').innerText = '—';
-          document.getElementById('event-date').innerText = '—';
-          document.getElementById('event-fee').innerText = '—';
-          document.getElementById('recent-top3').innerHTML = '<li>No recent results available.</li>';
-        }
-      } catch (err) {
-        console.error('Error loading events', err);
-        document.getElementById('event-name').innerText = 'Unable to load event data.';
-        document.getElementById('recent-top3').innerHTML = '<li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">TEST</div><div class="flex-none text-sm text-right text-gray-500">+9</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">Eli</div><div class="flex-none text-sm text-right text-gray-500">+11</div></li><li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden"><div class="flex-1 min-w-0 truncate">1234567890123456</div><div class="flex-none text-sm text-right text-gray-500">+14</div></li>';
+    if (next) {
+      document.getElementById('event-image').style.backgroundImage = `url('${next.image || 'https://www.theamatour.com/assets/course-placeholder.jpg'}')`;
+      document.getElementById('event-name').innerText = next.title || next.course || 'Upcoming Event';
+      document.getElementById('event-course').innerText = next.course || next.title || '—';
+      document.getElementById('event-date').innerText = formatDate(next.date || next.start_date || 'TBD');
+      document.getElementById('event-fee').innerText = next.entry_fee ? ('$' + next.entry_fee) : (next.fee || '—');
+
+      if (next.registration && (next.registration.toLowerCase?.() === 'open' || next.registration === true)) {
+        document.getElementById('registration-badge').classList.remove('hidden');
+      }
+
+      // Attempt to show recent top 3 finishes
+      const recentEl = document.getElementById('recent-top3');
+      recentEl.innerHTML = '';
+      const results = next.results || next.top3 || next.finishers;
+      if (results) {
+        // Process results as needed
       }
     }
+  } catch (err) {
+    console.error('Error loading events', err);
+    document.getElementById('event-name').innerText = 'Unable to load event data.';
+    document.getElementById('recent-top3').innerHTML = '<li>Unable to load recent results.</li>';
+  }
+}
 
     async function loadPartials() {
       // load header/footer partials (same approach other docs use)
