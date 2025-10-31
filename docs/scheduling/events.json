@@ -725,6 +725,60 @@
         "10:18",
         "10:27"
       ]
+    },
+    {
+      "name": "Mixer Scramble",
+      "event_name": "Mixer Scramble",
+      "slug": "mixer-scramble",
+      "date": "2026/05/30",
+      "course": "Auburn Golf Course",
+      "entry_fee": "",
+      "winnings": "",
+      "description": "Event held at Auburn Golf Course.",
+      "registered_players": [],
+      "tee_groups": [],
+      "tees": {
+        "M": {
+          "tee_box": "Blue",
+          "slope_rating": 123,
+          "course_rating": 69.8,
+          "yardage": ""
+        },
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
+      },
+      "par": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "net_winner": "",
+      "top5": [
+        {
+          "name": "",
+          "net": "",
+          "toPar": "0"
+        }
+      ]
     }
   ]
 }

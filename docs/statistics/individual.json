@@ -4757,5 +4757,67 @@
       "bogey": 49,
       "double_or_worse": 35
     }
+  },
+  {
+    "name": "",
+    "slug": "",
+    "ghin": "",
+    "events": [
+      {
+        "event_name": "Mixer Scramble",
+        "date": "2026/05/30",
+        "course": "Auburn Golf Course",
+        "par": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "holes": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "gross": "",
+        "net": ""
+      }
+    ],
+    "season_averages": {},
+    "score_breakdown": {
+      "eagle": 0,
+      "birdie": 0,
+      "par": 18,
+      "bogey": 0,
+      "double_or_worse": 0
+    }
   }
 ]
