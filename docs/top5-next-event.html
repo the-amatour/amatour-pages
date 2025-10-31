@@ -11,7 +11,7 @@
     <div id="header"></div>
     <div class="py-2 px-6 h-[88px]">
       <h3 class="text-lg font-semibold mb-2">EVENT NAME - VENUE</h3>
-      <ol id="recent-top3" class="list-decimal list-inside text-gray-700 grid grid-cols-3 lg:grid-cols-5 gap-4 max-h-full overflow-auto">
+      <ol id="recent-top3" class="list-decimal list-inside text-gray-700 grid grid-cols-3 lg:grid-cols-5 gap-3 max-h-full overflow-auto">
         <li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden">
           Loading...
         </li>
@@ -137,7 +137,7 @@
       throw new Error('Failed to fetch events');
     }
 
-    const events = await res.json().events;
+    const events = await res.json();
     console.log('Fetched events:', events); // Debugging
 
     if (!Array.isArray(events)) {
@@ -147,10 +147,20 @@
     const now = new Date();
 
     // Parse dates and find next upcoming event (date > today)
-    const withDate = events
-      .filter(ev => ev && typeof ev === 'object') // Ensure valid objects
-      .map(ev => ({ ...ev, _date: new Date(ev.date) }))
-      .filter(ev => !isNaN(ev._date)); // Ensure valid dates
+    // const withDate = events
+    //   .filter(ev => ev && typeof ev === 'object') // Ensure valid objects
+    //   .map(ev => ({ ...ev, _date: new Date(ev.date) }))
+    //   .filter(ev => !isNaN(ev._date)); // Ensure valid dates
+    const withDate = [];
+    for (let i = 0; i < events.length; i++) {
+      const ev = events[i];
+      if (ev && typeof ev === 'object') { // Ensure valid objects
+        const _date = new Date(ev.date);
+        if (!isNaN(_date)) { // Ensure valid dates
+          withDate.push({ ...ev, _date });
+        }
+      }
+    }
 
     console.log('Events with valid dates:', withDate); // Debugging
 
