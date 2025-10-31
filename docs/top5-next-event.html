@@ -9,8 +9,11 @@
 <body class="bg-gray-50 text-gray-900">
   <div>
     <div id="header"></div>
-    <div class="py-2 px-6 h-[88px]">
-      <h3 class="text-lg font-semibold mb-2">EVENT NAME - VENUE</h3>
+    <div class="py-1 px-6 h-[88px] border shadow-md">
+      <a id="recent-event-link" href="./event-details?event=${event.slug}" class="flex items-center gap-1 no-underline group" aria-label="View event details">
+        <h3 id="recent-event-name" class="text-lg font-semibold">EVENT NAME - VENUE</h3>
+        <img src="./resources/right-arrow.svg" alt="" class="w-5 h-5 opacity-60 group-hover:opacity-100 transition" />
+      </a>
       <ol id="recent-top3" class="list-decimal list-inside text-gray-700 grid grid-cols-3 lg:grid-cols-5 gap-3 max-h-full overflow-auto">
         <li class="border border-gray-200 rounded-md p-3 bg-white flex flex-row flex-nowrap justify-between items-center gap-2 h-[44px] overflow-hidden">
           Loading...
@@ -61,7 +64,7 @@
           <tfoot>
             <tr>
               <td colspan="3">
-                <div class="p-4 bg-indigo-900 text-center">
+                <div class="p-4 bg-[#03072D] text-center">
                   <a href="/leaderboard.html" class="text-white font-semibold inline-block px-6 py-2 rounded">Full leaderboard</a>
                 </div>
               </td>
@@ -72,18 +75,18 @@
     </section>
 
     <!-- Next event card -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <section class="mb-2">
         <h2 class="text-lg font-semibold mb-3">Next event</h2>
       <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div id="event-image" class="h-36 bg-cover bg-center"></div>
+        <img id="event-image" src="./resources/images/default-course.png" alt="Golf course" class="w-full h-36 object-cover" />
         <div class="p-4">
           <div id="registration-badge" class="inline-block px-3 py-1 bg-green-500 text-white rounded-full text-sm mb-2 hidden">Registration: Open</div>
-          <h3 id="event-name" class="text-xl font-semibold mb-2">Next Event</h3>
-          <p class="text-gray-700"><strong>Name:</strong> <span id="event-course">—</span></p>
-          <p class="text-gray-700"><strong>Date:</strong> <span id="event-date">—</span></p>
-          <p class="text-gray-700"><strong>Entry fee:</strong> <span id="event-fee">—</span></p>
+          <h3 id="upcoming-event-name" class="text-xl font-semibold mb-2">Next Event</h3>
+          <p class="text-gray-700"><strong>Course:</strong> <span id="upcoming-event-course">—</span></p>
+          <p class="text-gray-700"><strong>Date:</strong> <span id="upcoming-event-date">—</span></p>
+          <p class="text-gray-700"><strong>Entry fee:</strong> <span id="upcoming-event-fee">—</span></p>
         </div>
-        <div class="p-4 bg-indigo-900 text-center">
+        <div class="p-4 bg-[#03072D] text-center">
           <a href="/schedule.html" class="text-white font-semibold inline-block px-6 py-2 rounded">View full schedule</a>
         </div>
       </div>
@@ -119,7 +122,7 @@
           tr.innerHTML = `
             <td class="px-6 py-3 font-semibold">${idx+1}</td>
             <td class="px-6 py-3 font-medium text-gray-800">${p.name}</td>
-            <td class="px-6 py-3 font-semibold text-right">${p.finale_points ?? 0}</td>
+            <td class="px-6 py-3 font-semibold">${p.finale_points ?? 0}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -131,70 +134,107 @@
 
     // Load next event and recent top 3 finishes
     async function loadNextEventAndResults() {
-  try {
-    const res = await fetch('./scheduling/events.json');
-    if (!res.ok) {
-      throw new Error('Failed to fetch events');
-    }
+    try {
+      const res = await fetch('./scheduling/events.json');
+      if (!res.ok) {
+        throw new Error('Failed to fetch events');
+      }
 
-    const events = await res.json();
-    console.log('Fetched events:', events); // Debugging
+      const jsonResponse = await res.json();
+      const events = jsonResponse.events;
 
-    if (!Array.isArray(events)) {
-      throw new Error('Invalid data format: events is not an array');
-    }
+      const now = new Date();
 
-    const now = new Date();
+      // Parse dates and find next upcoming event (date > today)
+      const withDate = events
+        .filter(ev => ev && typeof ev === 'object') // Ensure valid objects
+        .map(ev => ({ ...ev, _date: new Date(ev.date) }))
+        .filter(ev => !isNaN(ev._date)); // Ensure valid dates
 
-    // Parse dates and find next upcoming event (date > today)
-    // const withDate = events
-    //   .filter(ev => ev && typeof ev === 'object') // Ensure valid objects
-    //   .map(ev => ({ ...ev, _date: new Date(ev.date) }))
-    //   .filter(ev => !isNaN(ev._date)); // Ensure valid dates
-    const withDate = [];
-    for (let i = 0; i < events.length; i++) {
-      const ev = events[i];
-      if (ev && typeof ev === 'object') { // Ensure valid objects
-        const _date = new Date(ev.date);
-        if (!isNaN(_date)) { // Ensure valid dates
-          withDate.push({ ...ev, _date });
+        withDate.sort((a, b) => a._date - b._date); // Sort by date ascending
+        const nextUpcoming = withDate.find(ev => ev._date >= now);
+        
+        let mostRecent = withDate
+          .filter(ev => ev._date < now) // Only include past events
+          .sort((a, b) => b._date - a._date)[0]; // Sort by date descending and take the most recent
+
+        if (!mostRecent) {
+          // Fallback: If no past events exist, use the earliest future event or the last event in the array
+          mostRecent = withDate.sort((a, b) => a._date - b._date)[0] || withDate[withDate.length - 1];
+        }
+      
+      if(nextUpcoming) {
+        const eventTitle = nextUpcoming.course == nextUpcoming.event_name ? nextUpcoming.event_name : `${nextUpcoming.event_name} - ${nextUpcoming.course}`;
+        
+        const imgEl = document.getElementById('event-image');
+        if (imgEl) {
+          const cloudinaryFallback = 'https://res.cloudinary.com/dzjhrzxu5/image/upload/v1761953122/default-course_l4hwjc.png';
+          imgEl.src = (nextUpcoming && nextUpcoming.image) || cloudinaryFallback;
+          imgEl.alt = nextUpcoming?.course || nextUpcoming?.event_name || 'Golf course';
+          imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = './resources/images/default-course.png'; };
+        }
+        
+        document.getElementById('upcoming-event-name').innerText = nextUpcoming.event_name;
+        document.getElementById('upcoming-event-course').innerText = nextUpcoming.course || '—';
+        document.getElementById('upcoming-event-date').innerText = formatDate(nextUpcoming.date) || '—';
+        document.getElementById('upcoming-event-fee').innerText = nextUpcoming.entry_fee ? `$${nextUpcoming.entry_fee.toFixed(2)}` : 'N/A';
+
+        // Show registration badge if open
+        // if (nextUpcoming.registration_status && nextUpcoming.registration_status.toLowerCase() === 'open') {
+        //   document.getElementById('registration-badge').classList.remove('hidden');
+        // }
+      }
+
+      if (mostRecent) {
+        const recentTitle = mostRecent.course == mostRecent.event_name ? mostRecent.event_name : `${mostRecent.event_name} - ${mostRecent.course}`;
+        // document.getElementById('event-image').style.backgroundImage = `url('${next.image || 'https://www.theamatour.com/assets/course-placeholder.jpg'}')`;
+        document.getElementById('recent-event-name').innerText = recentTitle;
+        const recentLink = document.getElementById('recent-event-link');
+
+        if (recentLink) {
+          if(mostRecent.slug) {
+            recentLink.href = `./event-details.html?event=${mostRecent.slug}`;
+          } else {
+            recentLink.removeAttribute('href');
+          }
+        }
+
+        // Attempt to show recent top 3 finishes
+        const recentEl = document.getElementById('recent-top3');
+        recentEl.innerHTML = '';
+        const results = mostRecent.top5;
+        if (Array.isArray(results) && results.length) {
+          const isDesktop = (typeof window !== 'undefined' && window.matchMedia) ? window.matchMedia('(min-width: 768px)').matches : false;
+          const maxCount = isDesktop ? 5 : 3;
+          const count = Math.min(results.length, maxCount);
+
+          for (let i = 0; i < count; i++) {
+            const res = results[i];
+            const li = document.createElement('li');
+            li.className = 'border border-gray-200 rounded-md p-1 bg-white flex flex-row flex-nowrap justify-between items-center h-[44px] overflow-hidden';
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'flex-none w-14 md:w-20 lg:w-24 text-[11px] md:text-xs lg:text-base text-left text-gray-500';
+            nameDiv.textContent = res.name ?? '';
+
+            const scoreDiv = document.createElement('div');
+            scoreDiv.className = 'flex-1 min-w-0 max-w-20 truncate text-[10px] md:text-sm lg:text-sm text-right';
+            const raw = String(res.toPar ?? res.to_par ?? '');
+            const num = parseFloat(raw.replace(/^\+/, ''));
+            scoreDiv.textContent = Number.isFinite(num) ? (num > 0 ? '+' : '') + num.toFixed(2) : '';
+
+            li.appendChild(nameDiv);
+            li.appendChild(scoreDiv);
+            recentEl.appendChild(li);
+          }
         }
       }
+    } catch (err) {
+      console.error('Error loading events', err);
+      document.getElementById('event-name').innerText = 'Unable to load event data.';
+      document.getElementById('recent-top3').innerHTML = '<li>Unable to load recent results.</li>';
     }
-
-    console.log('Events with valid dates:', withDate); // Debugging
-
-    let next = withDate.find(ev => ev._date >= now);
-    if (!next) {
-      // Fallback to nearest future or last event
-      next = withDate.sort((a, b) => a._date - b._date)[0] || withDate[withDate.length - 1];
-    }
-
-    if (next) {
-      document.getElementById('event-image').style.backgroundImage = `url('${next.image || 'https://www.theamatour.com/assets/course-placeholder.jpg'}')`;
-      document.getElementById('event-name').innerText = next.title || next.course || 'Upcoming Event';
-      document.getElementById('event-course').innerText = next.course || next.title || '—';
-      document.getElementById('event-date').innerText = formatDate(next.date || next.start_date || 'TBD');
-      document.getElementById('event-fee').innerText = next.entry_fee ? ('$' + next.entry_fee) : (next.fee || '—');
-
-      if (next.registration && (next.registration.toLowerCase?.() === 'open' || next.registration === true)) {
-        document.getElementById('registration-badge').classList.remove('hidden');
-      }
-
-      // Attempt to show recent top 3 finishes
-      const recentEl = document.getElementById('recent-top3');
-      recentEl.innerHTML = '';
-      const results = next.results || next.top3 || next.finishers;
-      if (results) {
-        // Process results as needed
-      }
-    }
-  } catch (err) {
-    console.error('Error loading events', err);
-    document.getElementById('event-name').innerText = 'Unable to load event data.';
-    document.getElementById('recent-top3').innerHTML = '<li>Unable to load recent results.</li>';
   }
-}
 
     async function loadPartials() {
       // load header/footer partials (same approach other docs use)
