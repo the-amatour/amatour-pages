@@ -1,0 +1,10 @@
+[
+  { "name": "West Seattle", "course": "West Seattle", "slug": "west-seattle", "id": "west-seattle" },
+  { "name": "Maplewood", "course": "Maplewood", "slug": "maplewood", "id": "maplewood" },
+  { "name": "Willows - Eagle", "course": "Willows - Eagle", "slug": "willows", "id": "willows" },
+  { "name": "Echo Falls", "course": "Echo Falls", "slug": "echo-falls", "id": "echo-falls" },
+  { "name": "Mt Si", "course": "Mt Si", "slug": "mt-si", "id": "mt-si" },
+  { "name": "Jackson", "course": "Jackson", "slug": "jackson", "id": "jackson" },
+  { "name": "Home Course", "course": "Home Course", "slug": "home-course", "id": "home-course" },
+  { "name": "Auburn Golf Course", "course": "Auburn Golf Course", "slug": "auburn-golf-course", "id": "auburn-golf-course" }
+]

@@ -48,7 +48,7 @@
     <section class="mb-10">
       <h2 class="text-lg font-semibold mb-3">Top 5 leaderboard</h2>
 
-      <div class="bg-white rounded-lg shadow-md border-2 border-blue-300 overflow-hidden">
+      <div class="bg-white rounded-lg shadow-md border-2 overflow-hidden">
         <table class="w-full text-sm">
           <thead class="bg-gray-50 text-gray-600 text-left">
             <tr>
@@ -173,7 +173,7 @@
           imgEl.alt = nextUpcoming?.course || nextUpcoming?.event_name || 'Golf course';
           imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = './resources/images/default-course.png'; };
         }
-        
+
         document.getElementById('upcoming-event-name').innerText = nextUpcoming.event_name;
         document.getElementById('upcoming-event-course').innerText = nextUpcoming.course || '—';
         document.getElementById('upcoming-event-date').innerText = formatDate(nextUpcoming.date) || '—';
