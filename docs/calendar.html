@@ -52,28 +52,44 @@
     </dialog>
 
   <!-- Create event modal -->
-    <dialog id="createModal" class="rounded-lg">
-        <form id="createForm" class="w-[min(720px,95vw)] bg-slate-800 text-slate-100 rounded-lg overflow-hidden p-4">
-            <h3 class="text-lg font-semibold mb-2">Create Event</h3>
-            <input name="title" placeholder="Title" class="w-full mb-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded" required />
-            <select name="courseId" class="w-full mb-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded"></select>
-            <div class="flex gap-2 mb-2">
+  <dialog id="createModal" class="rounded-lg">
+    <form id="createForm" class="w-[min(720px,95vw)] bg-slate-800 text-slate-100 rounded-lg overflow-hidden p-4">
+        <h3 class="text-lg font-semibold mb-2">Create Event</h3>
+        <input name="title" placeholder="Title" class="w-full mb-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded" required />
+        <select name="courseId" class="w-full mb-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded"></select>
+        <div class="flex gap-2 mb-2">
             <input name="date" type="date" class="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" required />
             <input name="start" type="time" class="w-30 px-3 py-2 bg-slate-900 border border-slate-700 rounded" required />
-            </div>
-            <div class="flex gap-2 mb-2">
-            <select name="type" class="px-3 py-2 bg-slate-900 border border-slate-700 rounded">
-                <option value="event">Event</option>
-                <option value="teetime">Tee time</option>
-            </select>
-            <input name="capacity" type="number" min="1" placeholder="Capacity" class="px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
-            </div>
-            <div class="flex justify-end gap-2">
-            <button type="button" id="cancelCreate" class="px-3 py-2 rounded bg-slate-700">Cancel</button>
-            <button type="submit" class="px-3 py-2 rounded bg-emerald-500 text-emerald-900">Create</button>
-            </div>
-        </form>
-    </dialog>
+        </div>
+        <div class="flex gap-2 mb-2">
+        <!-- type forced to teetime -->
+        <input type="hidden" name="type" value="teetime" />
+        <div class="px-3 py-2 bg-slate-900 border border-slate-700 rounded text-slate-300 text-sm flex items-center">Tee time</div>
+        <input id="capacityInput" name="capacity" type="number" min="1" placeholder="Spots taken" aria-label="Spots taken" class="px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
+        </div>
+
+        <div class="mb-2">
+            <label class="text-xs text-slate-400">Owner</label>
+            <input name="owner" type="text" placeholder="Owner name" class="w-full mt-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
+        </div>
+
+        <div class="mb-2">
+          <label class="text-xs text-slate-400">Confirmed players</label>
+          <div id="playerList" class="mt-1 flex flex-col gap-1"></div>
+          <div class="mt-2 flex items-center gap-2">
+            <label class="text-xs text-slate-400">Players to add</label>
+            <input id="playersToAdd" type="number" min="1" value="1" class="w-16 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-sm" />
+            <button type="button" id="addPlayersBtn" class="px-2 py-1 rounded bg-sky-600 text-white text-sm">Add</button>
+            <div id="playerHelp" class="text-xs text-slate-500 ml-3">Add players (up to capacity - 1)</div>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2">
+          <button type="button" id="cancelCreate" class="px-3 py-2 rounded bg-slate-700">Cancel</button>
+          <button type="submit" class="px-3 py-2 rounded bg-emerald-500 text-emerald-900">Create</button>
+        </div>
+    </form>
+</dialog>
 
   <script>
     const teeEndpoint = 'https://script.google.com/macros/s/AKfycbybc_LOzij5K8wS9J_HrOAWMWGBH4P2r2y17JqvQ7gdNOGV_pSiFnTGs3yj2ja1gcrE/exec';
@@ -227,7 +243,7 @@
       }
     }
 
-    function postTeetimeViaGet(item){
+    function postTeetimeViaGet(item) {
         const params = new URLSearchParams({
             action: 'append',
             id: item.id,
@@ -257,6 +273,87 @@
         }).then(r => r.json()).catch(err => ({ok:false,error:String(err)}));
     }
 
+    // helper: create a single player input with remove button
+    function createPlayerInput(value){
+        const list = document.getElementById('playerList');
+        const idx = (list.querySelectorAll('input[name="player[]"]').length || 0) + 1;
+        const wrap = document.createElement('div');
+        wrap.className = 'flex gap-2 items-center';
+        const inp = document.createElement('input');
+        inp.name = 'player[]';
+        inp.placeholder = `Player ${idx}`;
+        inp.value = value || '';
+        inp.className = 'px-3 py-2 bg-slate-900 border border-slate-700 rounded flex-1';
+        const rem = document.createElement('button');
+        rem.type = 'button';
+        rem.className = 'px-2 py-1 rounded bg-rose-600 text-white text-sm';
+        rem.textContent = 'Remove';
+        rem.addEventListener('click', ()=> { wrap.remove(); updateAddControls(); });
+        wrap.appendChild(inp); wrap.appendChild(rem);
+        list.appendChild(wrap);
+    }
+
+    // update Add controls and limits based on capacity and existing players
+    function updateAddControls(){
+      const capInput = document.getElementById('capacityInput');
+      const capRaw = Number(capInput && capInput.value ? parseInt(capInput.value,10) : 4);
+      const capacity = Math.min(4, Math.max(1, isNaN(capRaw) ? 4 : capRaw)); // clamp 1..4
+      const list = document.getElementById('playerList');
+      const existingPlayers = list ? list.querySelectorAll('input[name="player[]"]').length : 0;
+      const remaining = Math.max(0, capacity - (1 + existingPlayers)); // capacity minus owner and existing players
+
+      const playersToAdd = document.getElementById('playersToAdd');
+      const addBtn = document.getElementById('addPlayersBtn');
+      const help = document.getElementById('playerHelp');
+
+      if (!playersToAdd || !addBtn || !help) return;
+      // playersToAdd must be between 1 and remaining (if remaining 0, set to 0 and disable)
+      if (remaining <= 0) {
+        playersToAdd.value = 0;
+        playersToAdd.max = 0;
+        playersToAdd.disabled = true;
+        addBtn.disabled = true;
+        help.textContent = `Capacity full (${capacity} total players)`;
+      } else {
+        playersToAdd.disabled = false;
+        playersToAdd.max = remaining;
+        playersToAdd.value = Math.min(Math.max(1, Number(playersToAdd.value || 1)), remaining);
+        addBtn.disabled = false;
+        help.textContent = `Add up to ${remaining} other player${remaining===1?'':'s'} (owner counts as 1)`;
+      }
+    }
+
+    // add N player input fields (clamped by remaining)
+    function addPlayers(n){
+      const playersToAdd = document.getElementById('playersToAdd');
+      const count = Math.max(0, Number(n || playersToAdd && Number(playersToAdd.value) || 1));
+      for (let i = 0; i < count; i++){
+        createPlayerInput('');
+      }
+      updateAddControls();
+    }
+
+    // wire up add button and capacity input changes (these elements exist in modal)
+    document.addEventListener('click', (ev) => {
+      if (ev.target && ev.target.id === 'addPlayersBtn') {
+        addPlayers();
+      }
+    });
+    // avoid redeclaring `capEl` (was declared earlier) — use a different local name
+    const capacityEl = document.getElementById('capacityInput');
+    if (capacityEl) capacityEl.addEventListener('input', ()=> updateAddControls());
+
+    // ensure when opening the modal we reset dynamic player list and controls
+    function resetPlayerSection() {
+        const list = document.getElementById('playerList');
+        if (list) list.innerHTML = '';
+        const playersToAdd = document.getElementById('playersToAdd');
+        if (playersToAdd) playersToAdd.value = 1;
+        const ownerEl = document.querySelector('input[name="owner"]');
+        if (ownerEl) ownerEl.value = '';
+        updateAddControls();
+    }
+
     /* ---------- Create event handlers ---------- */
     function openCreateModal(day){
         const modal = document.getElementById('createModal');
@@ -267,9 +364,15 @@
         sel.innerHTML = COURSES.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
         // prefill date
         form.querySelector('input[name="date"]').value = day.toISOString().slice(0,10);
+        // reset dynamic player inputs and controls
+        resetPlayerSection();
         modal.showModal();
     }
     document.getElementById('cancelCreate').onclick = ()=> document.getElementById('createModal').close();
+    // update player inputs when capacity changes
+    const capEl = document.getElementById('capacityInput');
+    if (capEl) capEl.addEventListener('input', (ev)=> updatePlayerInputs(parseInt(ev.target.value) || 4));
+
     document.getElementById('createForm').onsubmit = function(e){
         e.preventDefault();
         const f = e.target;
@@ -281,18 +384,26 @@
         const mo = dateObj.getMonth() + 1;
         const dy = dateObj.getDate();
         const id = 'evt-' + Date.now();
+
+        // collect owner and players (player[] inputs)
+        const owner = (data.owner || '').trim();
+        const playerInputs = Array.from(f.querySelectorAll('input[name="player[]"]') || []);
+        const players = playerInputs.map(i => i.value.trim()).filter(Boolean);
+        const capacity = parseInt(data.capacity) || 4;
+        const remaining = Math.max(0, capacity - (1 + players.length)); // capacity minus owner and provided players
+
         const item = {
           id,
           type: data.type || 'teetime',
-          date: `${yr}-${String(mo).padStart(2,'0')}-${String(dy).padStart(2,'0')}`,
           year: yr,
           month: mo,
           day: dy,
           course: data.courseId || data.course || '',
           time: data.start || data.time || '',
-          total_players: parseInt(data.capacity) || 4,
-          remaining_spots: parseInt(data.capacity) || 4,
-          players: []
+          total_players: capacity,
+          remaining_spots: remaining,
+          owner: owner,
+          players: players
         };
 
         const submitBtn = f.querySelector('button[type="submit"]');
@@ -416,16 +527,187 @@
 
     /* ---------- UI helpers & modal ---------- */
     function renderChip(it){
-        const chip = document.createElement('div'); chip.className = 'flex items-center gap-2 bg-slate-800 p-1 rounded text-sm cursor-pointer';
-        const dot = document.createElement('span'); dot.className = 'w-2 h-2 rounded-full ' + (it.type==='event' ? 'bg-sky-400' : 'bg-amber-300');
-        const content = document.createElement('div'); content.className = 'truncate text-xs';
+        const chip = document.createElement('div');
+        chip.className = 'flex items-center gap-2 p-1 rounded text-sm cursor-pointer';
+        const content = document.createElement('div');
+        content.className = 'truncate text-xs';
         // use adapter to compute Date from minimal schema, prefer explicit item.time when present
         const s = (typeof itemStartDate === 'function') ? itemStartDate(it) : (it.start ? new Date(it.start) : new Date());
         const time = it.time ? it.time : fmt(s, {hour:'numeric', minute:'2-digit'});
         content.innerHTML = `<span class="font-medium">${it.course}</span> <span class="text-slate-400">• ${time}</span>`;
-        chip.appendChild(dot); chip.appendChild(content);
-        chip.addEventListener('click', (e) => { e.stopPropagation(); openItemModal(it); });
+
+        if (it.type === 'event') {
+          // event: use blue background
+          chip.style.background = 'rgba(78,168,255,0.12)';
+          chip.style.border = '1px solid rgba(78,168,255,0.18)';
+          chip.style.padding = '6px';
+          chip.appendChild(content);
+        } else {
+          // teetime: use yellow background (no leading dot) to avoid mobile scrunching
+          chip.style.background = 'rgba(249,199,79,0.10)';
+          chip.style.border = '1px solid rgba(249,199,79,0.18)';
+          chip.style.padding = '6px';
+          chip.appendChild(content);
+        }
+
+        chip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openItemModal(it);
+            // attach player-add controls after modal opens
+            setTimeout(()=> attachPlayerControls(it), 50);
+        });
         return chip;
+    }
+
+    // cleanup helper: remove inline add-players form and controls
+    function cleanupModalAddPlayersForm(){
+      const form = document.getElementById('modalAddPlayersForm');
+      if (form) form.remove();
+      const controls = document.getElementById('modalPlayerControls');
+      if (controls) controls.remove();
+    }
+
+    // inject player-add controls into modal actions for existing teetimes
+    function attachPlayerControls(it){
+      // remove any leftover UI first
+      cleanupModalAddPlayersForm();
+      if (!it || it.type !== 'teetime') return;
+      const modalActions = document.getElementById('modalActions');
+      if (!modalActions) return;
+      const prev = document.getElementById('modalPlayerControls');
+      if (prev) prev.remove();
+
+      const cap = Number(it.total_players || it.capacity || 4) || 4;
+      const existingPlayers = Array.isArray(it.players) ? it.players.length : (it.players ? String(it.players).split(/[\n;,]+/).filter(Boolean).length : 0);
+      let remaining = (typeof it.remaining_spots !== 'undefined' && it.remaining_spots !== null && it.remaining_spots !== '') ? Number(it.remaining_spots) : (cap - (1 + existingPlayers));
+      remaining = Math.max(0, isNaN(remaining) ? 0 : remaining);
+
+      const wrap = document.createElement('div');
+      wrap.id = 'modalPlayerControls';
+      wrap.className = 'flex items-center gap-2';
+
+      const label = document.createElement('div');
+      label.className = 'text-sm text-slate-300';
+      label.textContent = 'Players to add';
+
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = 1;
+      input.value = remaining > 0 ? 1 : 0;
+      input.max = remaining;
+      input.step = 1;
+      input.className = 'w-16 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-sm';
+      if (remaining <= 0) { input.disabled = true; input.value = 0; }
+      // ensure input stays within bounds if user types a value
+      input.addEventListener('input', ()=> {
+        let v = parseInt(input.value, 10);
+        if (isNaN(v)) v = 1;
+        if (v < 1) v = 1;
+        if (v > Number(input.max || remaining)) v = Number(input.max || remaining);
+        input.value = String(v);
+      });
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'px-2 py-1 rounded bg-sky-600 text-white text-sm';
+      btn.textContent = 'Add';
+      if (remaining <= 0) { btn.disabled = true; btn.title = 'Capacity full'; }
+      else btn.title = `Add up to ${remaining} player${remaining===1?'':'s'}`;
+
+      const info = document.createElement('div');
+      info.className = 'text-xs text-slate-400';
+      info.textContent = remaining <= 0 ? `Capacity full (${cap})` : `Up to ${remaining}`;
+
+      // Add click -> render inline fields (N inputs + Save/Cancel)
+      btn.addEventListener('click', () => {
+        // prevent duplicate form
+        if (document.getElementById('modalAddPlayersForm')) return;
+        // parse and clamp value robustly
+        let raw = parseInt(input.value, 10);
+        if (isNaN(raw)) raw = 1;
+        const n = Math.min(Math.max(1, raw), remaining);
+        if (n <= 0) return;
+
+        const formWrap = document.createElement('div');
+        formWrap.id = 'modalAddPlayersForm';
+        formWrap.className = 'flex flex-col gap-2 p-2 bg-slate-850 rounded w-full';
+        // create inputs
+        for (let i=0;i<n;i++){
+          const row = document.createElement('div');
+          row.className = 'flex gap-2';
+          const txt = document.createElement('input');
+          txt.type = 'text';
+          txt.placeholder = `Player ${i+1} name`;
+          txt.className = 'flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded text-sm';
+          row.appendChild(txt);
+          formWrap.appendChild(row);
+        }
+        const actions = document.createElement('div');
+        actions.className = 'flex gap-2 justify-end';
+        const save = document.createElement('button');
+        save.type = 'button';
+        save.className = 'px-3 py-1 rounded bg-emerald-500 text-emerald-900 text-sm';
+        save.textContent = 'Save';
+        const cancel = document.createElement('button');
+        cancel.type = 'button';
+        cancel.className = 'px-3 py-1 rounded bg-slate-700 text-sm';
+        cancel.textContent = 'Cancel';
+
+        actions.appendChild(cancel);
+        actions.appendChild(save);
+        formWrap.appendChild(actions);
+
+        // insert form after modal actions label area
+        modalActions.parentNode.insertBefore(formWrap, modalActions.nextSibling);
+
+        cancel.addEventListener('click', ()=> formWrap.remove());
+
+        save.addEventListener('click', async () => {
+          const inputs = Array.from(formWrap.querySelectorAll('input[type="text"]'));
+          const newNames = inputs.map(i=> (i.value||'').trim()).filter(Boolean);
+          if (newNames.length === 0) { alert('Enter at least one name'); return; }
+          const existingArr = Array.isArray(it.players) ? it.players.slice() : (it.players ? String(it.players).split(/[\n;,]+/).map(s=>s.trim()).filter(Boolean) : []);
+          const merged = existingArr.concat(newNames);
+          const newRemaining = Math.max(0, cap - (1 + merged.length));
+          // persist
+          const resp = await updateTeetimeViaGet(it.id, merged, newRemaining, it.notes || '');
+          if (resp && resp.ok){
+            it.players = merged;
+            it.remaining_spots = newRemaining;
+            formWrap.remove();
+            if (typeof openItemModal === 'function') setTimeout(()=> openItemModal(it), 100);
+            if (typeof render === 'function') render();
+          } else {
+            alert('Update failed: ' + (resp && resp.error ? resp.error : 'unknown'));
+          }
+        });
+      });
+
+      wrap.appendChild(label);
+      wrap.appendChild(input);
+      wrap.appendChild(btn);
+      wrap.appendChild(info);
+      modalActions.prepend(wrap);
+
+      // ensure form/controls are removed when the item dialog closes
+      const itemDialog = modalActions.closest('dialog');
+      if (itemDialog) {
+        // remove existing listener to avoid duplicates
+        try { itemDialog.removeEventListener('close', cleanupModalAddPlayersForm); } catch(e){/* ignore */ }
+        itemDialog.addEventListener('close', cleanupModalAddPlayersForm);
+      }
+    }
+
+    function updateTeetimeViaGet(id, playersArray, remainingSpots, notes) {
+        const params = new URLSearchParams({
+            action: 'update',
+            id: id,
+            players: Array.isArray(playersArray) ? playersArray.join(';') : (playersArray || ''),
+            remaining_spots: String(remainingSpots || ''),
+            notes: notes || ''
+        });
+        const url = teeEndpoint + '?' + params.toString();
+        return fetch(url, { method: 'GET' }).then(r => r.json()).catch(err => ({ok:false,error:String(err)}));
     }
 
     // helper to resolve course display name from either minimal schema (course) or legacy courseId
