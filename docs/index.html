@@ -90,19 +90,44 @@
     async function loadTop5() {
       try {
         const res = await fetch('./statistics/overview.json');
-        const data = await res.json();
-
-        // Sort by finale_points descending
-        const sorted = data.slice().sort((a,b) => (b.finale_points || 0) - (a.finale_points || 0));
-        const top5 = sorted.slice(0,5);
-
+        const overview = await res.json();
+    
+        // Determine the best available year (current if present, else previous available)
+        const years = Object.keys(overview).map(Number).sort((a, b) => b - a); // Descending order
+        const currentYear = new Date().getFullYear();
+        let yearToUse = years.find(y => y === currentYear) || years.find(y => y < currentYear) || years[0];
+        if (!yearToUse || !overview[yearToUse]) {
+          throw new Error('No leaderboards available');
+        }
+        const data = overview[yearToUse];
+    
+        // Sort and take Top 5
+        const sorted = data.slice().sort((a, b) => (b.finale_points || 0) - (a.finale_points || 0));
+        const top5 = sorted.slice(0, 5);
+    
+        // Prepare table body
         const tbody = document.getElementById('top5-body');
         tbody.innerHTML = '';
+    
+        let tieGroupStartRank = 1;
         top5.forEach((p, idx) => {
+          const pts = Number(p.finale_points ?? 0);
+          const prevPts = idx > 0 ? Number(top5[idx - 1].finale_points ?? 0) : null;
+          let rankLabel;
+          if (idx === 0) {
+            tieGroupStartRank = 1;
+            rankLabel = '1';
+          } else if (pts === prevPts) {
+            rankLabel = 'T' + String(tieGroupStartRank);
+          } else {
+            tieGroupStartRank = idx + 1;
+            rankLabel = String(tieGroupStartRank);
+          }
+    
           const tr = document.createElement('tr');
           tr.className = 'border-t';
           tr.innerHTML = `
-            <td class="px-6 py-3 font-semibold">${idx+1}</td>
+            <td class="px-6 py-3 font-semibold">${rankLabel}</td>
             <td class="px-6 py-3 font-medium">${p.name}</td>
             <td class="px-6 py-3 font-semibold">${p.finale_points ?? 0}</td>
           `;
