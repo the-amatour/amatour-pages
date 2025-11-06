@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="titleDesc">
+  <title id="titleDesc">Player placeholder avatar</title>
+  <!-- background circle -->
+  <circle cx="32" cy="32" r="30" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1.5"/>
+  <!-- silhouette: head -->
+  <circle cx="32" cy="22" r="9.5" fill="#6B7280"/>
+  <!-- silhouette: shoulders / torso -->
+  <path d="M16 48c0-6.627 7.163-12 16-12s16 5.373 16 12v4H16v-4z" fill="#6B7280"/>
+</svg>
