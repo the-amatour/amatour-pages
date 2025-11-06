@@ -427,7 +427,7 @@
               <p class="text-sm text-gray-500">${escapeHtml(event.date || '')} at ${escapeHtml(event.course || '')}</p>
             </header>
             ${tablesHTML}
-            <div class="mt-4 flex flex-wrap gap-4 text-sm text-gray-700 border-t pt-4">
+            <div class="mt-4 flex flex-wrap gap-2 text-sm text-gray-700 border-t pt-4">
               <div><strong>Gross:</strong> ${escapeHtml(String(event.gross ?? 'N/A'))}</div>
               <div><strong>Net:</strong> ${escapeHtml(String(roundToNearestTenth(event.net ?? 0)))}</div>
               <div><strong>To Par:</strong> ${toPar >= 0 ? "+" + toPar : toPar}</div>
