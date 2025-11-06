@@ -38,6 +38,7 @@
 
     <!-- <div id="additionalInfo" class="text-sm text-gray-600">Leaderboard data loads from statistics/overview.json</div> -->
   </main>
+  <div id="footer"></div>
 
   <script>
   // store entries & state so search can filter the rendered table
@@ -224,6 +225,28 @@
       return String(str || '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
     }
   })();
+    async function loadPartials() {
+      // load header/footer partials (same approach other docs use)
+      async function loadPartial(id, file) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
+
+        if (id === 'header') {
+          const toggleButton = document.getElementById('menu-toggle');
+          const menu = document.getElementById('mobile-menu');
+          toggleButton?.addEventListener('click', (e) => { e.stopPropagation(); menu?.classList.toggle('hidden'); });
+          document.addEventListener('click', (e) => { if (!menu?.contains(e.target) && !toggleButton?.contains(e.target)) menu?.classList.add('hidden'); });
+        }
+      }
+
+      await loadPartial('header', './shared/header.html');
+      await loadPartial('footer', './shared/footer.html');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPartials();
+    });
   </script>
 </body>
 </html>
