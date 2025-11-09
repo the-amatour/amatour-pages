@@ -154,6 +154,33 @@
 
     updateNotesCount();
 
+    function formatDateMMDDYYYY(d) {
+      if (!d && d !== 0) return '';
+      // If already a Date object
+      let dt = d instanceof Date ? d : null;
+      if (!dt) {
+        // Try to parse common string formats safely
+        // Accept ISO (YYYY-MM-DD or YYYY/MM/DD) or other parseable inputs
+        const iso = String(d).trim();
+        const m = iso.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+        if (m) {
+          const yyyy = m[1];
+          const mm = m[2].padStart(2,'0');
+          const dd = m[3].padStart(2,'0');
+          return `${mm}-${dd}-${yyyy}`;
+        }
+        dt = new Date(d);
+        if (isNaN(dt)) {
+          // unable to parse, return original string to avoid losing data
+          return iso;
+        }
+      }
+      const mm = String(dt.getMonth() + 1).padStart(2, '0');
+      const dd = String(dt.getDate()).padStart(2, '0');
+      const yyyy = dt.getFullYear();
+      return `${mm}-${dd}-${yyyy}`;
+    }
+
     // Build and send GET request using URLSearchParams (matches your example)
     function postTeetimeViaGet(item) {
       const params = new URLSearchParams({
@@ -201,18 +228,16 @@
       const notesTrimmed = (document.getElementById('notes').value || '').slice(0, NOTES_MAX);
 
       const item = {
-        id: '', // optional id if you need one
+        id: generateId(),
         type: 'teetime',
-        date: dateVal,
+        date: formatDateMMDDYYYY(dateVal),
         year,
         month,
         day,
         course: document.getElementById('course').value || '',
         time: document.getElementById('time').value || '',
         owner: document.getElementById('owner').value || '',
-        total_players: '', // optional
         remaining_spots: String(Number(document.getElementById('openSpots').value || 0)),
-        players: '', // optional players list
         notes: notesTrimmed,
         submittedAt: new Date().toISOString()
       };
@@ -238,6 +263,11 @@
         submitBtn.textContent = 'Submit';
       }
     });
+
+    function generateId() {
+      const date = new Date(dateVal + 'T00:00:00')
+      return 'web-' + String(date.getFullYear()) + '-' + String(date.getMonth() + 1) + '-' + String(date.getDay()) + '-' + Math.floor(Math.random() * 1000);
+    }
 
     // load header/footer partials
     async function loadPartial(id, file) {
