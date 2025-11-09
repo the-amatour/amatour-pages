@@ -198,7 +198,8 @@
         remaining_spots: item.remaining_spots || '',
         players: Array.isArray(item.players) ? item.players.join(';') : (item.players || ''),
         notes: item.notes || '',
-        submittedAt: item.submittedAt || ''
+        submittedAt: item.submittedAt || '',
+        isAdded: item.isAdded || 'FALSE'
       });
       const url = teeEndpoint + '?' + params.toString();
       return fetch(url, { method: 'GET', mode: 'cors' })
@@ -239,7 +240,8 @@
         owner: document.getElementById('owner').value || '',
         remaining_spots: String(Number(document.getElementById('openSpots').value || 0)),
         notes: notesTrimmed,
-        submittedAt: new Date().toISOString()
+        submittedAt: new Date().toISOString(),
+        isAdded: 'FALSE'
       };
 
       try {
@@ -265,8 +267,12 @@
     });
 
     function generateId() {
-      const date = new Date(dateVal + 'T00:00:00')
-      return 'web-' + String(date.getFullYear()) + '-' + String(date.getMonth() + 1) + '-' + String(date.getDay()) + '-' + Math.floor(Math.random() * 1000);
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      // const date = new Date(yyyy, now.getMonth(), now.getDate());
+      return `web-${yyyy}-${mm}-${dd}-${Math.floor(Math.random() * 1000)}`;
     }
 
     // load header/footer partials
