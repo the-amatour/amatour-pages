@@ -5,834 +5,293 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>League Calendar</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Mobile/input fixes: ensure visible borders and scrollable modal content -->
+  <style>
+    /* Ensure inputs show borders on mobile (iOS/Android) */
+    input[type="date"],
+    input[type="time"],
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      -webkit-appearance: none;
+      appearance: none;
+      background-clip: padding-box;
+      background-color: #fff;
+    }
+
+    /* Hide certain inner controls to avoid visual glitches */
+    input[type="date"]::-webkit-clear-button,
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="time"]::-webkit-clear-button,
+    input[type="time"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      display: none;
+    }
+
+    /* Modal dialog scroll area */
+    .modal-dialog {
+      max-height: calc(100vh - 3.5rem);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 antialiased">
-    <div class="w-full p-4 min-h-screen flex flex-col">
-        <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6 mb-4">
-            <div>
-                <h1 class="text-lg font-semibold m-0">🏌️‍♂️ League Calendar</h1>
-                <div class="mt-2 text-slate-400 text-sm flex gap-3">
-                <span class="inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sky-400"></span>Events</span>
-                <span class="inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-300"></span>Tee times</span>
-                </div>
-            </div>
+<body class="antialiased bg-gray-50 text-gray-900">
+  <header id="header" class="bg-white shadow">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-xl font-semibold">League Calendar</h1>
+      <button id="addTeeTimeBtn" class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">+ Add Tee Time</button>
+    </div>
+  </header>
 
-            <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
-                <div class="inline-flex items-center gap-2">
-                    <button id="prevBtn" class="px-2 py-2 bg-slate-800 rounded text-sm">‹</button>
-                    <button id="todayBtn" class="px-3 py-2 bg-slate-800 rounded text-sm">Today</button>
-                    <button id="nextBtn" class="px-2 py-2 bg-slate-800 rounded text-sm">›</button>
-                </div>
-                <div class="inline-flex rounded-lg bg-slate-800 p-1" role="tablist" aria-label="View">
-                    <button id="monthBtn" class="px-3 py-2 text-sm rounded bg-emerald-400 text-emerald-900 font-medium" role="tab" aria-selected="true">Month</button>
-                    <button id="weekBtn" class="px-3 py-2 text-sm rounded text-slate-200" role="tab" aria-selected="false">Week</button>
-                </div>
-                <select id="courseSelect" class="ml-0 sm:ml-2 px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm">
-                    <option value="all">All courses</option>
-                </select>
-            </div>
-        </header>
-
-        <div id="rangeLabel" class="mb-3 font-semibold"></div>
-
-        <main class="flex-1 overflow-auto">
-            <div id="calendarRoot" class="w-full h-full"></div>
-        </main>
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <!-- Calendar embed -->
+    <div class="bg-white rounded shadow overflow-hidden mb-6">
+      <div class="relative" style="padding-top:56.25%; height:0; overflow:hidden; min-height:18rem;">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?height=450&wkst=1&ctz=America%2FLos_Angeles&showPrint=0&showTz=0&showTitle=0&src=aW5mby50aGVhbWF0ZXVyc3RvdXJAZ21haWwuY29t&color=%23039be5"
+          style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"
+          frameborder="0"
+          scrolling="no"
+          aria-label="League Calendar"
+        ></iframe>
+      </div>
     </div>
 
-    <dialog id="detailModal" class="rounded-lg">
-        <div class="w-[min(720px,95vw)] bg-slate-800 text-slate-100 rounded-lg overflow-hidden">
-            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-700">
-            <div id="modalTitle" class="font-semibold"></div>
-            <button type="button" class="px-2 py-1 rounded bg-slate-700" onclick="document.getElementById('detailModal').close()">✕</button>
+    <!-- Page content placeholder -->
+    <section>
+      <p class="text-sm text-gray-600">View and add tee times using the form.</p>
+    </section>
+  </main>
+
+  <!-- Modal (hidden by default) -->
+  <div id="teeTimeModal" class="hidden fixed inset-0 z-50 flex items-start justify-center p-4 bg-black/40" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog w-full max-w-lg bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="p-6">
+        <div class="flex items-start justify-between mb-4">
+          <h2 id="modalTitle" class="text-lg font-semibold">Add Tee Time</h2>
+          <button id="closeModalBtn" class="text-gray-500 hover:text-gray-700" aria-label="Close modal">&times;</button>
+        </div>
+
+        <form id="teeTimeForm" class="space-y-3 modal-content" autocomplete="off">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Date</label>
+              <input name="date" id="date" type="date" required
+                class="mt-1 block w-full rounded border border-gray-300 bg-white px-3 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
             </div>
-            <div id="modalBody" class="p-4 text-sm"></div>
-            <div id="modalActions" class="p-3 border-t border-slate-700 flex justify-end gap-2"></div>
-        </div>
-    </dialog>
-
-  <!-- Create event modal -->
-  <dialog id="createModal" class="rounded-lg">
-    <form id="createForm" class="w-[min(720px,95vw)] bg-slate-800 text-slate-100 rounded-lg overflow-hidden p-4">
-        <h3 class="text-lg font-semibold mb-2">Create Event</h3>
-        <input name="title" placeholder="Title" class="w-full mb-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded" required />
-        <select name="courseId" class="w-full mb-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded"></select>
-        <div class="flex gap-2 mb-2">
-            <input name="date" type="date" class="flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" required />
-            <input name="start" type="time" class="w-30 px-3 py-2 bg-slate-900 border border-slate-700 rounded" required />
-        </div>
-        <div class="flex gap-2 mb-2">
-        <!-- type forced to teetime -->
-        <input type="hidden" name="type" value="teetime" />
-        <div class="px-3 py-2 bg-slate-900 border border-slate-700 rounded text-slate-300 text-sm flex items-center">Tee time</div>
-        <input id="capacityInput" name="capacity" type="number" min="1" placeholder="Spots taken" aria-label="Spots taken" class="px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
-        </div>
-
-        <div class="mb-2">
-            <label class="text-xs text-slate-400">Owner</label>
-            <input name="owner" type="text" placeholder="Owner name" class="w-full mt-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded" />
-        </div>
-
-        <div class="mb-2">
-          <label class="text-xs text-slate-400">Confirmed players</label>
-          <div id="playerList" class="mt-1 flex flex-col gap-1"></div>
-          <div class="mt-2 flex items-center gap-2">
-            <label class="text-xs text-slate-400">Players to add</label>
-            <input id="playersToAdd" type="number" min="1" value="1" class="w-16 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-sm" />
-            <button type="button" id="addPlayersBtn" class="px-2 py-1 rounded bg-sky-600 text-white text-sm">Add</button>
-            <div id="playerHelp" class="text-xs text-slate-500 ml-3">Add players (up to capacity - 1)</div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Time</label>
+              <input name="time" id="time" type="time" required
+                class="mt-1 block w-full rounded border border-gray-300 bg-white px-3 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+            </div>
           </div>
-        </div>
 
-        <div class="flex justify-end gap-2">
-          <button type="button" id="cancelCreate" class="px-3 py-2 rounded bg-slate-700">Cancel</button>
-          <button type="submit" class="px-3 py-2 rounded bg-emerald-500 text-emerald-900">Create</button>
-        </div>
-    </form>
-</dialog>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Course</label>
+            <input name="course" id="course" type="text" required
+              class="mt-1 block w-full rounded border border-gray-300 bg-white px-3 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Owner (email)</label>
+            <input name="owner" id="owner" type="email" required
+              class="mt-1 block w-full rounded border border-gray-300 bg-white px-3 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Open spots</label>
+            <input name="openSpots" id="openSpots" type="number" min="0" step="1" required
+              class="mt-1 block w-full rounded border border-gray-300 bg-white px-3 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Notes <span class="text-xs text-gray-500">(max 200 chars)</span></label>
+            <textarea name="notes" id="notes" rows="4" maxlength="200"
+              class="mt-1 block w-full rounded border border-gray-300 bg-white px-3 py-2 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Optional notes (max 200 characters)"></textarea>
+            <div id="notesCount" class="mt-1 text-sm text-gray-500">0 / 200</div>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div id="formStatus" class="text-sm text-gray-600" aria-live="polite"></div>
+            <div class="flex gap-2">
+              <button type="button" id="cancelBtn" class="px-3 py-2 rounded border">Cancel</button>
+              <button type="submit" id="submitBtn" class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-500">
+    &copy; <span id="year"></span> League
+  </footer>
 
   <script>
+    // Configuration: set to your Apps Script web app GET endpoint that appends rows
     const teeEndpoint = 'https://script.google.com/macros/s/AKfycbybc_LOzij5K8wS9J_HrOAWMWGBH4P2r2y17JqvQ7gdNOGV_pSiFnTGs3yj2ja1gcrE/exec';
-    // data placeholders
-    let COURSES = [{id:'oak',name:'Oak Ridge GC'}];
-    fetch('./scheduling/courses.json').then(r=>{
-      if (!r.ok) throw new Error('no event.json');
-      return r.json();
-    }).then(data=>{
-      data.forEach(c => COURSES.push({id:c.id, name:c.name}));
-    });
 
-    // fetch deployed Apps Script web app (replace DEPLOY_URL with your script's exec URL)
-    fetch(teeEndpoint)
-      .then(r => { if (!r.ok) throw new Error('sheet fetch failed'); return r.json(); })
-      .then(rows => {
-        // rows is an array of objects (headers -> values). Map into minimal-schema teetimes.
-        rows.forEach(e => {
-          const id = e.id || ('ts-' + Date.now() + Math.random().toString(36).slice(2,6));
-          const yr = Number(e.year) || (e.date ? new Date(String(e.date)).getFullYear() : undefined);
-          const mo = Number(e.month) || (e.date ? (new Date(String(e.date)).getMonth()+1) : undefined);
-          const dy = Number(e.day) || (e.date ? new Date(String(e.date)).getDate() : undefined);
-          const item = {
-            id,
-            type: (e.type && String(e.type).toLowerCase()==='event') ? 'event' : 'teetime',
-            year: yr,
-            month: mo,
-            day: dy,
-            course: e.course || e.course_name || e.courseId || '',
-            time: e.time || e.start || '',
-            total_players: Number(e.total_players || e.capacity || 4) || 4,
-            remaining_spots: (typeof e.remaining_spots !== 'undefined') ? Number(e.remaining_spots) : (typeof e.remaining_spots === 'undefined' && e.capacity ? Number(e.capacity) : 0)
-          };
-          // decide where to push; we keep official events separate if type==='event'
-          if (item.type === 'event') EVENTS.push(item); else TEETIMES.push(item);
-        });
-        populateCourses();
-        render();
-      })
-      .catch(err => console.warn('Google Sheet fetch failed:', err));
-
-    // Keep two arrays but items use the minimal schema described:
-    // { type:'event'|'teetime', month, day, year, course, time, total_players, remaining_spots, id? }
-    const EVENTS = [];
-    const TEETIMES = [];
-
-    const TZ = 'America/Los_Angeles';
-    const fmt = (d, opts) => new Intl.DateTimeFormat('en-US',{timeZone:TZ,...opts}).format(new Date(d));
-    // adapter to get a Date from an item (supports old start ISO and new minimal schema)
-    function itemStartDate(it){
-      if (!it) return new Date();
-      if (it.start) return new Date(it.start);
-      // new minimal schema: year, month (1-12 or 0-11?), day, time "HH:MM"
-      const yr = Number(it.year);
-      const mo = (typeof it.month === 'string' && it.month.length>0 && isNaN(it.month)) ? new Date(it.month + ' 1').getMonth() : Number(it.month) - 1;
-      const day = Number(it.day);
-      let hh = 0, mm = 0;
-      if (it.time){
-        const [H,M] = String(it.time).split(':').map(x=>Number(x));
-        hh = isNaN(H) ? 0 : H;
-        mm = isNaN(M) ? 0 : M;
-      }
-      if (!isNaN(yr) && !isNaN(mo) && !isNaN(day)) return new Date(yr, mo, day, hh, mm);
-      return new Date();
+    // Utility: generate a simple unique id
+    function generateId() {
+      const t = Date.now().toString(36);
+      const r = Math.random().toString(36).slice(2,8);
+      return `${t}-${r}`;
     }
-    const toDate = iso => new Date(iso);
-    function isMobile(){ return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width:639px)').matches; }
 
-    const STATE = { view:'month', refDate:new Date(), course:'all', showEvents:true, showTeeTimes:true, me:'You', isMobile:isMobile() };
+    // Today's date at local midnight and useful formats
+    (function setTodayDefaults(){
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const isoDate = `${yyyy}-${mm}-${dd}`; // input[type=date] value
+      document.getElementById('date').value = isoDate;
+      document.getElementById('year') && (document.getElementById('year').textContent = yyyy);
+    })();
 
-    function collect(){ return [...EVENTS, ...TEETIMES].filter(i=>{
-      if (STATE.course && STATE.course!=='all' && (i.course !== STATE.course && i.courseId !== STATE.course)) return false;
-      if (i.type==='event' && !STATE.showEvents) return false;
-      if (i.type==='teetime' && !STATE.showTeeTimes) return false;
-      return true;
-    }); }
-
-    /* ---------- Month ---------- */
-    function renderMonth(root){
-      root.innerHTML = '';
-
-      const year = STATE.refDate.getFullYear();
-      const month = STATE.refDate.getMonth();
-      const first = new Date(year, month, 1);
-      const start = new Date(first); start.setDate(first.getDate() - ((first.getDay()+6)%7));
-      const last = new Date(year, month+1, 0);
-      const end = new Date(last); end.setDate(last.getDate() + (6 - ((last.getDay()+6)%7)));
-
-      document.getElementById('rangeLabel').textContent = `${fmt(first,{month:'long'})} ${year}`;
-
-      const dow = document.createElement('div');
-      dow.className = 'hidden sm:grid grid-cols-7 text-slate-400 text-xs gap-0 mb-1';
-      ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(d=>{ const el=document.createElement('div'); el.textContent=d; el.className='px-2'; dow.appendChild(el); });
-      root.appendChild(dow);
-
-      // grid wrapper allows horizontal scroll on small screens
-      const gridWrap = document.createElement('div');
-      gridWrap.className = 'overflow-x-auto pt-1';
-      const grid = document.createElement('div');
-      // 7-col grid on larger screens; keep 7 columns but allow each cell min-width for scrolling
-      grid.className = 'grid grid-cols-7 gap-1 bg-slate-800 rounded';
-      // removed gridAutoFlow='column' (it caused the grid to render as a single row)
-      gridWrap.appendChild(grid);
-      root.appendChild(gridWrap);
-
-      const items = collect().filter(i=>{
-        const s = itemStartDate(i);
-        return s <= end && s >= start;
-      });
-      const itemsByDay = {};
-      items.forEach(it => {
-        const key = itemStartDate(it).toISOString().slice(0,10);
-        (itemsByDay[key] ||= []).push(it);
-      });
-
-      for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
-        const cell = document.createElement('div');
-        // Tailwind utility classes via className
-        cell.className = 'bg-slate-900 min-h-[84px] p-2 flex flex-col gap-2';
-        // responsive min-width: scale with viewport but clamp to usable range
-        // cell.style.minWidth = 'clamp(88px, 13.5vw, 160px)'; // replaces hard 120px
-        if (new Date().toDateString() === d.toDateString()) cell.classList.add('ring-2','ring-sky-500','rounded-sm');
-        if (d.getMonth() !== month) cell.style.opacity = 0.6;
-        // capture the date for this iteration so handlers use the correct day
-        const cellDate = new Date(d);
-
-        const dn = document.createElement('div'); dn.className='text-xs text-slate-400'; dn.textContent = String(d.getDate());
-        cell.appendChild(dn);
-
-        const key = d.toISOString().slice(0,10);
-        const todays = (itemsByDay[key]||[]).slice(0, STATE.isMobile ? 2 : 3);
-        todays.forEach(it=> cell.appendChild(renderChip(it)));
-
-        const moreCount = (itemsByDay[key]?.length || 0) - todays.length;
-        if (moreCount > 0){
-          const m = document.createElement('div'); m.className = 'text-xs text-slate-400 cursor-pointer'; m.textContent = `+${moreCount} more`;
-          // use the captured cellDate so the modal opens for the correct day
-          m.addEventListener('click', (e) => { e.stopPropagation(); openDayModal(cellDate, itemsByDay[key]); });
-          cell.appendChild(m);
-        } else if ((itemsByDay[key]?.length || 0) === 0){
-          const empty = document.createElement('div'); empty.className='text-slate-500 text-xs mt-1'; empty.textContent='—';
-          cell.appendChild(empty);
+    // Format helper MM-DD-YYYY
+    function formatDateMMDDYYYY(d) {
+      if (!d && d !== 0) return '';
+      let dt = d instanceof Date ? d : null;
+      if (!dt) {
+        const s = String(d).trim();
+        const m = s.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+        if (m) {
+          const yyyy = m[1];
+          const mm = m[2].padStart(2,'0');
+          const dd = m[3].padStart(2,'0');
+          return `${mm}-${dd}-${yyyy}`;
         }
-
-        grid.appendChild(cell);
-        // click a day cell to create a new event (ignore clicks on chips)
-        cell.addEventListener('click', (e) => {
-          if (e.target.closest('.chip')) return;
-          openCreateModal(cellDate);
-        });
+        dt = new Date(d);
+        if (isNaN(dt)) return s;
       }
+      const mm = String(dt.getMonth() + 1).padStart(2, '0');
+      const dd = String(dt.getDate()).padStart(2, '0');
+      const yyyy = dt.getFullYear();
+      return `${mm}-${dd}-${yyyy}`;
     }
 
+    // POST via GET endpoint matching your existing server-side doGet append handler
     function postTeetimeViaGet(item) {
-        const params = new URLSearchParams({
-            action: 'append',
-            id: item.id,
-            type: item.type,
-            date: item.date,
-            year: item.year,
-            month: item.month,
-            day: item.day,
-            course: item.course,
-            time: item.time,
-            total_players: item.total_players || '',
-            remaining_spots: item.remaining_spots || '',
-            players: Array.isArray(item.players) ? item.players.join(';') : (item.players || ''),
-            notes: item.notes || ''
-        });
-        const url = teeEndpoint + '?' + params.toString();
-        return fetch(url, { method: 'GET' }).then(r => r.json()).catch(err => ({ok:false,error:String(err)}));
+      const params = new URLSearchParams({
+        action: 'append',
+        id: item.id || '',
+        type: item.type || '',
+        date: item.date || '',
+        year: item.year || '',
+        month: item.month || '',
+        day: item.day || '',
+        course: item.course || '',
+        time: item.time || '',
+        owner: item.owner || '',
+        total_players: item.total_players || '',
+        remaining_spots: item.remaining_spots || '',
+        players: Array.isArray(item.players) ? item.players.join(';') : (item.players || ''),
+        notes: item.notes || '',
+        submittedAt: item.submittedAt || '',
+        isAdded: item.isAdded || 'FALSE'
+      });
+      const url = teeEndpoint + '?' + params.toString();
+      return fetch(url, { method: 'GET', mode: 'cors' })
+        .then(r => r.json())
+        .catch(err => ({ ok: false, error: String(err) }));
     }
 
-    function postTeetimeToSheet(payload) {
-        const toad = '9f2b7e4a1c3d8f6b0a9e2c4d5f7a8b1c';
-        const body = Object.assign({}, payload, { token: toad });
-        return fetch(teeEndpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        }).then(r => r.json()).catch(err => ({ok:false,error:String(err)}));
+    // Modal helpers
+    function openModal() {
+      const modal = document.getElementById('teeTimeModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      document.documentElement.classList.add('overflow-hidden');
+      document.body.classList.add('overflow-hidden');
+      const first = modal.querySelector('input,textarea,select,button');
+      if (first) first.focus();
     }
-
-    // helper: create a single player input with remove button
-    function createPlayerInput(value){
-        const list = document.getElementById('playerList');
-        const idx = (list.querySelectorAll('input[name="player[]"]').length || 0) + 1;
-        const wrap = document.createElement('div');
-        wrap.className = 'flex gap-2 items-center';
-        const inp = document.createElement('input');
-        inp.name = 'player[]';
-        inp.placeholder = `Player ${idx}`;
-        inp.value = value || '';
-        inp.className = 'px-3 py-2 bg-slate-900 border border-slate-700 rounded flex-1';
-        const rem = document.createElement('button');
-        rem.type = 'button';
-        rem.className = 'px-2 py-1 rounded bg-rose-600 text-white text-sm';
-        rem.textContent = 'Remove';
-        rem.addEventListener('click', ()=> { wrap.remove(); updateAddControls(); });
-        wrap.appendChild(inp); wrap.appendChild(rem);
-        list.appendChild(wrap);
+    function closeModal() {
+      const modal = document.getElementById('teeTimeModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      document.documentElement.classList.remove('overflow-hidden');
+      document.body.classList.remove('overflow-hidden');
     }
-
-    // update Add controls and limits based on capacity and existing players
-    function updateAddControls(){
-      const capInput = document.getElementById('capacityInput');
-      const capRaw = Number(capInput && capInput.value ? parseInt(capInput.value,10) : 4);
-      const capacity = Math.min(4, Math.max(1, isNaN(capRaw) ? 4 : capRaw)); // clamp 1..4
-      const list = document.getElementById('playerList');
-      const existingPlayers = list ? list.querySelectorAll('input[name="player[]"]').length : 0;
-      const remaining = Math.max(0, capacity - (1 + existingPlayers)); // capacity minus owner and existing players
-
-      const playersToAdd = document.getElementById('playersToAdd');
-      const addBtn = document.getElementById('addPlayersBtn');
-      const help = document.getElementById('playerHelp');
-
-      if (!playersToAdd || !addBtn || !help) return;
-      // playersToAdd must be between 1 and remaining (if remaining 0, set to 0 and disable)
-      if (remaining <= 0) {
-        playersToAdd.value = 0;
-        playersToAdd.max = 0;
-        playersToAdd.disabled = true;
-        addBtn.disabled = true;
-        help.textContent = `Capacity full (${capacity} total players)`;
-      } else {
-        playersToAdd.disabled = false;
-        playersToAdd.max = remaining;
-        playersToAdd.value = Math.min(Math.max(1, Number(playersToAdd.value || 1)), remaining);
-        addBtn.disabled = false;
-        help.textContent = `Add up to ${remaining} other player${remaining===1?'':'s'} (owner counts as 1)`;
-      }
-    }
-
-    // add N player input fields (clamped by remaining)
-    function addPlayers(n){
-      const playersToAdd = document.getElementById('playersToAdd');
-      const count = Math.max(0, Number(n || playersToAdd && Number(playersToAdd.value) || 1));
-      for (let i = 0; i < count; i++){
-        createPlayerInput('');
-      }
-      updateAddControls();
-    }
-
-    // wire up add button and capacity input changes (these elements exist in modal)
-    document.addEventListener('click', (ev) => {
-      if (ev.target && ev.target.id === 'addPlayersBtn') {
-        addPlayers();
-      }
+    document.getElementById('addTeeTimeBtn')?.addEventListener('click', openModal);
+    document.getElementById('cancelBtn')?.addEventListener('click', closeModal);
+    document.getElementById('closeModalBtn')?.addEventListener('click', closeModal);
+    document.getElementById('teeTimeModal')?.addEventListener('click', function(e){
+      if (e.target === this) closeModal();
     });
-    // avoid redeclaring `capEl` (was declared earlier) — use a different local name
-    const capacityEl = document.getElementById('capacityInput');
-    if (capacityEl) capacityEl.addEventListener('input', ()=> updateAddControls());
 
-    // ensure when opening the modal we reset dynamic player list and controls
-    function resetPlayerSection() {
-        const list = document.getElementById('playerList');
-        if (list) list.innerHTML = '';
-        const playersToAdd = document.getElementById('playersToAdd');
-        if (playersToAdd) playersToAdd.value = 1;
-        const ownerEl = document.querySelector('input[name="owner"]');
-        if (ownerEl) ownerEl.value = '';
-        updateAddControls();
+    // Notes counter
+    const notesEl = document.getElementById('notes');
+    const notesCountEl = document.getElementById('notesCount');
+    const NOTES_MAX = 100;
+    function updateNotesCount() {
+      const len = (notesEl.value || '').length;
+      notesCountEl.textContent = `${len} / ${NOTES_MAX}`;
+      if (len >= NOTES_MAX) notesCountEl.classList.add('text-red-600'); else notesCountEl.classList.remove('text-red-600');
     }
+    notesEl?.addEventListener('input', () => {
+      if (notesEl.value.length > NOTES_MAX) notesEl.value = notesEl.value.slice(0, NOTES_MAX);
+      updateNotesCount();
+    });
+    updateNotesCount();
 
-    /* ---------- Create event handlers ---------- */
-    function openCreateModal(day){
-        const modal = document.getElementById('createModal');
-        const form = document.getElementById('createForm');
-        form.reset();
-        // populate courses select
-        const sel = form.querySelector('select[name="courseId"]');
-        sel.innerHTML = COURSES.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-        // prefill date
-        form.querySelector('input[name="date"]').value = day.toISOString().slice(0,10);
-        // reset dynamic player inputs and controls
-        resetPlayerSection();
-        modal.showModal();
-    }
-    document.getElementById('cancelCreate').onclick = ()=> document.getElementById('createModal').close();
-    // update player inputs when capacity changes
-    const capEl = document.getElementById('capacityInput');
-    if (capEl) capEl.addEventListener('input', (ev)=> updatePlayerInputs(parseInt(ev.target.value) || 4));
+    // Form submit
+    const form = document.getElementById('teeTimeForm');
+    const statusEl = document.getElementById('formStatus');
+    const submitBtn = document.getElementById('submitBtn');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.classList.remove('text-red-600', 'text-green-600');
+      statusEl.textContent = 'Sending...';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
 
-    document.getElementById('createForm').onsubmit = function(e){
-        e.preventDefault();
-        const f = e.target;
-        const data = Object.fromEntries(new FormData(f).entries());
-        // robust date parsing
-        const dateVal = (f.querySelector('input[name="date"]') || {}).value || data.date || '';
-        const dateObj = dateVal ? new Date(dateVal + 'T00:00') : new Date();
-        const yr = dateObj.getFullYear();
-        const mo = dateObj.getMonth() + 1;
-        const dy = dateObj.getDate();
-        const id = 'evt-' + Date.now();
-
-        // collect owner and players (player[] inputs)
-        const owner = (data.owner || '').trim();
-        const playerInputs = Array.from(f.querySelectorAll('input[name="player[]"]') || []);
-        const players = playerInputs.map(i => i.value.trim()).filter(Boolean);
-        const capacity = parseInt(data.capacity) || 4;
-        const remaining = Math.max(0, capacity - (1 + players.length)); // capacity minus owner and provided players
+      try {
+        const dateVal = document.getElementById('date').value;
+        const timeVal = document.getElementById('time').value;
+        const d = new Date(dateVal);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1);
+        const day = String(d.getDate());
 
         const item = {
-          id,
-          type: data.type || 'teetime',
-          year: yr,
-          month: mo,
-          day: dy,
-          course: data.courseId || data.course || '',
-          time: data.start || data.time || '',
-          total_players: capacity,
-          remaining_spots: remaining,
-          owner: owner,
-          players: players
+          id: generateId(),
+          type: 'teetime',
+          date: formatDateMMDDYYYY(dateVal),
+          year: String(year),
+          month: month,
+          day: day,
+          course: document.getElementById('course').value || '',
+          time: timeVal || '',
+          owner: document.getElementById('owner').value || '',
+          remaining_spots: document.getElementById('openSpots').value || '',
+          notes: document.getElementById('notes').value || '',
+          submittedAt: new Date().toISOString(),
+          isAdded: 'FALSE'
         };
 
-        const submitBtn = f.querySelector('button[type="submit"]');
-        if (submitBtn) submitBtn.disabled = true;
-
-        postTeetimeViaGet(item).then(resp => {
-          if (resp && resp.ok && resp.id) item.id = resp.id;
-          if (item.type === 'event') EVENTS.push(item); else TEETIMES.push(item);
-          populateCourses(); render();
-          document.getElementById('createModal').close();
-        }).catch(err => {
-          console.warn('Sheet post failed, saving locally', err);
-          if (item.type === 'event') EVENTS.push(item); else TEETIMES.push(item);
-          populateCourses(); render();
-          document.getElementById('createModal').close();
-        }).finally(()=>{ if (submitBtn) submitBtn.disabled = false; });
-    };
-
-    /* ---------- Navigation handlers ---------- */
-    document.getElementById('prevBtn').onclick = () => {
-      if (STATE.view === 'month') {
-        STATE.refDate.setMonth(STATE.refDate.getMonth() - 1);
-      } else {
-        STATE.refDate.setDate(STATE.refDate.getDate() - 7);
-      }
-      render();
-    };
-
-    document.getElementById('nextBtn').onclick = () => {
-      if (STATE.view === 'month') {
-        STATE.refDate.setMonth(STATE.refDate.getMonth() + 1);
-      } else {
-        STATE.refDate.setDate(STATE.refDate.getDate() + 7);
-      }
-      render();
-    };
-    document.getElementById('todayBtn').onclick = () => { STATE.refDate = new Date(); render();
-    };
-
-    /* ---------- Load events from event.json (league events) ---------- */
-    fetch('./scheduling/events.json').then(r=>{
-      if (!r.ok) throw new Error('no event.json');
-      return r.json();
-    }).then(data=>{
-      // expect either an array of objects or { events: [...] }
-      const arr = Array.isArray(data) ? data : (Array.isArray(data.events) ? data.events : []);
-      arr.forEach(e=>{
-        // map incoming fields into the minimal schema; supports various source shapes
-        const mapped = {
-          id: e.id || ('evt-'+Date.now()+Math.random().toString(36).slice(2,6)),
-          type: e.type || 'event',
-          year: e.year || (e.start_time ? new Date(e.start_time).getFullYear() : (e.date ? new Date(e.date).getFullYear() : undefined)),
-          month: e.month || (e.start_time ? (new Date(e.start_time).getMonth()+1) : (e.date ? (new Date(e.date).getMonth()+1) : undefined)),
-          day: e.day || (e.start_time ? new Date(e.start_time).getDate() : (e.date ? new Date(e.date).getDate() : undefined)),
-          course: e.course || e.course_id || e.venue || '',
-          time: e.time || e.start_time || e.start || '',
-          total_players: e.total_players || e.capacity || 0,
-          remaining_spots: (typeof e.remaining_spots !== 'undefined') ? e.remaining_spots : (e.capacity ? e.capacity : 0)
-        };
-        EVENTS.push(mapped);
-      });
-      populateCourses(); render();
-    }).catch(()=>{ /* silent if missing during dev */ });
-
-
-    /* ---------- Week ---------- */
-    function renderWeek(root){
-      root.innerHTML = '';
-      const ref = new Date(STATE.refDate);
-      const dowIdx = (ref.getDay()+6)%7;
-      const monday = new Date(ref); monday.setDate(ref.getDate()-dowIdx);
-      const sunday = new Date(monday); sunday.setDate(monday.getDate()+6);
-
-      document.getElementById('rangeLabel').textContent = `${fmt(monday,{month:'short',day:'numeric'})} – ${fmt(sunday,{month:'short',day:'numeric',year:'numeric'})}`;
-
-      const wrap = document.createElement('div'); wrap.className = 'flex gap-3';
-      // time labels
-      const timecol = document.createElement('div'); timecol.className = 'w-14 hidden sm:flex flex-col gap-2 text-xs text-slate-400';
-      const hours = Array.from({length:10},(_,i)=>8+i);
-      hours.forEach(h=>{ const t = document.createElement('div'); t.className='h-14'; t.textContent = `${String(h).padStart(2,'0')}:00`; timecol.appendChild(t); });
-      wrap.appendChild(timecol);
-
-      const colsWrap = document.createElement('div'); colsWrap.className = 'flex gap-3 overflow-x-auto';
-      for(let i=0; i<7; i++) {
-        // each column gets a 1/7 width but can shrink; reduce hard min-height so it doesn't cap the viewport
-        const col = document.createElement('div');
-        col.className = 'relative bg-slate-900 min-h-[480px] rounded flex-none w-[calc(100%/7)] min-w-[120px]';
-        const day = new Date(monday); day.setDate(monday.getDate()+i);
-        // optional day header
-        const hdr = document.createElement('div'); hdr.className='p-2 text-sm text-slate-300 border-b border-slate-800'; hdr.textContent = `${fmt(day,{weekday:'short',month:'short',day:'numeric'})}`;
-        col.appendChild(hdr);
-        colsWrap.appendChild(col);
-      }
-      wrap.appendChild(colsWrap);
-      root.appendChild(wrap);
-
-      // place items
-      const items = collect().filter(i=>{
-        const s=toDate(i.start), e=toDate(i.end); return s<=sunday && e>=monday;
-      });
-      items.forEach(it=>{
-        const s = itemStartDate(it);
-        const dayIdx = (s.getDay()+6)%7;
-        const col = colsWrap.children[dayIdx];
-        const startMin = (s.getHours()-8)*60 + s.getMinutes();
-        const endMin = (e.getHours()-8)*60 + e.getMinutes();
-        // match the column min-height so slot positioning scales correctly
-        const totalHeight = hours.length * 48;
-        const top = Math.max(0, Math.min(totalHeight - 24, (startMin / (10*60)) * totalHeight));
-        const height = Math.max(28, ((endMin - startMin) / (10*60)) * totalHeight);
-        const slot = document.createElement('div'); slot.className = 'absolute left-2 right-2 rounded p-2 text-xs';
-        slot.style.top = top + 'px'; slot.style.height = height + 'px';
-        slot.style.background = (it.type==='event') ? 'rgba(78,168,255,0.12)' : 'rgba(249,199,79,0.10)';
-        slot.style.border = (it.type==='event') ? '1px solid rgba(78,168,255,0.18)' : '1px solid rgba(249,199,79,0.18)';
-        const courseName = getCourseName(it);
-        slot.innerHTML = `<div class="font-semibold">${getTitle(it)}</div><div class="text-slate-400 text-[11px]">${it.time ? it.time : fmt(s,{hour:'numeric',minute:'2-digit'})} • ${courseName}</div>`;
-        slot.addEventListener('click', (e) => { e.stopPropagation(); openItemModal(it); });
-        col.appendChild(slot);
-      });
-    }
-
-    /* ---------- UI helpers & modal ---------- */
-    function renderChip(it){
-        const chip = document.createElement('div');
-        chip.className = 'flex items-center gap-2 p-1 rounded text-sm cursor-pointer';
-        const content = document.createElement('div');
-        content.className = 'truncate text-xs';
-        // use adapter to compute Date from minimal schema, prefer explicit item.time when present
-        const s = (typeof itemStartDate === 'function') ? itemStartDate(it) : (it.start ? new Date(it.start) : new Date());
-        const time = it.time ? it.time : fmt(s, {hour:'numeric', minute:'2-digit'});
-        content.innerHTML = `<span class="font-medium">${it.course}</span> <span class="text-slate-400">• ${time}</span>`;
-
-        if (it.type === 'event') {
-          // event: use blue background
-          chip.style.background = 'rgba(78,168,255,0.12)';
-          chip.style.border = '1px solid rgba(78,168,255,0.18)';
-          chip.style.padding = '6px';
-          chip.appendChild(content);
+        const result = await postTeetimeViaGet(item);
+        if (result && result.success) {
+          statusEl.textContent = 'Saved ✓';
+          statusEl.classList.add('text-green-600');
+          setTimeout(() => { closeModal(); }, 800);
         } else {
-          // teetime: use yellow background (no leading dot) to avoid mobile scrunching
-          chip.style.background = 'rgba(249,199,79,0.10)';
-          chip.style.border = '1px solid rgba(249,199,79,0.18)';
-          chip.style.padding = '6px';
-          chip.appendChild(content);
+          statusEl.textContent = result && result.error ? `Error: ${result.error}` : 'Save failed';
+          statusEl.classList.add('text-red-600');
         }
-
-        chip.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openItemModal(it);
-            // attach player-add controls after modal opens
-            setTimeout(()=> attachPlayerControls(it), 50);
-        });
-        return chip;
-    }
-
-    // cleanup helper: remove inline add-players form and controls
-    function cleanupModalAddPlayersForm(){
-      const form = document.getElementById('modalAddPlayersForm');
-      if (form) form.remove();
-      const controls = document.getElementById('modalPlayerControls');
-      if (controls) controls.remove();
-    }
-
-    // inject player-add controls into modal actions for existing teetimes
-    function attachPlayerControls(it){
-      // remove any leftover UI first
-      cleanupModalAddPlayersForm();
-      if (!it || it.type !== 'teetime') return;
-      const modalActions = document.getElementById('modalActions');
-      if (!modalActions) return;
-      const prev = document.getElementById('modalPlayerControls');
-      if (prev) prev.remove();
-
-      const cap = Number(it.total_players || it.capacity || 4) || 4;
-      const existingPlayers = Array.isArray(it.players) ? it.players.length : (it.players ? String(it.players).split(/[\n;,]+/).filter(Boolean).length : 0);
-      let remaining = (typeof it.remaining_spots !== 'undefined' && it.remaining_spots !== null && it.remaining_spots !== '') ? Number(it.remaining_spots) : (cap - (1 + existingPlayers));
-      remaining = Math.max(0, isNaN(remaining) ? 0 : remaining);
-
-      const wrap = document.createElement('div');
-      wrap.id = 'modalPlayerControls';
-      wrap.className = 'flex items-center gap-2';
-
-      const label = document.createElement('div');
-      label.className = 'text-sm text-slate-300';
-      label.textContent = 'Players to add';
-
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.min = 1;
-      input.value = remaining > 0 ? 1 : 0;
-      input.max = remaining;
-      input.step = 1;
-      input.className = 'w-16 px-2 py-1 bg-slate-900 border border-slate-700 rounded text-sm';
-      if (remaining <= 0) { input.disabled = true; input.value = 0; }
-      // ensure input stays within bounds if user types a value
-      input.addEventListener('input', ()=> {
-        let v = parseInt(input.value, 10);
-        if (isNaN(v)) v = 1;
-        if (v < 1) v = 1;
-        if (v > Number(input.max || remaining)) v = Number(input.max || remaining);
-        input.value = String(v);
-      });
-
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'px-2 py-1 rounded bg-sky-600 text-white text-sm';
-      btn.textContent = 'Add';
-      if (remaining <= 0) { btn.disabled = true; btn.title = 'Capacity full'; }
-      else btn.title = `Add up to ${remaining} player${remaining===1?'':'s'}`;
-
-      const info = document.createElement('div');
-      info.className = 'text-xs text-slate-400';
-      info.textContent = remaining <= 0 ? `Capacity full (${cap})` : `Up to ${remaining}`;
-
-      // Add click -> render inline fields (N inputs + Save/Cancel)
-      btn.addEventListener('click', () => {
-        // prevent duplicate form
-        if (document.getElementById('modalAddPlayersForm')) return;
-        // parse and clamp value robustly
-        let raw = parseInt(input.value, 10);
-        if (isNaN(raw)) raw = 1;
-        const n = Math.min(Math.max(1, raw), remaining);
-        if (n <= 0) return;
-
-        const formWrap = document.createElement('div');
-        formWrap.id = 'modalAddPlayersForm';
-        formWrap.className = 'flex flex-col gap-2 p-2 bg-slate-850 rounded w-full';
-        // create inputs
-        for (let i=0;i<n;i++){
-          const row = document.createElement('div');
-          row.className = 'flex gap-2';
-          const txt = document.createElement('input');
-          txt.type = 'text';
-          txt.placeholder = `Player ${i+1} name`;
-          txt.className = 'flex-1 px-3 py-2 bg-slate-900 border border-slate-700 rounded text-sm';
-          row.appendChild(txt);
-          formWrap.appendChild(row);
-        }
-        const actions = document.createElement('div');
-        actions.className = 'flex gap-2 justify-end';
-        const save = document.createElement('button');
-        save.type = 'button';
-        save.className = 'px-3 py-1 rounded bg-emerald-500 text-emerald-900 text-sm';
-        save.textContent = 'Save';
-        const cancel = document.createElement('button');
-        cancel.type = 'button';
-        cancel.className = 'px-3 py-1 rounded bg-slate-700 text-sm';
-        cancel.textContent = 'Cancel';
-
-        actions.appendChild(cancel);
-        actions.appendChild(save);
-        formWrap.appendChild(actions);
-
-        // insert form after modal actions label area
-        modalActions.parentNode.insertBefore(formWrap, modalActions.nextSibling);
-
-        cancel.addEventListener('click', ()=> formWrap.remove());
-
-        save.addEventListener('click', async () => {
-          const inputs = Array.from(formWrap.querySelectorAll('input[type="text"]'));
-          const newNames = inputs.map(i=> (i.value||'').trim()).filter(Boolean);
-          if (newNames.length === 0) { alert('Enter at least one name'); return; }
-          const existingArr = Array.isArray(it.players) ? it.players.slice() : (it.players ? String(it.players).split(/[\n;,]+/).map(s=>s.trim()).filter(Boolean) : []);
-          const merged = existingArr.concat(newNames);
-          const newRemaining = Math.max(0, cap - (1 + merged.length));
-          // persist
-          const resp = await updateTeetimeViaGet(it.id, merged, newRemaining, it.notes || '');
-          if (resp && resp.ok){
-            it.players = merged;
-            it.remaining_spots = newRemaining;
-            formWrap.remove();
-            if (typeof openItemModal === 'function') setTimeout(()=> openItemModal(it), 100);
-            if (typeof render === 'function') render();
-          } else {
-            alert('Update failed: ' + (resp && resp.error ? resp.error : 'unknown'));
-          }
-        });
-      });
-
-      wrap.appendChild(label);
-      wrap.appendChild(input);
-      wrap.appendChild(btn);
-      wrap.appendChild(info);
-      modalActions.prepend(wrap);
-
-      // ensure form/controls are removed when the item dialog closes
-      const itemDialog = modalActions.closest('dialog');
-      if (itemDialog) {
-        // remove existing listener to avoid duplicates
-        try { itemDialog.removeEventListener('close', cleanupModalAddPlayersForm); } catch(e){/* ignore */ }
-        itemDialog.addEventListener('close', cleanupModalAddPlayersForm);
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = 'Save failed';
+        statusEl.classList.add('text-red-600');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
       }
-    }
-
-    function updateTeetimeViaGet(id, playersArray, remainingSpots, notes) {
-        const params = new URLSearchParams({
-            action: 'update',
-            id: id,
-            players: Array.isArray(playersArray) ? playersArray.join(';') : (playersArray || ''),
-            remaining_spots: String(remainingSpots || ''),
-            notes: notes || ''
-        });
-        const url = teeEndpoint + '?' + params.toString();
-        return fetch(url, { method: 'GET' }).then(r => r.json()).catch(err => ({ok:false,error:String(err)}));
-    }
-
-    // helper to resolve course display name from either minimal schema (course) or legacy courseId
-    function getCourseName(it){
-      if (!it) return '';
-      if (it.course && typeof it.course === 'string' && it.course.trim()) return it.course;
-      if (it.courseId){
-        const c = COURSES.find(x=> x.id === it.courseId || x.id === String(it.courseId));
-        if (c) return c.name;
-      }
-      // try matching by name/slug against COURSES
-      const match = COURSES.find(x => x.name === it.course || x.id === it.course || x.slug === it.course);
-      if (match) return match.name;
-      return String(it.course || it.courseId || '');
-    }
-
-    // helper to resolve a display title from multiple possible source fields
-    function getTitle(it){
-      if (!it) return '(untitled)';
-      return it.title || it.event_name || it.name || it.slug || '(untitled)';
-    }
-
-    function openDayModal(day, list) {
-      const modal = document.getElementById('detailModal');
-      document.getElementById('modalTitle').textContent = fmt(day,{weekday:'long',month:'long',day:'numeric'});
-      const body = document.getElementById('modalBody'); body.innerHTML = '';
-      (list||[]).forEach(it=>{
-        const row = document.createElement('div'); row.className = 'flex items-center gap-3 p-2 hover:bg-slate-800 rounded cursor-pointer';
-        const s = itemStartDate(it);
-        const timeStr = it.time ? it.time : fmt(s,{hour:'numeric',minute:'2-digit'});
-        row.innerHTML = `<div class="w-20 text-xs font-medium">${timeStr}</div>
-          <div class="flex-1 text-sm">${getTitle(it)}</div>
-          <div class="text-xs text-slate-400">${getCourseName(it)}</div>`;
-        row.onclick = ()=> openItemModal(it);
-        body.appendChild(row);
-      });
-      document.getElementById('modalActions').innerHTML = `<button class="px-3 py-1 rounded bg-slate-700" onclick="document.getElementById('detailModal').close()">Close</button>`;
-      document.getElementById('detailModal').showModal();
-    }
-
-    function openItemModal(it){
-      const modal = document.getElementById('detailModal');
-      document.getElementById('modalTitle').textContent = getTitle(it);
-      const s = itemStartDate(it);
-      const e = it.end ? new Date(it.end) : new Date(s.getTime() + 60*60*1000); // default 1 hour
-      const courseName = getCourseName(it);
-      let html = `<div class="row"><strong>Date:</strong> ${fmt(s,{weekday:'short',month:'long',day:'numeric'})}</div>
-        <div class="row"><strong>Time:</strong> ${it.time ? it.time : fmt(s,{hour:'numeric',minute:'2-digit'})} – ${fmt(e,{hour:'numeric',minute:'2-digit'})} (${TZ})</div>
-        <div class="row"><strong>Course:</strong> ${courseName}</div>`;
-      if (it.type==='event' && it.notes) html += `<div class="text-sm mb-2"><strong>Notes:</strong> ${it.notes}</div>`;
-      if (it.type==='teetime'){
-        const left = Math.max(0,(it.capacity||4) - (it.booked?.length||0));
-        html += `<div class="text-sm mb-2"><strong>Capacity:</strong> ${it.capacity||4} — ${left>0?left+' open':'Full'}</div>`;
-        html += `<div class="text-sm mb-2"><strong>Players:</strong> ${(it.booked && it.booked.length)?it.booked.join(', '):'—'}</div>`;
-        if (it.waitlist?.length) html += `<div class="text-sm mb-2"><strong>Waitlist:</strong> ${it.waitlist.join(', ')}</div>`;
-      }
-      document.getElementById('modalBody').innerHTML = html;
-      document.getElementById('modalActions').innerHTML = `<button class="px-3 py-1 rounded bg-slate-700" onclick="document.getElementById('detailModal').close()">Close</button>`;
-      modal.showModal();
-    }
-
-    /* ---------- Export ICS ---------- */
-    function exportICS(){
-      const items = collect();
-      const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//League//Calendar//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
-      items.forEach(it=>{
-        const uid = it.id + '@league';
-        const dtStart = toDate(it.start).toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
-        const dtEnd = toDate(it.end).toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
-        const course = COURSES.find(c=>c.id===it.courseId)?.name || '';
-        lines.push('BEGIN:VEVENT', `UID:${uid}`, `DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').split('.')[0]}Z`, `DTSTART:${dtStart}`, `DTEND:${dtEnd}`, `SUMMARY:${(it.type==='teetime'?'Tee Time: ':'')}${it.title}`, `LOCATION:${course}`, `DESCRIPTION:${it.type==='event'?(it.notes||''):`Capacity ${it.capacity||4}`}`, 'END:VEVENT');
-      });
-      lines.push('END:VCALENDAR');
-      const blob = new Blob([lines.join('\r\n')], {type:'text/calendar'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'league-calendar.ics'; a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    /* ---------- Wiring ---------- */
-    const calendarRoot = document.getElementById('calendarRoot');
-    function render(){ if (STATE.view === 'month') renderMonth(calendarRoot); else renderWeek(calendarRoot); }
-
-    document.getElementById('monthBtn').onclick = ()=>{
-      STATE.view='month';
-      document.getElementById('monthBtn').classList.add('bg-emerald-400','text-emerald-900');
-      document.getElementById('weekBtn').classList.remove('bg-emerald-400','text-emerald-900');
-      render();
-    };
-    document.getElementById('weekBtn').onclick = ()=>{
-      STATE.view='week';
-      document.getElementById('weekBtn').classList.add('bg-emerald-400','text-emerald-900');
-      document.getElementById('monthBtn').classList.remove('bg-emerald-400','text-emerald-900');
-      render();
-    };
-    
-
-    const select = document.getElementById('courseSelect');
-    function populateCourses() { 
-        select.innerHTML = '<option value="all">All courses</option>';
-        COURSES.forEach(c => {
-            const opt=document.createElement('option');
-            opt.value=c.id;
-            opt.textContent=c.name;
-            select.appendChild(opt);
-        }); 
-    }
-    select.onchange = (e)=> { STATE.course = e.target.value; render(); };
-
-    let rto = null;
-    window.addEventListener('resize', ()=>{ clearTimeout(rto); rto = setTimeout(()=>{
-      const nowMobile = isMobile();
-      if (nowMobile !== STATE.isMobile) STATE.isMobile = nowMobile;
-      render();
-    },150); });
-
-    function initWithData({courses, events, teetimes}){
-      if (courses) { COURSES.length = 0; COURSES.push(...courses); }
-      if (events) { EVENTS.length = 0; EVENTS.push(...events); }
-      if (teetimes) { TEETIMES.length = 0; TEETIMES.push(...teetimes); }
-      populateCourses(); render();
-    }
-
-    populateCourses(); render();
-    window.initCalendar = initWithData;
+    });
   </script>
 </body>
 </html>
