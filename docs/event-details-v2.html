@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Details | The Amatour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* small visual helpers */
+    .muted { color: #6b7280; } /* tailwind gray-500 */
+    .panel { border-top: 1px solid #e5e7eb; } /* tailwind gray-200 */
+    .sticky-actions { position: sticky; bottom: 0; z-index: 40; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen">
+  <div id="header"></div>
+
+  <main id="main" class="max-w-3xl mx-auto px-4 py-6">
+    <a href="./schedule.html" class="inline-flex items-center gap-2 text-sm text-gray-700 mb-4">
+      ← Back to Schedule
+    </a>
+
+    <!-- hero -->
+    <article id="hero" class="bg-white rounded-xl shadow p-4 mb-4">
+      <div class="flex items-start gap-4">
+        <img id="eventImage" src="./resources/images/default-course.png" alt="Event image"
+             class="w-24 h-24 md:w-32 md:h-32 rounded-md object-cover flex-shrink-0" />
+        <div class="flex-1">
+          <h1 id="eventTitle" class="text-lg font-semibold leading-snug">Loading event…</h1>
+          <p id="eventCourse" class="muted text-sm mt-1">—</p>
+          <div class="mt-2 flex flex-wrap items-center gap-2">
+            <div id="eventDate" class="inline-flex items-center text-sm px-2 py-1 rounded bg-gray-100"></div>
+            <div id="eventFee" class="inline-flex items-center text-sm px-2 py-1 rounded bg-gray-100"></div>
+            <div id="registrationBadge" class="inline-flex items-center text-sm px-2 py-1 rounded bg-green-600 text-white hidden">Registration Open</div>
+          </div>
+          <p id="eventLocation" class="text-sm muted mt-2"></p>
+        </div>
+      </div>
+      <p id="eventShortDesc" class="text-sm mt-3 muted"></p>
+    </article>
+
+    <!-- collapsible panels -->
+    <section id="panels" class="space-y-3">
+      <!-- Overview -->
+      <div class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-center justify-between" data-panel-toggle="overview">
+          <div>
+            <h2 class="text-sm font-semibold">Overview</h2>
+            <p class="text-xs muted mt-1">Quick facts and description</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-overview" class="px-4 pb-4 hidden">
+          <div id="overviewDetails" class="grid grid-cols-2 gap-2 text-sm mt-2"></div>
+          <div id="eventDescription" class="text-sm muted mt-3 whitespace-pre-wrap"></div>
+        </div>
+      </div>
+
+      <!-- Players -->
+      <div class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-center justify-between" data-panel-toggle="players">
+          <div>
+            <h2 class="text-sm font-semibold">Players</h2>
+            <p class="text-xs muted mt-1">Registered players and stats</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-players" class="px-4 pb-4 hidden">
+          <ul id="playersList" class="divide-y"></ul>
+        </div>
+      </div>
+
+      <!-- Results / Top5 -->
+      <div class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-center justify-between" data-panel-toggle="results">
+          <div>
+            <h2 class="text-sm font-semibold">Results</h2>
+            <p class="text-xs muted mt-1">Top finishes and full results</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-results" class="px-4 pb-4 hidden">
+          <ol id="top5List" class="list-decimal list-inside text-sm space-y-2 mt-2"></ol>
+          <div id="resultsFull" class="mt-3 text-sm muted"></div>
+        </div>
+      </div>
+
+      <!-- Schedule (tee times / rounds) -->
+      <div class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-center justify-between" data-panel-toggle="schedule">
+          <div>
+            <h2 class="text-sm font-semibold">Schedule</h2>
+            <p class="text-xs muted mt-1">Tee times, practice, and format</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-schedule" class="px-4 pb-4 hidden">
+          <div id="scheduleList" class="text-sm mt-2"></div>
+        </div>
+      </div>
+
+      <!-- Notes / Logistics -->
+      <div class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-center justify-between" data-panel-toggle="notes">
+          <div>
+            <h2 class="text-sm font-semibold">Notes & Logistics</h2>
+            <p class="text-xs muted mt-1">Course notes, parking, contacts</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-notes" class="px-4 pb-4 hidden text-sm muted"></div>
+      </div>
+
+      <!-- Raw details (preserve all keys) -->
+      <div class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-center justify-between" data-panel-toggle="raw">
+          <div>
+            <h2 class="text-sm font-semibold">All event fields</h2>
+            <p class="text-xs muted mt-1">Technical/full data (for debugging or export)</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <pre id="panel-raw" class="p-4 text-xs hidden overflow-auto"></pre>
+      </div>
+    </section>
+  </main>
+
+  <!-- sticky action bar for small screens -->
+  <div class="sticky-actions md:hidden fixed inset-x-0 bottom-0 p-3 bg-white border-t shadow-md">
+    <div class="max-w-3xl mx-auto flex gap-2">
+      <button id="registerBtn" class="flex-1 bg-blue-600 text-white rounded px-4 py-2 text-sm">Register</button>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+
+  <script>
+    // helpers
+    function formatDate(iso) {
+      if (!iso) return '—';
+      const d = new Date(iso);
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+    function safeText(v) { return (v === null || v === undefined) ? '—' : String(v); }
+    function createNodeFromHTML(html) { const div = document.createElement('div'); div.innerHTML = html.trim(); return div.firstChild; }
+
+    // accordion toggle wiring
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-panel-toggle]');
+      if (!btn) return;
+      const key = btn.getAttribute('data-panel-toggle');
+      const panel = document.getElementById('panel-' + key);
+      if (!panel) return;
+      const open = !panel.classList.contains('hidden');
+      // close all panels (optional: allow multiple open by removing this)
+      document.querySelectorAll('[id^="panel-"]').forEach(p => p.classList.add('hidden'));
+      if (!open) panel.classList.remove('hidden');
+      // smooth scroll into view on mobile
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+    });
+
+    // load partials
+    async function loadPartials() {
+      async function load(id, url) {
+        const res = await fetch(url);
+        document.getElementById(id).innerHTML = await res.text();
+      }
+      await load('header','./shared/header.html');
+      await load('footer','./shared/footer.html');
+    }
+
+    // render event
+    async function renderEvent() {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('event');
+      if (!slug) {
+        document.getElementById('main').innerHTML = '<p class="text-red-500">No event specified.</p>';
+        return;
+      }
+
+      try {
+        const [evRes, indRes] = await Promise.all([
+          fetch('./scheduling/events.json'),
+          fetch('./statistics/individual.json')
+        ]);
+        const eventsJson = await evRes.json();
+        const individuals = await indRes.json();
+        const events = eventsJson.events || [];
+        const event = events.find(e => e.slug === slug);
+        if (!event) {
+          document.getElementById('main').innerHTML = '<p class="text-red-500">Event not found.</p>';
+          return;
+        }
+
+        // Hero fields
+        document.getElementById('eventTitle').textContent = event.event_name || event.title || 'Event';
+        document.getElementById('eventCourse').textContent = event.course || '—';
+        document.getElementById('eventDate').textContent = formatDate(event.date);
+        document.getElementById('eventFee').textContent = event.entry_fee ? `$${Number(event.entry_fee).toFixed(2)}` : 'No fee';
+        document.getElementById('eventShortDesc').textContent = event.summary || event.short_description || '';
+
+        const imgEl = document.getElementById('eventImage');
+        imgEl.src = event.image || './resources/images/default-course.png';
+        imgEl.alt = event.course || event.event_name || 'Event image';
+        imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = './resources/images/default-course.png'; };
+
+        if (event.registration_status && String(event.registration_status).toLowerCase() === 'open') {
+          document.getElementById('registrationBadge').classList.remove('hidden');
+        }
+
+        // Overview: key / value pairs for quick facts
+        const overview = {
+          'Format': event.format,
+          'Rounds': event.rounds,
+          'Par': event.par,
+          'Yardage': event.yardage,
+          'Cut': event.cut,
+          'Organizer': event.organizer,
+          'Contact': event.contact,
+          'Registration': event.registration_status,
+        };
+        const ovEl = document.getElementById('overviewDetails');
+        ovEl.innerHTML = '';
+        Object.entries(overview).forEach(([k,v]) => {
+          if (v === undefined || v === null || v === '') return;
+          const cell = document.createElement('div');
+          cell.className = 'text-sm';
+          cell.innerHTML = `<div class="text-xs muted">${k}</div><div class="font-medium">${safeText(v)}</div>`;
+          ovEl.appendChild(cell);
+        });
+
+        // Description / notes
+        document.getElementById('eventDescription').textContent = event.description || event.long_description || '';
+
+        // Players list: enrich from individuals if available
+        const players = event.players || event.registered || [];
+        const playersList = document.getElementById('playersList');
+        playersList.innerHTML = '';
+        if (players.length === 0) {
+          playersList.innerHTML = '<li class="p-3 text-sm muted">No players listed.</li>';
+        } else {
+          players.forEach(p => {
+            const details = individuals.find(i => (i.name || '').toLowerCase() === (p.name || p || '').toLowerCase() || (i.email || '').toLowerCase() === (p.email || '').toLowerCase()) || {};
+            const li = document.createElement('li');
+            li.className = 'p-3 flex items-center gap-3';
+            const avatar = (details.avatar || details.image) ? `<img src="${details.avatar || details.image}" class="w-10 h-10 rounded-full object-cover">`
+                          : `<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-sm text-gray-700">${(p.name || p || '').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase()}</div>`;
+            li.innerHTML = `
+              <div class="flex-none">${avatar}</div>
+              <div class="flex-1 min-w-0">
+                <div class="font-medium truncate">${safeText(p.name || p || details.name || p)}</div>
+                <div class="text-xs muted truncate">${safeText(details.club || details.team || p.club || '')}</div>
+              </div>
+              <div class="text-sm muted text-right">${safeText(p.position !== undefined ? p.position : details.position || '')}</div>
+            `;
+            playersList.appendChild(li);
+          });
+        }
+
+        // Results / top5
+        const top5 = event.top5 || event.results || [];
+        const top5El = document.getElementById('top5List');
+        top5El.innerHTML = '';
+        if (top5.length === 0) {
+          top5El.innerHTML = '<li class="text-sm muted">No results available.</li>';
+        } else {
+          top5.slice(0,10).forEach(r => {
+            const li = document.createElement('li');
+            li.className = 'text-sm';
+            li.innerHTML = `<span class="font-medium">${safeText(r.name)}</span> — <span class="muted">${safeText(r.to_par ?? r.score ?? '')}</span>`;
+            top5El.appendChild(li);
+          });
+        }
+        document.getElementById('resultsFull').textContent = event.results_note || '';
+
+        // Schedule (tee times etc.)
+        const scheduleEl = document.getElementById('scheduleList');
+        scheduleEl.innerHTML = '';
+        if (event.schedule && Array.isArray(event.schedule) && event.schedule.length) {
+          event.schedule.forEach(s => {
+            const div = document.createElement('div');
+            div.className = 'text-sm py-1';
+            div.innerHTML = `<div class="font-medium">${safeText(s.title || s.session)}</div><div class="muted text-xs">${safeText(s.time || s.when || '')} ${safeText(s.location|| '')}</div>`;
+            scheduleEl.appendChild(div);
+          });
+        } else if (event.tee_times && Array.isArray(event.tee_times)) {
+          event.tee_times.forEach(tt => {
+            const div = document.createElement('div');
+            div.className = 'text-sm py-1';
+            div.innerHTML = `<div>${safeText(tt.time)} — ${safeText(tt.player || tt.players || '')}</div>`;
+            scheduleEl.appendChild(div);
+          });
+        } else {
+          scheduleEl.innerHTML = '<div class="text-sm muted">Schedule not available.</div>';
+        }
+
+        // Notes & logistics
+        document.getElementById('panel-notes').textContent = event.logistics || event.notes || event.transport || '';
+
+        // Raw panel: dump all fields
+        const raw = Object.assign({}, event);
+        document.getElementById('panel-raw').textContent = JSON.stringify(raw, null, 2);
+
+        // Actions
+        document.getElementById('registerBtn').addEventListener('click', () => {
+          if (event.registration_link) return window.open(event.registration_link, '_blank');
+          // fallback: open mailto with prefilled subject
+          const subject = encodeURIComponent(`Register: ${event.event_name || ''}`);
+          const body = encodeURIComponent(`I'd like to register for ${event.event_name || ''} on ${formatDate(event.date || '')}.`);
+          window.location.href = `mailto:${event.contact_email || ''}?subject=${subject}&body=${body}`;
+        });
+        document.getElementById('shareBtn').addEventListener('click', async () => {
+          const shareUrl = window.location.href;
+          if (navigator.share) {
+            navigator.share({ title: event.event_name, url: shareUrl }).catch(()=>{});
+          } else {
+            try {
+              await navigator.clipboard.writeText(shareUrl);
+              alert('Link copied to clipboard');
+            } catch (err) {
+              prompt('Copy this link', shareUrl);
+            }
+          }
+        });
+
+      } catch (err) {
+        console.error('Render event error', err);
+        document.getElementById('main').innerHTML = '<p class="text-red-500">Error loading event.</p>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPartials().then(renderEvent);
+    });
+  </script>
+</body>
+</html>
