@@ -1,397 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Player Details | The Amatour</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans">
-  <div id="header" class="mb-6"></div>
-
+  <div id="header"></div>
   <main class="max-w-6xl mx-auto px-4 py-10">
-    <!-- Container -->
-    <div id="playerContainer" class="bg-white rounded-lg shadow-md p-6 space-y-6">
-        <div class="flex flex-row items-start gap-8">
-            <div id="avatarCol" class="w-1/3 max-w-[24rem] flex-shrink-0">
-                <img id="playerAvatar" src="./resources/avatar.svg"
-                    alt="Player avatar"
-                    onerror="this.onerror=null; this.src='./assets/player-placeholder.svg';"
-                    class="w-full aspect-square rounded-full object-cover" />
-            </div>
-
-            <div id="bioCol" class="w-2/3">
-                <div id="playerHeader" class="mb-4">
-                    <h2 id="playerName" class="text-2xl font-bold">Loading...</h2>
-                    <div id="playerMeta" class="text-sm text-gray-600 mt-2 space-y-1"></div>
-                </div>
-
-                <div id="playerBio" class="prose text-gray-800 max-w-none">
-                  <!-- bio text goes here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Tabs -->
-        <div>
-          <div class="flex gap-2 mb-4" role="tablist" aria-label="Player tabs">
-            <button id="tabOverview" class="px-3 py-1 rounded bg-indigo-600 text-white shadow-sm" role="tab" aria-selected="true">Overview</button>
-            <button id="tabScorecards" class="px-3 py-1 rounded bg-gray-100 text-gray-800" role="tab" aria-selected="false">Scorecards</button>
-          </div>
-
-          <div id="tabContent" class="bg-gray-50 border border-gray-100 rounded-md p-4">
-            <!-- Overview -->
-            <div id="overviewPanel" class="">
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex-1">
-                  <label class="block text-sm text-gray-600">Year</label>
-                  <select id="selectOverviewYear" class="mt-1 px-3 py-2 border rounded-md bg-white"></select>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div id="overviewStats" class="grid grid-cols-2 gap-4"></div>
-                <div id="overviewBreakdown" class="bg-white p-4 rounded border border-gray-100">
-                  <!-- breakdown items -->
-                </div>
-              </div>
-
-              <div id="overviewText" class="mt-6 text-sm text-gray-700"></div>
-            </div>
-
-            <!-- Scorecards -->
-            <div id="scorecardsPanel" class="hidden">
-              <div class="flex flex-col md:flex-row gap-4 items-start">
-                <div class="w-full md:w-1/4">
-                  <label class="block text-sm text-gray-600 mb-1">Year</label>
-                  <select id="selectYear" class="w-full px-3 py-2 border rounded-md bg-white"></select>
-                </div>
-                <div class="w-full md:w-1/4">
-                  <label class="block text-sm text-gray-600 mb-1">Event</label>
-                  <select id="selectEvent" class="w-full px-3 py-2 border rounded-md bg-white" disabled></select>
-                </div>
-                <div class="flex-1">
-                  <label class="block text-sm text-gray-600 mb-1 invisible">Action</label>
-                  <div id="scorecardsActions" class="flex gap-2">
-                    <button id="btnLoadScorecards" class="px-3 py-2 rounded bg-indigo-600 text-white" disabled>Show Scorecard</button>
-                    <div id="scorecardsStatus" class="text-sm text-gray-600 self-center"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="scorecardsList" class="mt-6"></div>
-            </div>
-          </div>
-        </div>
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10">
+      <div id="playerHeader" class="mb-6 sm:mb-0"></div>
+      <a href="./leaderboard.html" class="inline-block px-5 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition whitespace-nowrap">
+        ← Back to Leaderboard
+      </a>
     </div>
 
-    <!-- reuse original event and season sections for rendering functions -->
-    <div id="eventStats" class="space-y-12 mt-8"></div>
-    <div id="seasonStats" class="mt-10 space-y-12"></div>
-
-    <div id="footer" class="mt-10 text-sm text-gray-500">Data source: statistics/*.json</div>
+    <div id="eventStats" class="space-y-12"></div>
+    <div id="seasonStats" class="mt-20 space-y-12"></div>
   </main>
+  <div id="footer"></div>
 
   <script>
-    // ...existing code...
-    // filepath: /Users/alexhong/Development/github/amatour-pages/docs/player-details-v2.html
-    (function(){
-      const urlParams = new URLSearchParams(window.location.search);
-      const slug = (urlParams.get('player') || '').trim();
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get("player");
 
-      let playerData = null; // store loaded player
-
-      const el = {
-        name: document.getElementById('playerName'),
-        meta: document.getElementById('playerMeta'),
-        bio: document.getElementById('playerBio'),
-        avatar: document.getElementById('playerAvatar'),
-        overviewStats: document.getElementById('overviewStats'),
-        overviewBreakdown: document.getElementById('overviewBreakdown'),
-        overviewText: document.getElementById('overviewText'),
-        selectOverviewYear: document.getElementById('selectOverviewYear'),
-        tabOverview: document.getElementById('tabOverview'),
-        tabScorecards: document.getElementById('tabScorecards'),
-        overviewPanel: document.getElementById('overviewPanel'),
-        scorecardsPanel: document.getElementById('scorecardsPanel'),
-        selectYear: document.getElementById('selectYear'),
-        selectEvent: document.getElementById('selectEvent'),
-        btnLoadScorecards: document.getElementById('btnLoadScorecards'),
-        scorecardsList: document.getElementById('scorecardsList'),
-        scorecardsStatus: document.getElementById('scorecardsStatus'),
-        eventStats: document.getElementById('eventStats'),
-        seasonStats: document.getElementById('seasonStats')
-      };
-
-      // tab switching
-      el.tabOverview.addEventListener('click', () => { setActiveTab('overview'); });
-      el.tabScorecards.addEventListener('click', () => { setActiveTab('scorecards'); });
-      function setActiveTab(key){
-        if (key === 'overview'){
-          el.tabOverview.className = 'px-3 py-1 rounded bg-indigo-600 text-white shadow-sm';
-          el.tabScorecards.className = 'px-3 py-1 rounded bg-gray-100 text-gray-800';
-          el.overviewPanel.classList.remove('hidden');
-          el.scorecardsPanel.classList.add('hidden');
-        } else {
-          el.tabOverview.className = 'px-3 py-1 rounded bg-gray-100 text-gray-800';
-          el.tabScorecards.className = 'px-3 py-1 rounded bg-indigo-600 text-white shadow-sm';
-          el.overviewPanel.classList.add('hidden');
-          el.scorecardsPanel.classList.remove('hidden');
-        }
-      }
-
-      // fetch the same individual.json and leverage the original rendering functions
-      fetch("./statistics/individual.json")
-        .then(res => res.json())
-        .then(data => {
-          const player = data.find(p => p.slug === slug || p.slug === decodeURIComponent(slug) || (p.name && slug === encodeURIComponent(String(p.name).toLowerCase().replace(/\s+/g,'-'))));
-          if (!player) {
-            el.name.textContent = "Player not found";
-            el.bio.innerHTML = "<p class='text-sm text-red-600'>No player data for '" + escapeHtml(slug) + "'</p>";
-            return;
-          }
-          playerData = player;
-          // Render header / bio
-          renderHeader(player);
-          // Render events (score tables) using the original function
-          renderEvents(player.events || []);
-          // Render season averages / breakdown (global section)
-          renderSeasonStats(player);
-          // Setup Overview year selector and default to most recent
-          populateOverviewYearsAndRender(player);
-        })
-        .catch(err => {
-          console.error('Failed to load individual.json', err);
-          el.name.textContent = 'Error loading player';
-          el.bio.innerHTML = '<p class="text-sm text-red-600">Unable to load player data.</p>';
-        });
-
-      // renderHeader adapted to V2 layout
-      function renderHeader(player) {
-        el.name.textContent = player.name || player.player || 'Unnamed';
-        const metaLines = [];
-        if (player.ghin) metaLines.push('GHIN: ' + escapeHtml(String(player.ghin)));
-        if (player.city) metaLines.push(escapeHtml(player.city));
-        if (player.member_since) metaLines.push('Member since ' + escapeHtml(player.member_since));
-        if (typeof player.events_played !== 'undefined') metaLines.push((player.events_played) + ' events');
-        el.meta.innerHTML = metaLines.map(s => '<div>'+s+'</div>').join('');
-        if (player.avatar) el.avatar.src = player.avatar;
-        el.bio.innerHTML = player.bio ? '<p class="text-sm text-gray-800">' + escapeHtml(player.bio) + '</p>' : '<p class="text-sm text-gray-600">No bio provided.</p>';
-      }
-
-      // derive available years from player data (season_averages keys OR events' years)
-      function getPlayerYears(player) {
-        const years = new Set();
-        if (player.season_averages && typeof player.season_averages === 'object' && !Array.isArray(player.season_averages)) {
-          Object.keys(player.season_averages).forEach(k => { const n = parseInt(k,10); if (!isNaN(n)) years.add(n); });
-        }
-        // fallback to events
-        (player.events || []).forEach(ev => {
-          const y = ev.parent ? Number(ev.parent) : (ev.year ? Number(ev.year) : (ev.date ? new Date(ev.date).getFullYear() : null));
-          if (y) years.add(Number(y));
-        });
-        if (years.size === 0) years.add(new Date().getFullYear());
-        return Array.from(years).sort((a,b) => b - a);
-      }
-
-      function populateOverviewYearsAndRender(player) {
-        const years = getPlayerYears(player);
-        el.selectOverviewYear.innerHTML = '';
-        years.forEach(y => {
-          const o = document.createElement('option');
-          o.value = String(y);
-          o.textContent = String(y);
-          el.selectOverviewYear.appendChild(o);
-        });
-        // default to most recent
-        const defaultYear = years[0];
-        el.selectOverviewYear.value = String(defaultYear);
-        el.selectOverviewYear.addEventListener('change', () => renderOverviewForYear(el.selectOverviewYear.value));
-        renderOverviewForYear(defaultYear);
-      }
-
-      // render overview for a specific year: left = season averages; right = breakdown
-      function renderOverviewForYear(year) {
-        if (!playerData) return;
-        const y = Number(year);
-        let stats = null;
-        if (playerData.season_averages && typeof playerData.season_averages === 'object' && playerData.season_averages[String(y)]) {
-          stats = playerData.season_averages[String(y)];
-        }
-        // fallback: compute from player's events for that year
-        if (!stats) {
-          const evs = (playerData.events || []).filter(ev => {
-            const ey = ev.parent ? Number(ev.parent) : (ev.year ? Number(ev.year) : (ev.date ? new Date(ev.date).getFullYear() : null));
-            return Number(ey) === Number(y);
-          });
-          stats = computeAggregatedStatsFromEvents(evs);
+    fetch("./statistics/individual.json")
+      .then(res => res.json())
+      .then(data => {
+        const player = data.find(p => p.slug === slug);
+        if (!player) {
+          document.body.innerHTML = "<p class='text-red-500 text-center mt-20'>Player not found.</p>";
+          return;
         }
 
-        // left column cards
-        el.overviewStats.innerHTML = '';
-        const leftStats = [
-          { label: 'Gross Avg', value: typeof stats.gross !== 'undefined' ? roundToNearestTenth(stats.gross) : 'N/A' },
-          { label: 'Net Avg', value: typeof stats.net !== 'undefined' ? roundToNearestTenth(stats.net) : 'N/A' },
-          { label: 'Finale Points', value: stats.finale_points ?? (playerData.finale_points ?? 0) },
-          { label: 'Purchase Points', value: stats.purchase_points ?? (playerData.purchase_points ?? 0) },
-        ];
-        leftStats.forEach(s => {
-          const card = document.createElement('div');
-          card.className = 'p-3 bg-white border rounded shadow-sm';
-          card.innerHTML = '<div class="text-sm text-gray-500">'+escapeHtml(s.label)+'</div><div class="text-xl font-semibold text-gray-900 mt-1">'+escapeHtml(String(s.value))+'</div>';
-          el.overviewStats.appendChild(card);
-        });
-
-        // right column breakdown
-        const breakdown = stats.score_breakdown || playerData.score_breakdown || {};
-        el.overviewBreakdown.innerHTML = `
-          <h4 class="text-sm font-semibold text-gray-700 mb-3">Score Breakdown</h4>
-          <div class="grid grid-cols-2 gap-3 text-sm text-gray-700">
-            <div><strong>Eagles:</strong> ${breakdown.eagle ?? 0}</div>
-            <div><strong>Birdies:</strong> ${breakdown.birdie ?? 0}</div>
-            <div><strong>Pars:</strong> ${breakdown.par ?? 0}</div>
-            <div><strong>Bogeys:</strong> ${breakdown.bogey ?? 0}</div>
-            <div class="col-span-2"><strong>Double+ Bogey:</strong> ${breakdown.double_or_worse ?? 0}</div>
-          </div>
-        `;
-
-        el.overviewText.innerHTML = `<div class="text-sm text-gray-600 mt-3">Overview for ${escapeHtml(String(y))}</div>`;
-      }
-
-      // compute simple aggregates from events if no season_averages available
-      function computeAggregatedStatsFromEvents(evs) {
-        if (!evs || !evs.length) return { gross: 'N/A', net: 'N/A', finale_points: 0, purchase_points: 0, score_breakdown: {} };
-        let grossSum = 0, netSum = 0, countGross = 0, countNet = 0;
-        let finalePoints = 0;
-        const breakdown = { eagle:0, birdie:0, par:0, bogey:0, double_or_worse:0 };
-        evs.forEach(ev => {
-          if (typeof ev.gross !== 'undefined') { grossSum += Number(ev.gross); countGross++; }
-          if (typeof ev.net !== 'undefined') { netSum += Number(ev.net); countNet++; }
-          if (typeof ev.finale_points !== 'undefined') finalePoints += Number(ev.finale_points);
-          // extract breakdown from event if present (best-effort)
-          if (ev.breakdown) {
-            breakdown.eagle += ev.breakdown.eagle ?? 0;
-            breakdown.birdie += ev.breakdown.birdie ?? 0;
-            breakdown.par += ev.breakdown.par ?? 0;
-            breakdown.bogey += ev.breakdown.bogey ?? 0;
-            breakdown.double_or_worse += ev.breakdown.double_or_worse ?? 0;
-          }
-        });
-        return {
-          gross: countGross ? grossSum / countGross : 'N/A',
-          net: countNet ? netSum / countNet : 'N/A',
-          finale_points: finalePoints,
-          purchase_points: 0,
-          score_breakdown: breakdown
-        };
-      }
-
-      // Scorecards wiring: reuse year->event selects population (eventsByYear exists elsewhere), but when showing a scorecard use the player's events (from individual.json)
-      let eventsByYear = {};
-      async function loadEvents(){
-        try {
-          const res = await fetch('./scheduling/events.json', { cache: 'no-store' });
-          if (!res.ok) {
-            const alt = await fetch('./statistics/events.json', { cache: 'no-store' });
-            if (!alt.ok) throw new Error('events not found');
-            eventsByYear = groupEvents(await alt.json());
-          } else {
-            eventsByYear = groupEvents(await res.json());
-          }
-        } catch (err) {
-          console.warn('Unable to load events.json', err);
-          eventsByYear = {};
-        }
-        populateYearSelect();
-      }
-
-      function groupEvents(data){
-        const arr = Array.isArray(data) ? data : (data.events || []);
-        const map = {};
-        arr.forEach(ev => {
-          const year = ev.parent ? Number(ev.parent) : (ev.year ? Number(ev.year) : (ev.date ? new Date(ev.date).getFullYear() : new Date().getFullYear()));
-          if (!map[year]) map[year] = [];
-          map[year].push(ev);
-        });
-        Object.keys(map).forEach(y => {
-          map[y].sort((a,b) => (new Date(b.date || 0)) - (new Date(a.date || 0)));
-        });
-        return map;
-      }
-
-      function populateYearSelect(){
-        const years = Object.keys(eventsByYear).map(y=>Number(y)).sort((a,b)=>b-a);
-        el.selectYear.innerHTML = '<option value="">Select year</option>';
-        years.forEach(y => {
-          const opt = document.createElement('option');
-          opt.value = String(y);
-          opt.textContent = String(y);
-          el.selectYear.appendChild(opt);
-        });
-        el.selectYear.disabled = years.length === 0;
-        el.selectEvent.disabled = true;
-        el.btnLoadScorecards.disabled = true;
-      }
-
-      el.selectYear.addEventListener('change', () => {
-        const y = el.selectYear.value;
-        el.selectEvent.innerHTML = '<option value="">Select event</option>';
-        if (!y) { el.selectEvent.disabled = true; el.btnLoadScorecards.disabled = true; return; }
-        const evs = eventsByYear[y] || [];
-        evs.forEach(ev => {
-          const o = document.createElement('option');
-          o.value = ev.id || ev.slug || ev.title || JSON.stringify(ev);
-          o.textContent = ev.title || ev.name || (ev.id || 'Event');
-          el.selectEvent.appendChild(o);
-        });
-        el.selectEvent.disabled = evs.length === 0;
-        el.btnLoadScorecards.disabled = true;
-        el.scorecardsStatus.textContent = evs.length ? '' : 'No events for selected year';
+        renderHeader(player);
+        renderEvents(player.events);
+        renderSeasonStats(player);
       });
 
-      el.selectEvent.addEventListener('change', () => {
-        el.btnLoadScorecards.disabled = !el.selectEvent.value;
-      });
+    function renderHeader(player) {
+      document.getElementById("playerHeader").innerHTML = `
+        <div>
+          <h1 class="text-4xl font-bold text-indigo-700 mb-1">${player.name}</h1>
+          <p class="text-gray-500">GHIN: ${player.ghin || 'N/A'}</p>
+        </div>
+      `;
+    }
 
-      // Show the player's single event scorecard (from individual.json player's events) instead of fetching external scorecards
-      el.btnLoadScorecards.addEventListener('click', async () => {
-        const year = el.selectYear.value;
-        const evId = el.selectEvent.value;
-        if (!year || !evId) return;
-        el.scorecardsStatus.textContent = 'Loading scorecard...';
-        el.scorecardsList.innerHTML = '';
-        // find matching event in player's own events
-        try {
-          if (!playerData) {
-            el.scorecardsList.innerHTML = '<div class="p-4 text-sm text-gray-600">Player data not loaded.</div>';
-            return;
-          }
-          const candidate = (playerData.events || []).find(ev => {
-            const key = ev.slug || ev.event_name || ev.id || ev.event_id || ev.event_slug || ev.title || ev.event_name || '';
-            return String(key).toLowerCase() === evId.toLowerCase() || encodeURIComponent(String(key)) === evId;
-          });
-          if (!candidate) {
-            el.scorecardsList.innerHTML = '<div class="p-4 text-sm text-gray-600">No scorecard for this player for the selected event.</div>';
-            el.scorecardsStatus.textContent = '';
-            return;
-          }
-          // render single event (reuse same rendering approach)
-          el.scorecardsList.innerHTML = '';
-          renderSingleEvent(candidate, el.scorecardsList);
-          el.scorecardsStatus.textContent = '';
-        } catch (err) {
-          console.warn('Scorecard render failed', err);
-          el.scorecardsList.innerHTML = '<div class="p-4 text-sm text-gray-600">Unable to render scorecard.</div>';
-          el.scorecardsStatus.textContent = '';
-        }
-      });
+    function getScoreClass(score, par) {
+      const diff = score - par;
+      if (diff <= -2) return "eagle";
+      if (diff === -1) return "birdie";
+      if (diff === 1) return "bogey";
+      if (diff >= 2) return "double";
+      return "";
+    }
 
-      // render a single event into the provided container (reuse same table layout logic)
-      function renderSingleEvent(event, container) {
-        const isMobile = window.innerWidth < 768;
-        const holesPerGroup = isMobile ? 6 : 9;
+    function renderEvents(events) {
+      const container = document.getElementById("eventStats");
+      if (!events || events.length === 0) {
+        container.innerHTML = "<p>No event data available.</p>";
+        return;
+      }
+
+      const isMobile = window.innerWidth < 768;
+      const holesPerGroup = isMobile ? 6 : 9;
+
+      events.forEach(event => {
         let tablesHTML = '';
-        const totalHoles = (event.holes || []).length;
+        const totalHoles = event.holes.length;
 
         for (let i = 0; i < totalHoles; i += holesPerGroup) {
           const holeGroup = [];
@@ -401,7 +79,7 @@
             const holeIndex = i + j;
             holeGroup.push(`<th class="${isMobile ? 'px-1' : 'px-3'} py-2 border text-center text-xs font-semibold bg-gray-50">${holeIndex + 1}</th>`);
             scoreGroup.push(`<td class="${isMobile ? 'px-1' : 'px-3'} py-2 border text-center">
-              <span class="${isMobile ? 'inline-block w-6 h-6 leading-6 text-xs' : 'inline-block w-7 h-7 leading-7 text-sm'} ${getScoreClass((event.holes || [])[holeIndex], (event.par || [])[holeIndex])}">${(event.holes || [])[holeIndex]}</span>
+              <span class="${isMobile ? 'inline-block w-6 h-6 leading-6 text-xs' : 'inline-block w-7 h-7 leading-7 text-sm'} ${getScoreClass(event.holes[holeIndex], event.par[holeIndex])}">${event.holes[holeIndex]}</span>
             </td>`);
           }
 
@@ -419,146 +97,98 @@
           `;
         }
 
-        const toPar = (event.holes || []).reduce((sum, score, i) => sum + (score - (event.par || [])[i]), 0);
+        const toPar = event.holes.reduce((sum, score, i) => sum + (score - event.par[i]), 0);
+
         const eventHtml = `
           <section class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
             <header class="mb-4">
-              <h2 class="text-2xl font-semibold text-indigo-700">${escapeHtml(event.event_name || event.title || '')}</h2>
-              <p class="text-sm text-gray-500">${escapeHtml(event.date || '')} at ${escapeHtml(event.course || '')}</p>
+              <h2 class="text-2xl font-semibold text-indigo-700">${event.event_name}</h2>
+              <p class="text-sm text-gray-500">${event.date} at ${event.course}</p>
             </header>
             ${tablesHTML}
-            <div class="mt-4 flex flex-wrap gap-2 text-sm text-gray-700 border-t pt-4">
-              <div><strong>Gross:</strong> ${escapeHtml(String(event.gross ?? 'N/A'))}</div>
-              <div><strong>Net:</strong> ${escapeHtml(String(roundToNearestTenth(event.net ?? 0)))}</div>
+            <div class="mt-4 flex flex-wrap gap-6 text-sm text-gray-700 border-t pt-4">
+              <div><strong>Gross:</strong> ${event.gross}</div>
+              <div><strong>Net:</strong> ${roundToNearestTenth(event.net)}</div>
               <div><strong>To Par:</strong> ${toPar >= 0 ? "+" + toPar : toPar}</div>
             </div>
           </section>
         `;
+
         container.innerHTML += eventHtml;
-      }
-
-      // Keep existing helpers from V2/original
-      function getScoreClass(score, par) {
-        const diff = score - par;
-        if (diff <= -2) return "eagle";
-        if (diff === -1) return "birdie";
-        if (diff === 1) return "bogey";
-        if (diff >= 2) return "double";
-        return "";
-      }
-
-      function renderEvents(events) {
-        const container = el.eventStats;
-        if (!container) return;
-        container.innerHTML = '';
-        if (!events || events.length === 0) {
-          container.innerHTML = "<p>No event data available.</p>";
-          return;
-        }
-        // reuse existing render implementation (same as before)
-        const isMobile = window.innerWidth < 768;
-        const holesPerGroup = isMobile ? 6 : 9;
-        events.forEach(event => {
-          let tablesHTML = '';
-          const totalHoles = (event.holes || []).length;
-          for (let i = 0; i < totalHoles; i += holesPerGroup) {
-            const holeGroup = [];
-            const scoreGroup = [];
-            for (let j = 0; j < holesPerGroup && (i + j) < totalHoles; j++) {
-              const holeIndex = i + j;
-              holeGroup.push(`<th class="${isMobile ? 'px-1' : 'px-3'} py-2 border text-center text-xs font-semibold bg-gray-50">${holeIndex + 1}</th>`);
-              scoreGroup.push(`<td class="${isMobile ? 'px-1' : 'px-3'} py-2 border text-center">
-                <span class="${isMobile ? 'inline-block w-6 h-6 leading-6 text-xs' : 'inline-block w-7 h-7 leading-7 text-sm'} ${getScoreClass((event.holes || [])[holeIndex], (event.par || [])[holeIndex])}">${(event.holes || [])[holeIndex]}</span>
-              </td>`);
-            }
-            tablesHTML += `
-              <div class="${isMobile ? '' : 'overflow-x-auto'} mb-4">
-                <table class="min-w-full text-sm text-left border-collapse">
-                  <thead>
-                    <tr>${holeGroup.join("")}</tr>
-                  </thead>
-                  <tbody>
-                    <tr>${scoreGroup.join("")}</tr>
-                  </tbody>
-                </table>
-              </div>
-            `;
-          }
-          const toPar = (event.holes || []).reduce((sum, score, i) => sum + (score - (event.par || [])[i]), 0);
-          const eventHtml = `
-            <section class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-              <header class="mb-4">
-                <h2 class="text-2xl font-semibold text-indigo-700">${escapeHtml(event.event_name || event.title || '')}</h2>
-                <p class="text-sm text-gray-500">${escapeHtml(event.date || '')} at ${escapeHtml(event.course || '')}</p>
-              </header>
-              ${tablesHTML}
-              <div class="mt-4 flex flex-wrap gap-6 text-sm text-gray-700 border-t pt-4">
-                <div><strong>Gross:</strong> ${escapeHtml(String(event.gross ?? 'N/A'))}</div>
-                <div><strong>Net:</strong> ${escapeHtml(String(roundToNearestTenth(event.net ?? 0)))}</div>
-                <div><strong>To Par:</strong> ${toPar >= 0 ? "+" + toPar : toPar}</div>
-              </div>
-            </section>
-          `;
-          container.innerHTML += eventHtml;
-        });
-      }
-
-      // renderSeasonStats copied/adapted from original
-      function renderSeasonStats(player) {
-        const stats = player.season_averages || {};
-        const breakdown = player.score_breakdown || {};
-        const container = el.seasonStats;
-        if (!container) return;
-        container.innerHTML = `
-          <div class="grid md:grid-cols-2 gap-10">
-            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-              <h3 class="text-xl font-semibold mb-4 text-indigo-700">Season Averages</h3>
-              <ul class="text-gray-700 space-y-2">
-                <li>Gross Avg: <strong>${roundToNearestTenth(stats.gross) ?? 'N/A'}</strong></li>
-                <li>Net Avg: <strong>${roundToNearestTenth(stats.net) ?? 'N/A'}</strong></li>
-                <li>Finale Points: <strong>${stats.finale_points ?? 'N/A'}</strong></li>
-                <li>Purchase Points: <strong>${stats.purchase_points ?? 'N/A'}</strong></li>
-                <li>Total Raffle: <strong>${stats.raffle_totals ?? 'N/A'}</strong></li>
-              </ul>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
-              <h3 class="text-xl font-semibold mb-4 text-indigo-700">Score Breakdown</h3>
-              <ul class="text-gray-700 space-y-2">
-                <li>Eagles: <strong>${breakdown.eagle ?? 0}</strong></li>
-                <li>Birdies: <strong>${breakdown.birdie ?? 0}</strong></li>
-                <li>Pars: <strong>${breakdown.par ?? 0}</strong></li>
-                <li>Bogeys: <strong>${breakdown.bogey ?? 0}</strong></li>
-                <li>Double+ Bogey: <strong>${breakdown.double_or_worse ?? 0}</strong></li>
-              </ul>
-            </div>
-          </div>
-        `;
-      }
-
-      function roundToNearestTenth(value) {
-        return Number((Math.round(Number(value) * 10) / 10).toFixed(1));
-      }
-
-      // Keep resize behavior consistent with original for event tables
-      let currentBreakpoint = window.innerWidth >= 768 ? 'desktop' : 'mobile';
-      window.addEventListener('resize', () => {
-        const newBreakpoint = window.innerWidth >= 768 ? 'desktop' : 'mobile';
-        if (newBreakpoint !== currentBreakpoint) {
-          currentBreakpoint = newBreakpoint;
-          if (playerData) renderEvents(playerData.events || []);
-        }
       });
+    }
+    // We only need to re-render if the screen crosses the breakpoint
+    let currentBreakpoint = window.innerWidth >= 768 ? 'desktop' : 'mobile';
 
-      // small helper to escape html
-      function escapeHtml(str){ return String(str||'').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+    window.addEventListener('resize', () => {
+        const newBreakpoint = window.innerWidth >= 768 ? 'desktop' : 'mobile';
+        
+        // Check if the breakpoint has changed
+        if (newBreakpoint !== currentBreakpoint) {
+            currentBreakpoint = newBreakpoint;
 
-      // load header/footer like original
-      async function loadPartial(id, file) {
+            // Clear old events
+            const eventStatsContainer = document.getElementById("eventStats");
+            if (eventStatsContainer) {
+              eventStatsContainer.innerHTML = "";
+            }
+            
+            // Re-render based on new window size
+            fetch("./statistics/individual.json")
+              .then(res => res.json())
+              .then(data => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const slug = urlParams.get("player");
+                const player = data.find(p => p.slug === slug);
+                if (player) {
+                  renderEvents(player.events);
+                }
+              });
+        }
+    });
+
+    function renderSeasonStats(player) {
+      const stats = player.season_averages || {};
+      const breakdown = player.score_breakdown || {};
+
+      document.getElementById("seasonStats").innerHTML = `
+        <div class="grid md:grid-cols-2 gap-10">
+          <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+            <h3 class="text-xl font-semibold mb-4 text-indigo-700">Season Averages</h3>
+            <ul class="text-gray-700 space-y-2">
+              <li>Gross Avg: <strong>${roundToNearestTenth(stats.gross) ?? 'N/A'}</strong></li>
+              <li>Net Avg: <strong>${roundToNearestTenth(stats.net) ?? 'N/A'}</strong></li>
+              <li>Finale Points: <strong>${stats.finale_points ?? 'N/A'}</strong></li>
+              <li>Purchase Points: <strong>${stats.purchase_points ?? 'N/A'}</strong></li>
+              <li>Total Raffle: <strong>${stats.raffle_totals ?? 'N/A'}</strong></li>
+            </ul>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+            <h3 class="text-xl font-semibold mb-4 text-indigo-700">Score Breakdown</h3>
+            <ul class="text-gray-700 space-y-2">
+              <li>Eagles: <strong>${breakdown.eagle ?? 0}</strong></li>
+              <li>Birdies: <strong>${breakdown.birdie ?? 0}</strong></li>
+              <li>Pars: <strong>${breakdown.par ?? 0}</strong></li>
+              <li>Bogeys: <strong>${breakdown.bogey ?? 0}</strong></li>
+              <li>Double+ Bogey: <strong>${breakdown.double_or_worse ?? 0}</strong></li>
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    function roundToNearestTenth(value) {
+      return Number((Math.round(Number(value) * 10) / 10).toFixed(1));
+    }
+
+    async function loadPartial(id, file) {
         const res = await fetch(file);
         const html = await res.text();
         document.getElementById(id).innerHTML = html;
 
+        // Attach menu toggle behavior *after* header is injected
+        // Re-run script after loading header
         if (id === "header") {
           const toggleButton = document.getElementById("menu-toggle");
           const menu = document.getElementById("mobile-menu");
@@ -578,11 +208,6 @@
 
       loadPartial("header", "./shared/header.html");
       loadPartial("footer", "./shared/footer.html");
-
-      // initialize small bits
-      setActiveTab('overview');
-      loadEvents();
-    })();
   </script>
 
   <style>
