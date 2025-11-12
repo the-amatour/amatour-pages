@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rules & Regulations | The Amatour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .muted { color: #6b7280; } /* tailwind gray-500 */
+    .panel { border-top: 1px solid #e5e7eb; } /* tailwind gray-200 */
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    /* small print layout */
+    @media (min-width: 768px) {
+      main { padding-left: 2rem; padding-right: 2rem; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <div id="header"></div>
+
+  <main class="max-w-3xl mx-auto px-4 py-6">
+    <div class="flex items-center justify-between mb-4 gap-3">
+      <h1 class="text-2xl font-bold text-indigo-700">Rules & Regulations</h1>
+    </div>
+
+    <!-- search + toc -->
+    <div class="mb-4 space-y-2">
+      <input id="search" type="search" placeholder="Search rules (e.g., 'eligibility', 'payout', 'score')"
+        class="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+      <nav class="flex flex-wrap gap-2 text-sm mt-2" aria-label="Table of contents">
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#eligibility">Eligibility</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#scoring-format">Scoring Format</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#points-system">Points System</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#registration">Registration</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#score-submission">Score Submission</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#conduct">Conduct</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#penalties">Penalties</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#privacy">Privacy</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#safety">Safety</a>
+        <a class="toc-link px-2 py-1 rounded bg-white border border-gray-200 text-indigo-700 text-sm" href="#amendments">Contact</a>
+      </nav>
+    </div>
+
+    <!-- rules -->
+    <section id="rules" class="space-y-3">
+      <article id="eligibility" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="eligibility">
+          <div>
+            <h2 class="text-sm font-semibold">1. Eligibility</h2>
+            <p class="text-xs muted mt-1">Who may participate</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-eligibility" class="px-4 pb-4 hidden text-sm">
+          <p class="mt-2">
+            All players must be at least 18 years of age and registered with <strong>The Amatour</strong>.
+            A valid GHIN (Golf Handicap Index Number) is required to ensure fair net scoring across events.
+          </p>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li>Proof of identity or handicap may be requested.</li>
+            <li>Players must comply with any event-specific eligibility criteria published with the event details.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article id="scoring-format" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="scoring-format">
+          <div>
+            <h2 class="text-sm font-semibold">2. Scoring Format</h2>
+            <p class="text-xs muted mt-1">How rounds are scored</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-scoring-format" class="px-4 pb-4 hidden text-sm">
+          <ul class="list-disc pl-5 space-y-1">
+            <li>All events are individual stroke play unless otherwise noted.</li>
+            <li>Gross and Net scores are recorded for every round.</li>
+            <li>Net scores are calculated using course-adjusted handicaps.</li>
+            <li>Scorecards must be submitted immediately following your round to be counted.</li>
+          </ul>
+          <p class="mt-2 muted">If a format differs (match play, stableford, etc.) details will be provided with the event announcement.</p>
+        </div>
+      </article>
+
+      <article id="points-system" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="points-system">
+          <div>
+            <h2 class="text-sm font-semibold">3. Points System</h2>
+            <p class="text-xs muted mt-1">How points are awarded</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-points-system" class="px-4 pb-4 hidden text-sm">
+          <p class="mt-2">Points are awarded for participation and performance. Points allocation and weighting for each event will be published in advance.</p>
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li>Participation points are awarded to players who complete the event.</li>
+            <li>Performance points are based on finishing position and may include bonus points for notable achievements.</li>
+            <li>Ties are resolved per published tie-break procedures for the event.</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold text-gray-700 mt-4">Payouts</h3>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>KP Prizes: $10 each.</li>
+            <li>Net Winner: Payout varies by participation.</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold text-gray-700 mt-4">Earning Purchase Points</h3>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>1st: 15 points, 2nd: 8 points, 3rd: 5 points.</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold text-gray-700 mt-4">Redeeming Purchase Points</h3>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>10 points = 1 Raffle Ticket.</li>
+            <li>3 points = $1 Event Credit.</li>
+            <li>Can be banked and redeemed anytime.</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold text-gray-700 mt-4">Earning Finale Points (Net Score Only)</h3>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>1st: 160, 2nd: 140, 3rd: 130, 4th: 120, 5th: 110, 6th: 100</li>
+            <li>... 10th: 60, 11th and below: 50</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold text-gray-700 mt-4">Finale Points Advantage</h3>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>1st Overall: Starts at -3 strokes</li>
+            <li>2nd–5th Overall: Start at -2 strokes</li>
+            <li>6th–10th Overall: Start at -1 stroke</li>
+            <li>Applies to Net scoring only in the Finale</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold text-gray-700 mt-4">General</h3>
+          <p class="mt-2 muted">All point tables and payout details are subject to confirmation with each event announcement.</p>
+        </div>
+      </article>
+
+      <article id="registration" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="registration">
+          <div>
+            <h2 class="text-sm font-semibold">4. Registration & Cancellation</h2>
+            <p class="text-xs muted mt-1">Sign-up, deadlines, and refunds</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-registration" class="px-4 pb-4 hidden text-sm">
+          <ul class="list-disc pl-5 space-y-1 mt-2">
+            <li>Registration opens and closes as stated on the event page. Late registration may be allowed at the organizer's discretion.</li>
+            <li>Cancellation and refund policies will be provided with each event; generally a partial refund may be issued if cancellation is received prior to the published deadline.</li>
+            <li>To cancel, contact the event organizer via the contact details on the event page.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article id="score-submission" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="score-submission">
+          <div>
+            <h2 class="text-sm font-semibold">5. Score Submission & Disputes</h2>
+            <p class="text-xs muted mt-1">How to submit scores and raise issues</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-score-submission" class="px-4 pb-4 hidden text-sm">
+          <ul class="list-disc pl-5 space-y-1 mt-2">
+            <li>Players must submit scorecards as instructed by officials immediately after play.</li>
+            <li>Discrepancies or protests must be submitted within the timeframe specified by event officials.</li>
+            <li>All disputes will be adjudicated by appointed officials; their decisions are final except as provided in the appeals process.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article id="conduct" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="conduct">
+          <div>
+            <h2 class="text-sm font-semibold">6. Conduct & Etiquette</h2>
+            <p class="text-xs muted mt-1">Player behavior expectations</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-conduct" class="px-4 pb-4 hidden text-sm">
+          <ul class="list-disc pl-5 space-y-1 mt-2">
+            <li>Respect course staff, officials, other competitors, and the rules of golf.</li>
+            <li>Unsportsmanlike conduct may result in penalty, disqualification, or suspension.</li>
+            <li>Appropriate attire is required; see the event page for any dress code specifics.</li>
+            <li>Maintain pace of play: stay within one hole of the group ahead and be efficient with drops and course entry.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article id="penalties" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="penalties">
+          <div>
+            <h2 class="text-sm font-semibold">7. Penalties & Protests</h2>
+            <p class="text-xs muted mt-1">Enforcement and appeals</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-penalties" class="px-4 pb-4 hidden text-sm">
+          <p class="mt-2">Penalties for rule breaches will be applied in accordance with published procedures. To file a protest:</p>
+          <ol class="list-decimal pl-5 mt-2 space-y-1">
+            <li>Notify an official as soon as practical.</li>
+            <li>Submit a written protest within the timeframe stated in the event rules.</li>
+            <li>Officials will review evidence and issue a determinate ruling; appeals are handled per the Appeals section below.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article id="privacy" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="privacy">
+          <div>
+            <h2 class="text-sm font-semibold">8. Privacy & Media</h2>
+            <p class="text-xs muted mt-1">Photos, video, and personal data</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-privacy" class="px-4 pb-4 hidden text-sm">
+          <p class="mt-2">By participating, players consent to photography and media recording during events. Personal data is handled per our privacy policy.</p>
+          <p class="mt-2 muted">Contact the organizer if you have concerns about media use or data handling.</p>
+        </div>
+      </article>
+
+      <article id="safety" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="safety">
+          <div>
+            <h2 class="text-sm font-semibold">9. Safety & Weather</h2>
+            <p class="text-xs muted mt-1">Cancellations, suspensions, and course conditions</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-safety" class="px-4 pb-4 hidden text-sm">
+          <ul class="list-disc pl-5 mt-2 space-y-1">
+            <li>Officials may delay, suspend, or cancel play for safety or course conditions.</li>
+            <li>Decisions about completion, rescheduling, or refunds will follow the event policy announced with the event.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article id="amendments" class="bg-white rounded-xl shadow panel overflow-hidden">
+        <button class="w-full text-left p-4 flex items-start justify-between" data-toggle="amendments">
+          <div>
+            <h2 class="text-sm font-semibold">10. Amendments & Contact</h2>
+            <p class="text-xs muted mt-1">Updates and how to get help</p>
+          </div>
+          <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="panel-amendments" class="px-4 pb-4 hidden text-sm">
+          <p class="mt-2">The Amatour may amend these Rules & Regulations; changes will be published on the site and take effect as posted.</p>
+          <p class="mt-2"><strong>Contact:</strong> For questions, disputes, or appeals email <a href="mailto:info.theamateurstour@gmail.com" class="text-indigo-600">info.theamateurstour@gmail.com</a>.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    // Robust partial loader: inject HTML and execute scripts (inline and external)
+    async function loadPartial(id, url) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const text = await res.text();
+
+        // Create a container to parse HTML
+        const container = document.createElement('div');
+        container.innerHTML = text;
+
+        // Extract scripts (both inline and external) before inserting HTML
+        const scripts = Array.from(container.querySelectorAll('script'));
+
+        // Move non-script content into target
+        // (remove scripts from container so innerHTML doesn't include them twice)
+        scripts.forEach(s => s.remove());
+        const target = document.getElementById(id);
+        if (!target) return;
+        target.innerHTML = container.innerHTML;
+
+        // Execute scripts in order
+        for (const s of scripts) {
+          const newScript = document.createElement('script');
+          // copy attributes (e.g., src, type, async)
+          for (const attr of s.attributes) newScript.setAttribute(attr.name, attr.value);
+          if (s.src) {
+            // external script: append and wait for load
+            await new Promise((resolve, reject) => {
+              newScript.onload = resolve;
+              newScript.onerror = resolve; // resolve on error to avoid blocking
+              document.head.appendChild(newScript);
+            });
+          } else {
+            // inline script: copy text and append to head to execute
+            newScript.textContent = s.textContent;
+            document.head.appendChild(newScript);
+          }
+        }
+      } catch (e) {
+        console.error('loadPartial error', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPartial('header','./shared/header.html');
+      loadPartial('footer','./shared/footer.html');
+    });
+
+    // accordion toggle behavior
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-toggle]');
+      if (!btn) return;
+      const key = btn.getAttribute('data-toggle');
+      const panel = document.getElementById('panel-' + key);
+      if (!panel) return;
+      const isOpen = !panel.classList.contains('hidden');
+      // close others for focused reading
+      document.querySelectorAll('[id^="panel-"]').forEach(p => p.classList.add('hidden'));
+      if (!isOpen) panel.classList.remove('hidden');
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    });
+
+    // live search/filter: fixed restore behavior
+    const searchInput = document.getElementById('search');
+    let debounceTimer = null;
+    searchInput?.addEventListener('input', (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const q = (searchInput.value || '').trim().toLowerCase();
+        const sections = Array.from(document.querySelectorAll('#rules > article'));
+
+        if (!q) {
+          // restore all sections and collapse panels
+          sections.forEach(s => {
+            s.style.display = '';
+            const pid = s.querySelector('[data-toggle]')?.getAttribute('data-toggle');
+            if (pid) document.getElementById('panel-' + pid)?.classList.add('hidden');
+          });
+          return;
+        }
+
+        // filter and open first matching panel
+        let firstMatchPid = null;
+        sections.forEach(s => {
+          const text = (s.textContent || '').toLowerCase();
+          if (text.indexOf(q) !== -1) {
+            s.style.display = '';
+            if (!firstMatchPid) firstMatchPid = s.querySelector('[data-toggle]')?.getAttribute('data-toggle') || null;
+          } else {
+            s.style.display = 'none';
+          }
+        });
+
+        document.querySelectorAll('[id^="panel-"]').forEach(p => p.classList.add('hidden'));
+        if (firstMatchPid) document.getElementById('panel-' + firstMatchPid)?.classList.remove('hidden');
+      }, 200);
+    });
+
+    // keyboard accessibility: close panels with Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') document.querySelectorAll('[id^="panel-"]').forEach(p => p.classList.add('hidden'));
+    });
+  </script>
+</body>
+</html>
