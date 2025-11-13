@@ -310,20 +310,6 @@
           const body = encodeURIComponent(`I'd like to register for ${event.event_name || ''} on ${formatDate(event.date || '')}.`);
           window.location.href = `mailto:${event.contact_email || ''}?subject=${subject}&body=${body}`;
         });
-        document.getElementById('shareBtn').addEventListener('click', async () => {
-          const shareUrl = window.location.href;
-          if (navigator.share) {
-            navigator.share({ title: event.event_name, url: shareUrl }).catch(()=>{});
-          } else {
-            try {
-              await navigator.clipboard.writeText(shareUrl);
-              alert('Link copied to clipboard');
-            } catch (err) {
-              prompt('Copy this link', shareUrl);
-            }
-          }
-        });
-
       } catch (err) {
         console.error('Render event error', err);
         document.getElementById('main').innerHTML = '<p class="text-red-500">Error loading event.</p>';
