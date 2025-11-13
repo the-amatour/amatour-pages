@@ -23,7 +23,7 @@
     <!-- hero -->
     <article id="hero" class="bg-white rounded-xl shadow p-4 mb-4">
       <div class="flex items-start gap-4">
-        <img id="eventImage" src="./resources/images/default-course.png" alt="Event image"
+        <img id="eventImage" src="https://res.cloudinary.com/dzjhrzxu5/image/upload/v1761953122/default-course_l4hwjc.png" alt="Event image"
              class="w-24 h-24 md:w-32 md:h-32 rounded-md object-cover flex-shrink-0" />
         <div class="flex-1">
           <h1 id="eventTitle" class="text-lg font-semibold leading-snug">Loading event…</h1>
@@ -201,9 +201,9 @@
         document.getElementById('eventShortDesc').textContent = event.summary || event.short_description || '';
 
         const imgEl = document.getElementById('eventImage');
-        imgEl.src = event.image || './resources/images/default-course.png';
+        imgEl.src = event.image || 'https://res.cloudinary.com/dzjhrzxu5/image/upload/v1761953122/default-course_l4hwjc.png';
         imgEl.alt = event.course || event.event_name || 'Event image';
-        imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = './resources/images/default-course.png'; };
+        imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = '.https://res.cloudinary.com/dzjhrzxu5/image/upload/v1761953122/default-course_l4hwjc.png'; };
 
         if (event.registration_status && String(event.registration_status).toLowerCase() === 'open') {
           document.getElementById('registrationBadge').classList.remove('hidden');
