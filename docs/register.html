@@ -10,17 +10,62 @@
   <div id="header"></div>
 
   <main class="max-w-2xl mx-auto px-4 py-10">
-    <h1 class="text-3xl font-bold text-indigo-700 mb-4">Join The Amatour</h1>
+    <h1 class="text-3xl font-bold text-[#03072D] mb-4">Join The Amatour</h1>
     <p class="text-gray-700 mb-6">
       The Amatour is a competitive and fun golf league that welcomes all skill levels. Whether you're chasing birdies or just here for the vibes, you'll find a community of golfers who are just like you. By joining, you'll gain access to events, rankings, and prize winnings.
     </p>
 
-    <a
-      href="https://docs.google.com/forms/d/e/1FAIpQLSfwVmR5VAx25Wlo-09cIPtOkNB6Z85CQwNXCuYzS5Fl6Cggxg/viewform?usp=header"
-      target="_blank"
-      class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
-      Register
-    </a>
+    <section aria-labelledby="registrationHeading" class="mt-4">
+        <h2 id="registrationHeading" class="sr-only">Registration actions</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfwVmR5VAx25Wlo-09cIPtOkNB6Z85CQwNXCuYzS5Fl6Cggxg/viewform?usp=header"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group block bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            aria-labelledby="newRegTitle newRegDesc"
+          >
+            <div class="flex items-start gap-3">
+              <div class="flex-none">
+                <!-- simple icon -->
+                <svg class="w-8 h-8 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 4v16M4 12h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <h3 id="newRegTitle" class="text-sm font-semibold text-gray-800">New Registration</h3>
+                  <span class="inline-flex items-center text-xs font-medium bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">First time</span>
+                </div>
+                <p id="newRegDesc" class="text-xs text-gray-500 mt-1">Sign up as a new player. Provide basic info and handicap when prompted.</p>
+              </div>
+            </div>
+          </a>
+      
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSf6lSyS-FOJr5YE7IMH9YvHF_sGD3XWbyGGEGnC3VD72HBYXw/viewform?usp=header"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group block bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            aria-labelledby="returnRegTitle returnRegDesc"
+          >
+            <div class="flex items-start gap-3">
+              <div class="flex-none">
+                <svg class="w-8 h-8 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M20 12H4M14 6l-6 6 6 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <h3 id="returnRegTitle" class="text-sm font-semibold text-gray-800">Returning Registration</h3>
+                  <span class="inline-flex items-center text-xs font-medium bg-green-50 text-green-700 px-2 py-0.5 rounded">Returning</span>
+                </div>
+                <p id="returnRegDesc" class="text-xs text-gray-500 mt-1">For players returning for the 2026 season, provide details and feedback in the form.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
   </main>
 
   <div id="footer"></div>
