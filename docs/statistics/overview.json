@@ -2,7 +2,7 @@
   "2026": [
     {
       "name": "Alex",
-      "slug": "alex",
+      "slug": "alex_hong",
       "finale_points": 0,
       "purchase_points": 0,
       "events_played": 0,
@@ -12,7 +12,17 @@
     },
     {
       "name": "Andrew",
-      "slug": "andrew",
+      "slug": "andrew_kim",
+      "finale_points": 0,
+      "purchase_points": 0,
+      "events_played": 0,
+      "net_wins": 0,
+      "gross_wins": 0,
+      "raffle_count": 0
+    },
+    {
+      "name": "Michael",
+      "slug": "michael_hong",
       "finale_points": 0,
       "purchase_points": 0,
       "events_played": 0,
