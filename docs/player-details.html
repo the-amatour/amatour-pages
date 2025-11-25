@@ -249,7 +249,7 @@
         });
 
         // right column breakdown
-        const breakdown = stats.score_breakdown || playerData.score_breakdown || {};
+        const breakdown = playerData.score_breakdown || stats.score_breakdown || {};
         el.overviewBreakdown.innerHTML = `
           <h4 class="text-sm font-semibold text-gray-700 mb-3">Score Breakdown</h4>
           <div class="grid grid-cols-2 gap-3 text-sm text-gray-700">
