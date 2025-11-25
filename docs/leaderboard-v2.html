@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard | The Amatour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .rank-badge {
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .medal-gold { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+    .medal-silver { background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%); }
+    .medal-bronze { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
+    
+    .stat-card {
+      transition: all 0.2s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div id="header" class="mb-6"></div>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    
+    <!-- Header Section -->
+    <div class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Season Leaderboard</h1>
+      <p class="text-gray-600">Track standings and player performance across seasons</p>
+    </div>
+
+    <!-- Year Tabs -->
+    <div class="mb-6">
+      <div id="yearTabs" class="flex gap-2 overflow-x-auto pb-2"></div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="mb-6">
+      <div class="relative max-w-md">
+        <input
+          type="text"
+          id="search"
+          oninput="filterTableBySearch()"
+          placeholder="Search players..."
+          class="w-full px-4 py-2.5 pl-10 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+        />
+        <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Top 3 Podium (only shown when no search active) -->
+    <!-- <div id="podium" class="mb-8"></div> -->
+
+    <!-- Leaderboard Table -->
+    <div id="yearContent" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"></div>
+
+  </main>
+  
+  <div id="footer"></div>
+
+  <script>
+    let ALL_LEADERBOARD_ENTRIES = [];
+    let CURRENT_LEADERBOARD_YEAR = null;
+    let CURRENT_SEARCH = '';
+
+    (function(){
+      fetch('./statistics/overview.json')
+        .then(r => {
+          if (!r.ok) throw new Error('overview.json not found');
+          return r.json();
+        })
+        .then(data => {
+          let entries = [];
+          if (data && typeof data === 'object' && !Array.isArray(data)) {
+            Object.entries(data).forEach(([key, group]) => {
+              const yearKey = parseInt(String(key), 10);
+              const year = isNaN(yearKey) ? null : yearKey;
+              const arr = Array.isArray(group) ? group : [];
+              arr.forEach(item => {
+                const copy = Object.assign({}, item);
+                copy._year = copy.parent ? Number(copy.parent) : (year || (copy.year ? Number(copy.year) : new Date().getFullYear()));
+                entries.push(copy);
+              });
+            });
+          } else {
+            entries = Array.isArray(data) ? data.slice() : [];
+            entries.forEach(e => {
+              if (e.parent) {
+                e._year = Number(e.parent);
+              } else if (e.date) {
+                const d = new Date(String(e.date));
+                e._year = isNaN(d.getFullYear()) ? (e.year ? Number(e.year) : (new Date().getFullYear())) : d.getFullYear();
+              } else if (e.year) {
+                e._year = Number(e.year);
+              } else {
+                e._year = new Date().getFullYear();
+              }
+            });
+          }
+   
+          console.debug('[leaderboard] normalized entries count:', entries.length);
+          const years = Array.from(new Set(entries.map(e => Number(e._year || new Date().getFullYear())))).sort((a,b) => b - a);
+          console.debug('[leaderboard] derived years:', years);
+   
+          ALL_LEADERBOARD_ENTRIES = entries;
+          renderYearTabs(years, ALL_LEADERBOARD_ENTRIES);
+        })
+        .catch(err => {
+          console.error('Failed to load leaderboard overview', err);
+          const content = document.getElementById('yearContent');
+          if (content) content.innerHTML = '<div class="p-8 text-center text-gray-500">Unable to load leaderboard.</div>';
+        });
+
+      function renderYearTabs(years, entries) {
+        const tabs = document.getElementById('yearTabs');
+        const content = document.getElementById('yearContent');
+        if (!tabs || !content) return;
+        tabs.innerHTML = '';
+        content.innerHTML = '';
+        if (!years.length) return;
+        
+        years.forEach((y, i) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.dataset.year = String(y);
+          btn.className = i === 0 //#03072D 1A1D45
+            ? 'px-5 py-2.5 rounded-lg bg-[#1A1D45] text-white font-semibold shadow-sm whitespace-nowrap transition'
+            : 'px-5 py-2.5 rounded-lg bg-white text-gray-700 font-medium border border-gray-200 whitespace-nowrap hover:bg-gray-50 transition';
+          btn.textContent = String(y);
+          btn.addEventListener('click', () => {
+            tabs.querySelectorAll('button').forEach(b => {
+              b.className = 'px-5 py-2.5 rounded-lg bg-white text-gray-700 font-medium border border-gray-200 whitespace-nowrap hover:bg-gray-50 transition';
+            });
+            btn.className = 'px-5 py-2.5 rounded-lg bg-[#1A1D45] text-white font-semibold shadow-sm whitespace-nowrap transition';
+            
+            if (CURRENT_LEADERBOARD_YEAR !== null && Number(CURRENT_LEADERBOARD_YEAR) !== Number(y)) {
+              CURRENT_SEARCH = '';
+              const searchInput = document.getElementById('search');
+              if (searchInput) searchInput.value = '';
+            }
+            
+            CURRENT_LEADERBOARD_YEAR = y;
+            renderYearContent(y, entries, CURRENT_SEARCH);
+          });
+          tabs.appendChild(btn);
+        });
+        
+        if (years[0] !== undefined) {
+          CURRENT_LEADERBOARD_YEAR = years[0];
+          renderYearContent(years[0], entries, CURRENT_SEARCH);
+        }
+      }
+
+      function renderYearContent(year, entries, search){
+        const content = document.getElementById('yearContent');
+        const podium = document.getElementById('podium');
+        if (!content) return;
+        
+        const rows = entries
+          .filter(e => Number(e._year) === Number(year))
+          .filter(e => {
+            if (!search) return true;
+            const s = String(search).toLowerCase();
+            const name = String(e.name || e.player || '').toLowerCase();
+            return name.includes(s);
+          })
+          .sort((a,b) => (b.finale_points || 0) - (a.finale_points || 0));
+
+        if (!rows.length) {
+          content.innerHTML = `<div class="p-8 text-center text-gray-500">No entries for ${year}.</div>`;
+          if (podium) podium.innerHTML = '';
+          return;
+        }
+
+        // Render podium if no search and we have top 3
+        if (!search && rows.length >= 3 && podium) {
+          renderPodium(rows.slice(0, 3));
+        } else if (podium) {
+          podium.innerHTML = '';
+        }
+
+        const html = [];
+        html.push('<div class="overflow-x-auto">');
+        html.push('<table class="min-w-full">');
+
+        html.push('<thead class="bg-gray-50 border-b border-gray-200">');
+        html.push('<tr>');
+        html.push('<th class="px-4 sm:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Rank</th>');
+        html.push('<th class="px-4 sm:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Player</th>');
+        html.push('<th class="px-4 sm:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Points</th>');
+        html.push('<th class="px-4 sm:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider hidden sm:table-cell">Events</th>');
+        html.push('<th class="px-4 sm:px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider hidden md:table-cell">Wins</th>');
+        html.push('</tr>');
+        html.push('</thead>');
+
+        html.push('<tbody class="divide-y divide-gray-100">');
+        
+        const slugify = (s) => String(s || '')
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+
+        let tieGroupStartRank = 1;
+        rows.forEach((p, idx) => {
+          const pts = Number(p.finale_points ?? 0);
+          const prevPts = idx > 0 ? Number(rows[idx - 1].finale_points ?? 0) : null;
+          let rankLabel;
+          let rankClass = 'px-3 py-1.5 rounded-lg text-sm font-bold text-white rank-badge';
+          
+          if (idx === 0) {
+            tieGroupStartRank = 1;
+            rankLabel = '1';
+            rankClass += ' medal-gold';
+          } else if (pts === prevPts) {
+            rankLabel = 'T' + String(tieGroupStartRank);
+            if (tieGroupStartRank === 1) rankClass += ' medal-gold';
+            else if (tieGroupStartRank === 2) rankClass += ' medal-silver';
+            else if (tieGroupStartRank === 3) rankClass += ' medal-bronze';
+            else rankClass = 'px-3 py-1.5 rounded-lg text-sm font-bold text-gray-700 bg-gray-100 rank-badge';
+          } else {
+            tieGroupStartRank = idx + 1;
+            rankLabel = String(tieGroupStartRank);
+            if (tieGroupStartRank === 2) rankClass += ' medal-silver';
+            else if (tieGroupStartRank === 3) rankClass += ' medal-bronze';
+            else rankClass = 'px-3 py-1.5 rounded-lg text-sm font-bold text-gray-700 bg-gray-100 rank-badge';
+          }
+
+          const rawSlug = p.slug ? String(p.slug) : slugify(p.name || p.player || '');
+          const playerUrl = `player-details.html?player=${encodeURIComponent(rawSlug)}`;
+          const displayName = escapeHtml(p.name || p.player || '');
+          const netWins = p.net_wins || 0;
+          // const grossWins = p.gross_wins || 0;
+          const totalWins = netWins;
+
+          html.push(`<tr class="hover:bg-gray-50 transition">`);
+          html.push(`<td class="px-4 sm:px-6 py-4"><span class="${rankClass}">${escapeHtml(rankLabel)}</span></td>`);
+          html.push(`<td class="px-4 sm:px-6 py-4"><a href="${playerUrl}" class="text-[#1A1D45] hover:text-[#03072D] font-semibold hover:underline transition">${displayName}</a></td>`);
+          html.push(`<td class="px-4 sm:px-6 py-4 font-bold text-gray-900">${pts}</td>`);
+          html.push(`<td class="px-4 sm:px-6 py-4 text-gray-600 hidden sm:table-cell">${p.events_played || 0}</td>`);
+          html.push(`<td class="px-4 sm:px-6 py-4 text-gray-600 hidden md:table-cell">${totalWins > 0 ? totalWins : '—'}</td>`);
+          html.push('</tr>');
+        });
+        html.push('</tbody></table></div>');
+
+        content.innerHTML = html.join('');
+      }
+
+      // function renderPodium(top3) {
+      //   const podium = document.getElementById('podium');
+      //   if (!podium || top3.length < 3) return;
+
+      //   const slugify = (s) => String(s || '')
+      //     .toLowerCase()
+      //     .trim()
+      //     .replace(/[^a-z0-9]+/g, '-')
+      //     .replace(/^-+|-+$/g, '');
+
+      //   const cards = top3.map((p, idx) => {
+      //     const rawSlug = p.slug ? String(p.slug) : slugify(p.name || p.player || '');
+      //     const playerUrl = `player-details.html?player=${encodeURIComponent(rawSlug)}`;
+      //     const displayName = escapeHtml(p.name || p.player || '');
+      //     const pts = p.finale_points || 0;
+          
+      //     let bgClass, medal, height;
+      //     if (idx === 0) {
+      //       bgClass = 'bg-gradient-to-br from-yellow-400 to-yellow-500';
+      //       medal = '🥇';
+      //       height = 'h-48';
+      //     } else if (idx === 1) {
+      //       bgClass = 'bg-gradient-to-br from-gray-300 to-gray-400';
+      //       medal = '🥈';
+      //       height = 'h-40';
+      //     } else {
+      //       bgClass = 'bg-gradient-to-br from-orange-400 to-orange-500';
+      //       medal = '🥉';
+      //       height = 'h-36';
+      //     }
+
+      //     return `
+      //       <div class="flex-1 stat-card">
+      //         <a href="${playerUrl}" class="block ${bgClass} ${height} rounded-xl p-6 text-white shadow-lg hover:shadow-xl transition">
+      //           <div class="flex flex-col items-center justify-center h-full">
+      //             <div class="text-5xl mb-3">${medal}</div>
+      //             <div class="font-bold text-lg mb-1 text-center">${displayName}</div>
+      //             <div class="text-2xl font-bold">${pts}</div>
+      //             <div class="text-sm opacity-90">points</div>
+      //           </div>
+      //         </a>
+      //       </div>
+      //     `;
+      //   });
+
+      //   // Reorder to show 2nd, 1st, 3rd
+      //   const reordered = [cards[1], cards[0], cards[2]];
+      //   podium.innerHTML = `
+      //     <div class="grid grid-cols-3 gap-4 mb-8 fade-in">
+      //       ${reordered.join('')}
+      //     </div>
+      //   `;
+      // }
+
+      window.filterTableBySearch = function(){
+        const input = document.getElementById('search');
+        const q = input ? (input.value || '').trim() : '';
+        CURRENT_SEARCH = q;
+        if (CURRENT_LEADERBOARD_YEAR !== null) {
+          renderYearContent(CURRENT_LEADERBOARD_YEAR, ALL_LEADERBOARD_ENTRIES, CURRENT_SEARCH);
+        }
+      };
+
+      function escapeHtml(str) {
+        return String(str || '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+      }
+    })();
+
+    async function loadPartials() {
+      async function loadPartial(id, file) {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
+
+        if (id === 'header') {
+          const toggleButton = document.getElementById('menu-toggle');
+          const menu = document.getElementById('mobile-menu');
+          toggleButton?.addEventListener('click', (e) => { 
+            e.stopPropagation(); 
+            menu?.classList.toggle('hidden'); 
+          });
+          document.addEventListener('click', (e) => { 
+            if (!menu?.contains(e.target) && !toggleButton?.contains(e.target)) {
+              menu?.classList.add('hidden'); 
+            }
+          });
+        }
+      }
+
+      await loadPartial('header', './shared/header.html');
+      await loadPartial('footer', './shared/footer.html');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPartials();
+    });
+  </script>
+</body>
+</html>
