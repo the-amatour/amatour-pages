@@ -727,6 +727,114 @@
       ]
     },
     {
+      "name": "The Opener Day 1",
+      "event_name": "The Opener Day 1",
+      "slug": "the-opener-day-1",
+      "date": "2026/05/15",
+      "course": "Gamble Sands",
+      "entry_fee": "",
+      "winnings": "",
+      "description": "Two day event to be held at Gamble Sands, day 1 will consist of Gamble Sands' new Scarecrow course and day 2 will be the original Gamble Sands course.",
+      "registered_players": [],
+      "tee_groups": [],
+      "tees": {
+        "M": {
+          "tee_box": "Back",
+          "slope_rating": 127,
+          "course_rating": 71.1,
+          "yardage": "6501 yards"
+        },
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
+      },
+      "par": [
+        "4",
+        "3",
+        "5",
+        "3",
+        "4",
+        "5",
+        "4",
+        "4",
+        "3",
+        "4",
+        "3",
+        "5",
+        "4",
+        "4",
+        "5",
+        "3",
+        "4",
+        "4"
+      ],
+      "net_winner": "",
+      "top5": [
+        {
+          "name": "",
+          "net": "",
+          "toPar": "0"
+        }
+      ]
+    },
+    {
+      "name": "The Opener Day 2",
+      "event_name": "The Opener Day 2",
+      "slug": "the-opener-day-2",
+      "date": "2026/05/16",
+      "course": "Gamble Sands",
+      "entry_fee": "",
+      "winnings": "",
+      "description": "Two day event to be held at Gamble Sands, day 1 will consist of Gamble Sands' new Scarecrow course and day 2 will be the original Gamble Sands course.",
+      "registered_players": [],
+      "tee_groups": [],
+      "tees": {
+        "M": {
+          "tee_box": "Back",
+          "slope_rating": 114,
+          "course_rating": 70.7,
+          "yardage": "6664 yards"
+        },
+        "W": {
+          "tee_box": "",
+          "slope_rating": "",
+          "course_rating": "",
+          "yardage": ""
+        }
+      },
+      "par": [
+        "4",
+        "4",
+        "5",
+        "3",
+        "4",
+        "3",
+        "5",
+        "4",
+        "4",
+        "3",
+        "4",
+        "4",
+        "5",
+        "4",
+        "4",
+        "3",
+        "4",
+        "5"
+      ],
+      "net_winner": "",
+      "top5": [
+        {
+          "name": "",
+          "net": "",
+          "toPar": "0"
+        }
+      ]
+    },
+    {
       "name": "Mixer Scramble",
       "event_name": "Mixer Scramble",
       "slug": "mixer-scramble",
